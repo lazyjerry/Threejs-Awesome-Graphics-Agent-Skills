@@ -84,9 +84,9 @@ Options:
   --scope <user|project>   Installation scope (default: user)
   --path <directory>       Exact skills root; required for custom agents
   --project-dir <path>     Project root for project-scoped installs
-  --skills <a,b,c>         Install or remove selected skills only
   --force                  Replace existing installed skill directories
   --dry-run                Print actions without writing
+  --version                Print package version
   --help                   Show this help
 
 Examples:
@@ -98,12 +98,16 @@ Examples:
 }
 
 function parseArgs(argv) {
-  const [command = "help", ...rest] = argv;
+  const [rawCommand = "help", ...rest] = argv;
+  const command = rawCommand === "--help" || rawCommand === "-h"
+    ? "help"
+    : rawCommand === "--version" || rawCommand === "-v"
+      ? "version"
+      : rawCommand;
   const options = {
     command,
     scope: "user",
     agents: [],
-    skills: null,
     force: false,
     dryRun: false,
     projectDir: process.cwd(),
@@ -124,9 +128,6 @@ function parseArgs(argv) {
       index += 1;
     } else if (argument === "--project-dir" && value) {
       options.projectDir = value;
-      index += 1;
-    } else if (argument === "--skills" && value) {
-      options.skills = value.split(",").filter(Boolean);
       index += 1;
     } else if (argument === "--force") {
       options.force = true;
@@ -187,8 +188,27 @@ function resolveDestination(agent, options) {
 
 async function readInstallManifest(destination) {
   try {
-    return JSON.parse(await readFile(path.join(destination, manifestName), "utf8"));
-  } catch {
+    const manifest = JSON.parse(
+      await readFile(path.join(destination, manifestName), "utf8"),
+    );
+    if (
+      manifest.package !== packageJson.name ||
+      !Array.isArray(manifest.skills) ||
+      manifest.skills.some(
+        (skillName) =>
+          typeof skillName !== "string" ||
+          !/^[a-z0-9-]{1,63}$/.test(skillName),
+      )
+    ) {
+      throw new Error("invalid ownership manifest");
+    }
+    return manifest;
+  } catch (error) {
+    if (error?.code !== "ENOENT") {
+      throw new Error(
+        `Unable to read ${path.join(destination, manifestName)}: ${error.message}`,
+      );
+    }
     return {
       package: packageJson.name,
       version: packageJson.version,
@@ -206,6 +226,7 @@ async function writeInstallManifest(destination, manifest, dryRun) {
 }
 
 async function installInto(destination, skillNames, options, agent) {
+  const previous = await readInstallManifest(destination);
   const existing = [];
   for (const skillName of skillNames) {
     if (await pathExists(path.join(destination, skillName))) existing.push(skillName);
@@ -244,31 +265,31 @@ async function installInto(destination, skillNames, options, agent) {
     }
   }
 
-  const previous = await readInstallManifest(destination);
-  const installed = new Set(previous.skills ?? []);
-  for (const skillName of skillNames) installed.add(skillName);
+  const currentSkills = new Set(skillNames);
+  for (const previousSkill of previous.skills ?? []) {
+    if (!currentSkills.has(previousSkill) && !options.dryRun) {
+      await rm(path.join(destination, previousSkill), { recursive: true, force: true });
+    }
+  }
+
   await writeInstallManifest(destination, {
     package: packageJson.name,
     version: packageJson.version,
     agent,
     installedAt: new Date().toISOString(),
-    skills: [...installed].sort(),
+    completePack: true,
+    skills: [...currentSkills].sort(),
   }, options.dryRun);
 }
 
-async function uninstallFrom(destination, requestedSkills, options) {
+async function uninstallFrom(destination, options) {
   const manifest = await readInstallManifest(destination);
   const tracked = new Set(manifest.skills ?? []);
   if (tracked.size === 0) {
     throw new Error(`No ${packageJson.name} installation manifest found at ${destination}.`);
   }
 
-  const skillNames = requestedSkills ?? [...tracked];
-  for (const skillName of skillNames) {
-    if (!tracked.has(skillName)) {
-      throw new Error(`Refusing to remove untracked skill: ${skillName}`);
-    }
-  }
+  const skillNames = [...tracked];
 
   console.log(`${options.dryRun ? "Would remove" : "Removing"} ${skillNames.length} skills from ${destination}`);
   for (const skillName of skillNames) {
@@ -280,16 +301,7 @@ async function uninstallFrom(destination, requestedSkills, options) {
   }
 
   if (!options.dryRun) {
-    if (tracked.size === 0) {
-      await rm(path.join(destination, manifestName), { force: true });
-    } else {
-      await writeInstallManifest(destination, {
-        ...manifest,
-        version: packageJson.version,
-        updatedAt: new Date().toISOString(),
-        skills: [...tracked].sort(),
-      }, false);
-    }
+    await rm(path.join(destination, manifestName), { force: true });
   }
 }
 
@@ -297,6 +309,10 @@ async function main() {
   const options = parseArgs(process.argv.slice(2));
   if (options.command === "help") {
     printHelp();
+    return;
+  }
+  if (options.command === "version") {
+    console.log(packageJson.version);
     return;
   }
 
@@ -319,12 +335,6 @@ async function main() {
     throw new Error("Specify at least one --agent target.");
   }
 
-  const selectedSkills = options.skills ?? allSkills;
-  const unknownSkills = selectedSkills.filter((skillName) => !allSkills.includes(skillName));
-  if (unknownSkills.length > 0) {
-    throw new Error(`Unknown skills: ${unknownSkills.join(", ")}`);
-  }
-
   const destinations = new Map();
   for (const requestedAgent of options.agents) {
     const agent = normalizeAgent(requestedAgent);
@@ -334,9 +344,9 @@ async function main() {
 
   for (const [destination, agent] of destinations) {
     if (options.command === "install") {
-      await installInto(destination, selectedSkills, options, agent);
+      await installInto(destination, allSkills, options, agent);
     } else {
-      await uninstallFrom(destination, options.skills, options);
+      await uninstallFrom(destination, options);
     }
   }
 }

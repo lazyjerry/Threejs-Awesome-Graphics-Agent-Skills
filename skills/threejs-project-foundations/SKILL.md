@@ -1,6 +1,6 @@
 ---
 name: threejs-project-foundations
-description: "Establish and review production-ready Three.js project foundations: renderer selection, scene and camera setup, color management, animation loop, resize and DPR policy, module boundaries, resource ownership, context lifecycle, and teardown. Use when starting a Three.js project, correcting blank or unstable scenes, modernizing setup, structuring lifecycle code, or diagnosing foundational rendering mistakes."
+description: "Establish and review production-ready Three.js project foundations: renderer selection, scene and camera setup, color management, animation loop, resize and DPR policy, render targets, secondary cameras, module boundaries, resource ownership, context lifecycle, and teardown. Use when starting a Three.js project, correcting blank or unstable scenes, implementing portals, mirrors, minimaps, live screens, or debug buffers, modernizing setup, structuring lifecycle code, or diagnosing foundational rendering mistakes."
 ---
 
 # Three.js Project Foundations
@@ -15,7 +15,9 @@ Build the smallest architecture that makes ownership, updates, and teardown expl
 4. Define update order before adding features.
 5. Configure color, tone mapping, shadows, and DPR intentionally.
 6. Add teardown at the same time as creation.
-7. Verify a visible reference object, resize, background-tab behavior, and repeated mount/unmount.
+7. Treat every offscreen view as an owned render pass with an explicit camera,
+   target, update cadence, state-restoration contract, and disposal path.
+8. Verify a visible reference object, resize, background-tab behavior, and repeated mount/unmount.
 
 ## Required invariants
 
@@ -39,4 +41,4 @@ Prefer these responsibilities when the project grows:
 - `ui`: DOM state and accessibility.
 - `diagnostics`: renderer info, frame timing, debug toggles.
 
-Read [references/renderer-color-loop.md](references/renderer-color-loop.md) for renderer and timing decisions. Read [references/lifecycle-architecture.md](references/lifecycle-architecture.md) for ownership and teardown.
+Read [references/renderer-color-loop.md](references/renderer-color-loop.md) for renderer and timing decisions. Read [references/lifecycle-architecture.md](references/lifecycle-architecture.md) for ownership and teardown. Read [references/render-targets-secondary-cameras.md](references/render-targets-secondary-cameras.md) for render-to-texture, portals, mirrors, minimaps, secondary cameras, and debug buffers.

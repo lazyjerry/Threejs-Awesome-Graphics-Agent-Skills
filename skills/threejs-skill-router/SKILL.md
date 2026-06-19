@@ -17,10 +17,10 @@ Select focused skills before implementation. Avoid loading the whole pack.
 
 | Need | Load |
 | --- | --- |
-| setup, renderer, loop, resize, color, cleanup | `$threejs-project-foundations` |
-| models, textures, loading, compression, disposal | `$threejs-asset-pipeline` |
+| setup, renderer, loop, resize, render targets, portals, mirrors, minimaps, cleanup | `$threejs-project-foundations` |
+| models, textures, loading, deployment, CORS/CSP/MIME, compression, disposal | `$threejs-asset-pipeline` |
 | composition, art direction, silhouette, world building | `$threejs-visual-design` |
-| PBR, environments, lights, shadows, exposure | `$threejs-materials-lighting` |
+| PBR, environments, lights, baked lighting, lightmaps, probes, progressive lookdev | `$threejs-materials-lighting` |
 | shader construction, coordinate spaces, uniforms, procedural fields | `$threejs-shaders-procedural` |
 | custom meshes, sweeps, roads, terrain, CSG, BVH, LOD | `$threejs-geometry-modeling` |
 | reference-driven surfaces, glass, coatings, wear, lookdev | `$threejs-material-lookdev` |
@@ -43,7 +43,7 @@ Select focused skills before implementation. Avoid loading the whole pack.
 ## Common combinations
 
 - New polished scene: foundations → visual design → cinematic composition → material lookdev → quality audit.
-- Asset-heavy product viewer: foundations → asset pipeline → material lookdev → cinematic composition → performance → quality audit.
+- Asset-heavy product viewer: foundations → asset pipeline → materials/lighting → material lookdev → cinematic composition → performance → quality audit.
 - Procedural environment: foundations → geometry modeling → visual design → material lookdev → performance.
 - Custom visual effect: foundations → shaders/VFX or WebGPU/TSL → post-processing → performance.
 - Browser game: foundations → game design/playability → gameplay implementation → physics when justified → animation → UI/accessibility → audio → visual design → performance → testing/debugging → quality audit.
@@ -54,6 +54,8 @@ Select focused skills before implementation. Avoid loading the whole pack.
 
 - Use broad foundation skills for architecture and API contracts; use specialist skills when the task requires authored quality, diagnosis, or advanced techniques.
 - Load `$threejs-materials-lighting` for scene-lighting fundamentals; add `$threejs-material-lookdev` when a specific surface must be believable.
+- Keep render-to-texture ownership, secondary cameras, portals, mirrors, minimaps, and debug targets in `$threejs-project-foundations`; add `$threejs-postprocessing` only when the target belongs to an image-effect pipeline.
+- Load `$threejs-asset-pipeline` for deployed asset paths, CORS, MIME, CSP, service-worker caching, worker/WASM decoder delivery, and user-facing asset failure states.
 - Load `$threejs-shaders-procedural` for shader construction fundamentals; add `$threejs-shaders-vfx` when timing, integration, temporal stability, or quality tiers define the effect.
 - Load `$threejs-gameplay-interaction` to implement input and state; add `$threejs-game-design-playability` to determine whether the game is readable, fair, and satisfying.
 - Load `$threejs-ui-text-accessibility` for interface implementation; keep high-level HUD/playability evaluation in `$threejs-game-design-playability`.

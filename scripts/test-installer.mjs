@@ -1,4 +1,4 @@
-import { mkdtemp, readFile, stat } from "node:fs/promises";
+import { mkdtemp, readFile, readdir, stat } from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import { execFile } from "node:child_process";
@@ -7,6 +7,15 @@ import { promisify } from "node:util";
 const execFileAsync = promisify(execFile);
 const root = process.cwd();
 const cli = path.join(root, "bin", "threejs-gamedev-mega-skills.mjs");
+const packageJson = JSON.parse(
+  await readFile(path.join(root, "package.json"), "utf8"),
+);
+const expectedSkills = (await readdir(path.join(root, "skills"), {
+  withFileTypes: true,
+}))
+  .filter((entry) => entry.isDirectory())
+  .map((entry) => entry.name)
+  .sort();
 const temporaryRoot = await mkdtemp(
   path.join(os.tmpdir(), "threejs-gamedev-mega-skills-installer-"),
 );
@@ -30,6 +39,13 @@ const projectPaths = {
   windsurf: [".windsurf", "skills"],
 };
 
+const help = await execFileAsync(process.execPath, [cli, "--help"]);
+if (!help.stdout.includes("Usage:")) throw new Error("Top-level --help failed.");
+const version = await execFileAsync(process.execPath, [cli, "--version"]);
+if (version.stdout.trim() !== packageJson.version) {
+  throw new Error("Top-level --version failed.");
+}
+
 for (const [agent, relativePath] of Object.entries(targetPaths)) {
   const home = path.join(temporaryRoot, `home-${agent}`);
   await execFileAsync(process.execPath, [
@@ -37,10 +53,9 @@ for (const [agent, relativePath] of Object.entries(targetPaths)) {
     "install",
     "--agent",
     agent,
-    "--skills",
-    "threejs-skill-router",
   ], { env: { ...process.env, HOME: home } });
   await stat(path.join(home, ...relativePath, "threejs-skill-router", "SKILL.md"));
+  await stat(path.join(home, ...relativePath, "threejs-project-foundations", "SKILL.md"));
 }
 
 for (const [agent, relativePath] of Object.entries(projectPaths)) {
@@ -54,10 +69,9 @@ for (const [agent, relativePath] of Object.entries(projectPaths)) {
     "project",
     "--project-dir",
     project,
-    "--skills",
-    "threejs-skill-router",
   ]);
   await stat(path.join(project, ...relativePath, "threejs-skill-router", "SKILL.md"));
+  await stat(path.join(project, ...relativePath, "threejs-project-foundations", "SKILL.md"));
 }
 
 await execFileAsync(process.execPath, [
@@ -67,8 +81,6 @@ await execFileAsync(process.execPath, [
   "custom",
   "--path",
   customRoot,
-  "--skills",
-  "threejs-skill-router,threejs-project-foundations",
 ]);
 
 await stat(path.join(customRoot, "threejs-skill-router", "SKILL.md"));
@@ -79,7 +91,12 @@ const manifest = JSON.parse(
     "utf8",
   ),
 );
-if (manifest.skills.length !== 2) throw new Error("Installer manifest is incomplete.");
+if (
+  manifest.completePack !== true ||
+  JSON.stringify(manifest.skills) !== JSON.stringify(expectedSkills)
+) {
+  throw new Error("Installer manifest does not describe the complete pack.");
+}
 
 await execFileAsync(process.execPath, [
   cli,
@@ -88,8 +105,6 @@ await execFileAsync(process.execPath, [
   "custom",
   "--path",
   customRoot,
-  "--skills",
-  "threejs-skill-router",
   "--force",
 ]);
 
@@ -100,16 +115,31 @@ await execFileAsync(process.execPath, [
   "custom",
   "--path",
   customRoot,
-  "--skills",
-  "threejs-skill-router",
 ]);
 
-let removed = false;
+let removed = true;
 try {
   await stat(path.join(customRoot, "threejs-skill-router"));
+  removed = false;
 } catch {
-  removed = true;
 }
-if (!removed) throw new Error("Installer did not remove the selected skill.");
+if (!removed) throw new Error("Installer did not remove the complete pack.");
+
+let partialRejected = false;
+try {
+  await execFileAsync(process.execPath, [
+    cli,
+    "install",
+    "--agent",
+    "custom",
+    "--path",
+    customRoot,
+    "--skills",
+    "threejs-skill-router",
+  ]);
+} catch {
+  partialRejected = true;
+}
+if (!partialRejected) throw new Error("Installer still accepts partial installation.");
 
 console.log("Installer smoke test passed.");

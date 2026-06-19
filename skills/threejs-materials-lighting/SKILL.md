@@ -1,6 +1,6 @@
 ---
 name: threejs-materials-lighting
-description: "Establish and diagnose scene-wide Three.js PBR, material roles, texture color spaces, environment lighting, shadows, exposure, and tone mapping. Use for a coherent scene foundation or broad lighting correction; use threejs-material-lookdev to match one specific reference surface or layered material."
+description: "Establish and diagnose scene-wide Three.js PBR, material roles, texture color spaces, real-time and baked lighting, lightmaps, environment maps, reflection probes, PMREM, shadows, exposure, tone mapping, and progressive reference rendering. Use for a coherent scene foundation, static-environment lighting, glossy reflection context, broad lighting correction, or reference-quality lookdev; use threejs-material-lookdev to match one specific surface or layered material."
 ---
 
 # Three.js Materials and Lighting
@@ -11,12 +11,14 @@ Treat materials, environment, direct light, exposure, and tone mapping as one sy
 
 1. Confirm color-space correctness before changing light intensity.
 2. Define material roles such as painted metal, bare metal, rubber, glass, emissive, fabric, skin, or stylized matte.
-3. Establish an environment or ambient basis for PBR response.
-4. Add the minimum direct lights needed for shape, focus, and narrative.
-5. Tune roughness and normal response before adding more lights.
-6. Fit shadows tightly and enable them selectively.
-7. Tune exposure and tone mapping against representative bright and dark surfaces.
-8. Validate from every important camera and on lower-quality targets.
+3. Choose the lighting representation: real-time, baked, environment/probe, or
+   a deliberate hybrid.
+4. Establish an environment or ambient basis for PBR response.
+5. Add the minimum direct lights needed for shape, focus, and narrative.
+6. Tune roughness and normal response before adding more lights.
+7. Fit shadows tightly and enable them selectively.
+8. Tune exposure and tone mapping against representative bright and dark surfaces.
+9. Validate from every important camera and on lower-quality targets.
 
 ## Material rules
 
@@ -27,4 +29,4 @@ Treat materials, environment, direct light, exposure, and tone mapping as one sy
 - Normal maps require valid tangents or an appropriate derivative path and should not carry color-space tags.
 - Use shared material families and controlled variations to preserve cohesion.
 
-Read [references/pbr-material-language.md](references/pbr-material-language.md) and [references/lighting-shadows-environments.md](references/lighting-shadows-environments.md).
+Read [references/pbr-material-language.md](references/pbr-material-language.md) and [references/lighting-shadows-environments.md](references/lighting-shadows-environments.md). Read [references/baked-lighting-probes-progressive.md](references/baked-lighting-probes-progressive.md) for lightmaps, baked lighting, reflection probes, PMREM, and narrow progressive/path-traced lookdev.

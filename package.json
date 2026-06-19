@@ -21,7 +21,7 @@
   ],
   "type": "module",
   "bin": {
-    "threejs-gamedev-mega-skills": "./bin/threejs-gamedev-mega-skills.mjs"
+    "threejs-gamedev-mega-skills": "bin/threejs-gamedev-mega-skills.mjs"
   },
   "files": [
     ".codex-plugin/",
@@ -48,6 +48,7 @@
     "prepublishOnly": "npm run check:freshness"
   },
   "devDependencies": {
-    "playwright": "^1.60.0"
+    "playwright": "^1.60.0",
+    "yaml": "^2.9.0"
   }
 }

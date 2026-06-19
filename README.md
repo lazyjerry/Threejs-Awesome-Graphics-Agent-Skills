@@ -8,15 +8,18 @@ The pack is intentionally split by task. An agent should load the router first, 
 - strong visual authorship across modeling, materials, lighting, shaders, and effects;
 - responsive interaction, game feel, physics, controls, and playability.
 
+The scope remains centered on Three.js and its browser runtime. It is not a
+general-purpose game-engine curriculum.
+
 ## Skills
 
 | Skill | Responsibility |
 | --- | --- |
 | `threejs-skill-router` | Select the smallest useful skill set and define execution order. |
-| `threejs-project-foundations` | Project structure, renderer choice, render loop, color, resize, lifecycle. |
-| `threejs-asset-pipeline` | glTF, textures, compression, loading UX, ownership, disposal. |
+| `threejs-project-foundations` | Project structure, renderer choice, render loop, color, resize, render targets, secondary cameras, lifecycle. |
+| `threejs-asset-pipeline` | glTF, textures, compression, hosted delivery, loading UX, ownership, disposal. |
 | `threejs-visual-design` | Art direction, composition, silhouette, depth, procedural modeling taste. |
-| `threejs-materials-lighting` | PBR material roles, environments, lights, shadows, exposure. |
+| `threejs-materials-lighting` | PBR roles, real-time and baked lighting, probes, environments, shadows, exposure. |
 | `threejs-shaders-procedural` | GLSL, procedural patterns, particles, raymarching, shader debugging. |
 | `threejs-geometry-modeling` | Production mesh authoring, sweeps, terrain, CSG, BVH, LOD, batching. |
 | `threejs-material-lookdev` | Reference-driven PBR, advanced surfaces, layering, and material diagnosis. |
@@ -88,9 +91,9 @@ Supported named targets:
 | `windsurf` | `~/.codeium/windsurf/skills` | `.windsurf/skills` |
 | `custom` | exact `--path` | exact `--path` |
 
-Use `--skills name-a,name-b` for a partial install, `--force` to replace an
-existing installation, and `--dry-run` to inspect changes. The installer
-tracks only the directories it owns so selective uninstall remains safe:
+Each install is the complete pack. Use `--force` to replace an existing
+installation and `--dry-run` to inspect changes. The installer tracks only the
+directories it owns so uninstall remains safe:
 
 ```sh
 npx threejs-gamedev-mega-skills uninstall --agent cursor
@@ -112,12 +115,3 @@ npm pack --dry-run
 ```
 
 External research inputs are recorded in [`source_materials/README.md`](source_materials/README.md). Downloaded repositories remain ignored under `source_materials/`.
-
-## Development direction
-
-The pack has two layers:
-
-- foundation skills for correct architecture and common Three.js workflows;
-- specialist skills for authored geometry, look development, VFX, cinematography, game design, and motion.
-
-Specialist references include quality ladders, diagnosis tables, implementation choices, failure modes, and runnable calibration labs. Future development should continue forward-testing those judgments against real scenes and games, then add deterministic tooling where repeated project work justifies automation.

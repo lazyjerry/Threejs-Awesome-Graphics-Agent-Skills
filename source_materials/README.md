@@ -20,8 +20,11 @@ Version-sensitive Three.js guidance must be checked against the installed projec
 | geometry and acceleration | Three.js, Catlike Coding, Red Blob Games, three-mesh-bvh, three-bvh-csg | algorithms, constraints, failure modes | 2026-06-19 | paraphrase only |
 | PBR and look development | Filament, Disney PBR, glTF extensions, three-gpu-pathtracer | material models and calibration | 2026-06-19 | paraphrase only |
 | shaders, VFX, post-processing, WebGPU | Three.js, GPU Gems, Book of Shaders, pmndrs postprocessing, TSL sources | rendering architecture and quality ladders | 2026-06-19 | paraphrase only |
+| render targets and secondary views | Three.js render-target, camera, and reflection documentation | portals, mirrors, minimaps, live screens, and debug buffers | 2026-06-19 | paraphrase only |
+| baked lighting and progressive lookdev | Three.js materials, PMREM, cube capture, and three-gpu-pathtracer | lightmaps, reflection probes, and reference rendering | 2026-06-19 | paraphrase only |
 | cinematography, animation, game design | GDC camera material, Samurai Cinema, Game Feel, accessibility guidance, spring and IK references | diagnosis and authored-quality guidance | 2026-06-19 | paraphrase only |
 | testing and debugging | Playwright, MDN WebGL lifecycle, Three.js cleanup, Spector.js, navigation/steering references | browser verification, diagnosis, context loss, inspectability | 2026-06-19 | paraphrase only |
+| browser deployment and delivery | MDN HTTP/security/service-worker/WebAssembly guidance and Three.js loader docs | CORS, MIME, CSP, caches, workers, WASM, and failure UX | 2026-06-19 | paraphrase only |
 | UI, text, accessibility | Three.js CSS renderers, Troika text, WCAG/APG, MDN canvas/keyboard guidance | strategy selection, semantics, focus, responsive access | 2026-06-19 | paraphrase only |
 | audio feedback | Three.js audio, MDN Web Audio/autoplay, Chrome autoplay guidance, howler.js | lifecycle, pooling, spatial audio, mixing, accessibility | 2026-06-19 | paraphrase only |
 | data visualization | Three.js primitives, deck.gl/loaders.gl, Potree, D3/ColorBrewer, Vega/Plot | encodings, scale, precision, streaming, platform choice | 2026-06-19 | paraphrase only |
@@ -65,6 +68,8 @@ Version-sensitive Three.js guidance must be checked against the installed projec
 - [Three.js cleanup manual](https://threejs.org/manual/en/cleanup.html) — explicit GPU resource disposal and ownership patterns.
 - [Three.js RenderPipeline documentation](https://threejs.org/docs/pages/RenderPipeline.html) and [deprecated PostProcessing wrapper](https://threejs.org/docs/pages/PostProcessing.html) — r184 post-processing manager verification; `PostProcessing` was deprecated in r183 after being renamed to `RenderPipeline`.
 - [Official Three.js examples](https://threejs.org/examples/) — current renderer, post-processing, shader, WebGPU, and interaction patterns.
+- [Three.js render-target manual](https://threejs.org/manual/en/rendertargets.html), [WebGLRenderTarget](https://threejs.org/docs/pages/WebGLRenderTarget.html), [CubeCamera](https://threejs.org/docs/pages/CubeCamera.html), and [Reflector](https://threejs.org/docs/pages/Reflector.html) — offscreen rendering, secondary cameras, cube capture, and planar reflection verification.
+- [MeshStandardMaterial](https://threejs.org/docs/pages/MeshStandardMaterial.html) and [PMREMGenerator](https://threejs.org/docs/pages/PMREMGenerator.html) — lightmap/AO slots and prefiltered environment-lighting behavior.
 - [Official Three.js TSL documentation](https://threejs.org/docs/pages/TSL.html) — current TSL surface.
 - [Three.js TSL wiki](https://github.com/mrdoob/three.js/wiki/Three.js-Shading-Language) — TSL concepts and migration context.
 - [React Three Fiber documentation](https://r3f.docs.pmnd.rs/) — frame-loop, loading, state, and performance guidance.
@@ -74,6 +79,10 @@ Version-sensitive Three.js guidance must be checked against the installed projec
 - [react-postprocessing documentation](https://react-postprocessing.docs.pmnd.rs/) — R3F post-processing.
 - [MDN Game Development](https://developer.mozilla.org/en-US/docs/Games) — browser game-loop, input, and accessibility context.
 - [MDN WebGL](https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API) — platform constraints and context lifecycle.
+- [MDN CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/CORS), [MIME types](https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/MIME_types), and [Content Security Policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/CSP) — production origin, response-header, module, worker, asset, and policy constraints.
+- [MDN Using Service Workers](https://developer.mozilla.org/en-US/docs/Web/API/Service_Worker_API/Using_Service_Workers) and [loading WebAssembly](https://developer.mozilla.org/en-US/docs/WebAssembly/Guides/Loading_and_running) — cache lifecycle and WASM delivery verification.
+- [glTF 2.0 specification](https://registry.khronos.org/glTF/specs/2.0/glTF-2.0.html) — normative glTF/GLB format and media-type reference.
+- [Three.js LoadingManager](https://threejs.org/docs/pages/LoadingManager.html), [KTX2Loader](https://threejs.org/docs/pages/KTX2Loader.html), and [DRACOLoader](https://threejs.org/docs/pages/DRACOLoader.html) — loading failure hooks and deployed transcoder/decoder paths.
 - [MDN 3D collision detection](https://developer.mozilla.org/en-US/docs/Games/Techniques/3D_collision_detection) — simple collision primitives.
 - [Game Programming Patterns](https://gameprogrammingpatterns.com/) — update loop, state, pooling, and decoupling patterns.
 - [The Book of Shaders](https://thebookofshaders.com/) — procedural shader foundations.
@@ -105,6 +114,8 @@ Version-sensitive Three.js guidance must be checked against the installed projec
 - [Game Accessibility Guidelines](https://gameaccessibilityguidelines.com/full-list/) — remapping, camera sensitivity, FOV, reduced motion, readable UI, subtitles, alternatives to color-only information, and assist options.
 - [Little Polygon: Analytical Two-Bone IK](https://blog.littlepolygon.com/posts/twobone/) — law-of-cosines IK, stable pole planes, reach clamping, and transform-space consistency.
 - [Orange Duck: Spring Roll Call](https://theorangeduck.com/page/spring-roll-call) — frame-rate-independent damping, half-life controls, springs, quaternion motion, and inertialization.
+- [Three.js AnimationMixer documentation](https://threejs.org/docs/#api/en/animation/AnimationMixer) and [animation examples](https://threejs.org/examples/?q=animation) — mixer/action lifecycle and maintained runtime examples.
+- [Fundamentals of Real-Time Camera Design PDF](https://media.gdcvault.com/gdc05/slides/GD_Haigh-Hutchinson_FundamentalsReal-TimeCameraDesign2.pdf) — camera intent, constraints, framing, and movement.
 - [Playwright browser testing](https://playwright.dev/docs/intro), [visual comparisons](https://playwright.dev/docs/test-snapshots), and [snapshot assertions](https://playwright.dev/docs/api/class-snapshotassertions) — browser smoke, deterministic capture, environment-sensitive baselines, and diff controls.
 - [MDN `webglcontextlost`](https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/webglcontextlost_event), [`WEBGL_lose_context`](https://developer.mozilla.org/en-US/docs/Web/API/WEBGL_lose_context/loseContext), [`WEBGL_debug_renderer_info`](https://developer.mozilla.org/en-US/docs/Web/API/WEBGL_debug_renderer_info), and [WebGL extensions](https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API/Using_Extensions) — context lifecycle and optional renderer diagnostics.
 - [Spector.js](https://spector.babylonjs.com/) and its [repository](https://github.com/BabylonJS/Spector.js) — WebGL frame-capture workflow.
@@ -123,16 +134,26 @@ Version-sensitive Three.js guidance must be checked against the installed projec
 - [loaders.gl](https://loaders.gl/), [Potree site](https://potree.github.io/), and [Potree repository](https://github.com/potree/potree) — streaming formats and purpose-built large point-cloud architecture.
 - [D3 scales](https://d3js.org/d3-scale), [D3 scale-chromatic](https://d3js.org/d3-scale-chromatic), [ColorBrewer](https://colorbrewer2.org/), and [scheme types](https://colorbrewer2.org/learnmore/schemes_full.html) — quantitative/categorical scale and palette semantics.
 - [Vega-Lite](https://vega.github.io/vega-lite/), [Vega](https://vega.github.io/vega/), and [Observable Plot](https://observablehq.com/plot/) — declarative and 2D alternatives to custom Three.js visualization.
+- [PBRT v4](https://pbr-book.org/4ed/contents) — deeper BSDF and light-transport reference for look-development reasoning.
+- [Khronos glTF material extensions](https://github.com/KhronosGroup/glTF/tree/main/extensions/2.0/Khronos/) — portable advanced-material semantics.
+- [Three.js DecalGeometry](https://threejs.org/docs/#examples/en/geometries/DecalGeometry) — maintained decal projection API.
+- [Garland–Heckbert quadric error metrics](https://www.cs.cmu.edu/~garland/quadrics/quadrics.html) and [glTF Transform](https://gltf-transform.dev/) — simplification and reproducible asset optimization.
+- [Scalar Spatiotemporal Blue Noise Masks](https://arxiv.org/abs/2112.09629), [Playdead temporal reprojection](https://github.com/playdeadgames/temporal), and [Temporal AA and the Quest for the Holy Trail](https://www.elopezr.com/temporal-aa-and-the-quest-for-the-holy-trail/) — temporal sampling and stability concepts.
+- [Inigo Quilez articles](https://iquilezles.org/articles/) — practical noise, SDF, and domain-warping techniques.
+- [Bruneton precomputed atmosphere](https://ebruneton.github.io/precomputed_atmospheric_scattering/) and [Maxime Heckel on sky, sunsets, and planets](https://blog.maximeheckel.com/posts/on-rendering-the-sky-sunsets-and-planets/) — atmosphere implementation and browser-oriented presentation.
+- [Fractals to Forests](https://tympanus.net/codrops/2025/01/27/fractals-to-forests-creating-realistic-3d-trees-with-three-js/) and [StreetGen](https://arxiv.org/abs/1801.05741) — procedural tree and street-network concepts.
+- [Evan Wallace realtime caustics](https://medium.com/@evanwallace/rendering-realtime-caustics-in-webgl-2a99a29a0b2c) and [Martin Renou realtime water caustics](https://medium.com/@martinRenou/real-time-rendering-of-water-caustics-59cda1d74aa) — browser-oriented caustic techniques.
 
 ## Reviewed with constraints
 
 - [N8AO](https://github.com/N8Programs/n8ao) — current AO implementation patterns; reviewed at commit `6481f6`. Repository/package license metadata was inconsistent during review, so no code was copied and it is not used as a normative source.
 - [realism-effects](https://github.com/0beqz/realism-effects) — useful SSGI, HBAO, and temporal concepts; reviewed at commit `061daea`. Its declared Three.js peer range is substantially older than the June 2026 research baseline, so it is treated as conceptual only.
 
-## Deferred or rejected for this pass
+## Intentional scope boundaries
 
-- WebXR remains out of scope until a later research pass.
+- WebXR is intentionally outside this Three.js-centered pack.
 - A standalone game-AI/navigation skill was rejected. Small-game FSM, steering, path, navmesh, perception, and line-of-sight material is included only as behavior/navigation debugging inside `threejs-testing-debugging`.
+- Broad multiplayer, persistence, progression, and engine-level game-system curricula are outside scope. The pack covers game concerns where they materially shape Three.js scenes, interaction, rendering, browser delivery, and playability.
 - Full music production, advanced acoustics, and general sound-design curricula remain outside `threejs-audio-feedback`.
 - General charting theory and every 3D-web domain remain outside the data-visualization module; platform alternatives are preferred when Three.js is not justified.
 
