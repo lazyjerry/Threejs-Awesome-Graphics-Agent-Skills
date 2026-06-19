@@ -1,5 +1,5 @@
 import { execFile } from "node:child_process";
-import { mkdtemp, writeFile } from "node:fs/promises";
+import { mkdir, mkdtemp, writeFile } from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import { promisify } from "node:util";
@@ -51,6 +51,49 @@ if (
   snapshot.programs !== 1
 ) {
   throw new Error("Renderer snapshot helper returned incorrect values.");
+}
+
+const projectRoot = path.join(temporaryRoot, "three-project");
+await mkdir(path.join(projectRoot, "src"), { recursive: true });
+await writeFile(
+  path.join(projectRoot, "package.json"),
+  JSON.stringify({ dependencies: { three: "0.184.0" } }),
+);
+await writeFile(
+  path.join(projectRoot, "src", "main.js"),
+  `const renderer = new WebGLRenderer();
+function onResize() {}
+window.addEventListener("resize", onResize);
+renderer.setAnimationLoop(render);
+function destroy() {
+  window.removeEventListener("resize", onResize);
+  renderer.setAnimationLoop(null);
+  renderer.dispose();
+}
+`,
+);
+
+const projectInspector = await execFileAsync(process.execPath, [
+  "skills/threejs-testing-debugging/scripts/inspect-three-project.mjs",
+  projectRoot,
+]);
+const projectReport = JSON.parse(projectInspector.stdout);
+if (
+  projectReport.relatedDependencies.three !== "0.184.0" ||
+  projectReport.counts.renderers !== 1
+) {
+  throw new Error("Three.js project inspector returned incorrect values.");
+}
+
+for (const script of ["scan-disposal-risks.mjs", "scan-render-budget.mjs"]) {
+  const result = await execFileAsync(process.execPath, [
+    path.join("skills/threejs-testing-debugging/scripts", script),
+    projectRoot,
+  ]);
+  const scan = JSON.parse(result.stdout);
+  if (scan.findings.length !== 0) {
+    throw new Error(`${script} reported a false positive for the clean fixture.`);
+  }
 }
 
 console.log("Skill script tests passed.");

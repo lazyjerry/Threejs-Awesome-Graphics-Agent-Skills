@@ -11,8 +11,10 @@ Example: “Build a cinematic, interactive solar-system experience.”
 3. Materials/lighting: sun emission, planet response, exposure.
 4. Shaders or TSL: atmosphere, procedural surfaces, star field.
 5. Interaction: navigation, selection, labels, motion comfort.
-6. Performance: LOD, texture budgets, update rates.
-7. Quality audit: readability, controls, mobile, teardown.
+6. UI/accessibility: semantic labels, controls, keyboard alternatives.
+7. Performance: LOD, texture budgets, update rates.
+8. Testing/debugging: deterministic smoke, resize, teardown, regression checks.
+9. Quality audit: readability, controls, mobile, teardown.
 
 ## Separate primary from supporting work
 
@@ -20,6 +22,8 @@ Example: “Build a cinematic, interactive solar-system experience.”
 - Supporting skills solve dependencies.
 - Audit skill verifies; it should not silently replace implementation skills.
 - Performance skill measures and corrects cost; it should not preemptively flatten the design.
+- Testing/debugging reproduces and verifies defects; quality audit judges the broader release.
+- Data visualization owns analytical encodings; cinematic skills should not override clarity.
 
 ## Stop conditions
 

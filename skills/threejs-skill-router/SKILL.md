@@ -34,6 +34,10 @@ Select focused skills before implementation. Avoid loading the whole pack.
 | collision, rigid bodies, Rapier, fixed stepping | `$threejs-physics-collisions` |
 | profiling, draw calls, frame time, GPU, memory | `$threejs-performance-profiling` |
 | React Three Fiber, Drei, Zustand, Suspense | `$threejs-r3f` |
+| browser tests, screenshots, runtime defects, context loss, leaks, behavior/navigation inspection | `$threejs-testing-debugging` |
+| HUD, menus, labels, text strategy, focus, keyboard, accessible canvas alternatives | `$threejs-ui-text-accessibility` |
+| browser audio, positional sound, pooling, mixing, interaction feedback | `$threejs-audio-feedback` |
+| point clouds, graphs, scientific/geospatial views, data picking and streaming | `$threejs-data-visualization` |
 | review, score, verify, prioritize defects | `$threejs-quality-audit` |
 
 ## Common combinations
@@ -42,7 +46,8 @@ Select focused skills before implementation. Avoid loading the whole pack.
 - Asset-heavy product viewer: foundations → asset pipeline → material lookdev → cinematic composition → performance → quality audit.
 - Procedural environment: foundations → geometry modeling → visual design → material lookdev → performance.
 - Custom visual effect: foundations → shaders/VFX or WebGPU/TSL → post-processing → performance.
-- Browser game: foundations → game design/playability → gameplay implementation → physics when justified → animation → visual design → performance → quality audit.
+- Browser game: foundations → game design/playability → gameplay implementation → physics when justified → animation → UI/accessibility → audio → visual design → performance → testing/debugging → quality audit.
+- Data application: foundations → data visualization → UI/accessibility → performance → testing/debugging → quality audit.
 - R3F experience: R3F first, then the same domain skills as vanilla Three.js.
 
 ## Routing rules
@@ -51,6 +56,11 @@ Select focused skills before implementation. Avoid loading the whole pack.
 - Load `$threejs-materials-lighting` for scene-lighting fundamentals; add `$threejs-material-lookdev` when a specific surface must be believable.
 - Load `$threejs-shaders-procedural` for shader construction fundamentals; add `$threejs-shaders-vfx` when timing, integration, temporal stability, or quality tiers define the effect.
 - Load `$threejs-gameplay-interaction` to implement input and state; add `$threejs-game-design-playability` to determine whether the game is readable, fair, and satisfying.
+- Load `$threejs-ui-text-accessibility` for interface implementation; keep high-level HUD/playability evaluation in `$threejs-game-design-playability`.
+- Load `$threejs-audio-feedback` when sound is an implementation requirement; keep overall feedback quality and fairness evaluation in `$threejs-game-design-playability`.
+- Load `$threejs-testing-debugging` for reproducible diagnosis and regression coverage; use `$threejs-quality-audit` for broader release assessment and prioritization.
+- Keep simple FSM, steering, path, perception, and navmesh inspection inside `$threejs-testing-debugging`; do not route to a standalone game-AI module.
+- Load `$threejs-data-visualization` only for data-driven scenes; prioritize analytical clarity over cinematic treatment.
 - Load `$threejs-visual-design` for art direction across the whole scene; add `$threejs-cinematic-lighting-composition` for shot-level camera and image diagnosis.
 - Do not select WebGPU merely because it is newer. Require a TSL, compute, renderer, or measurable capability benefit.
 - Do not select physics for simple triggers or arcade overlap checks.

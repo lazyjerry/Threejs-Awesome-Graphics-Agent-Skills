@@ -1,7 +1,7 @@
 {
   "name": "threejs-gamedev-mega-skills",
   "version": "0.1.0",
-  "description": "Production-oriented Three.js design, rendering, gameplay, and performance skills for coding agents.",
+  "description": "Production-oriented Three.js design, rendering, gameplay, testing, interface, audio, visualization, and performance skills for coding agents.",
   "license": "MIT",
   "author": "Scott",
   "keywords": [
@@ -13,7 +13,11 @@
     "cursor",
     "copilot",
     "gemini-cli",
-    "windsurf"
+    "windsurf",
+    "web-audio",
+    "accessibility",
+    "data-visualization",
+    "browser-testing"
   ],
   "type": "module",
   "bin": {
@@ -40,7 +44,7 @@
     "test:scripts": "node scripts/test-skill-scripts.mjs",
     "check:freshness": "node scripts/check-three-freshness.mjs",
     "test:all": "npm test && npm run test:examples && npm run check:freshness",
-    "prepack": "npm test",
+    "prepack": "npm run test:all",
     "prepublishOnly": "npm run check:freshness"
   },
   "devDependencies": {

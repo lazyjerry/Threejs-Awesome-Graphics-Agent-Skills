@@ -1,7 +1,7 @@
 {
   "name": "threejs-gamedev-mega-skills",
   "version": "0.1.0",
-  "description": "Production-oriented Three.js design, rendering, gameplay, and performance skills.",
+  "description": "Production-oriented Three.js design, rendering, gameplay, testing, interface, audio, visualization, and performance skills.",
   "author": {
     "name": "Scott"
   },
@@ -17,7 +17,7 @@
   "interface": {
     "displayName": "Three.js Gamedev Mega Skills",
     "shortDescription": "Production Three.js design and development workflows",
-    "longDescription": "A modular skill pack for technically correct, visually authored, performant, interactive Three.js scenes, applications, and browser games.",
+    "longDescription": "A modular skill pack for technically correct, visually authored, testable, accessible, performant Three.js scenes, applications, data views, and browser games.",
     "developerName": "Scott",
     "category": "Developer Tools",
     "capabilities": [

@@ -6,13 +6,17 @@ import { chromium } from "playwright";
 
 const root = process.cwd();
 const examples = [
+  "skills/threejs-audio-feedback/examples/audio-unlock-mixer/index.html",
   "skills/threejs-animation-motion/examples/spring-motion-lab/index.html",
   "skills/threejs-cinematic-lighting-composition/examples/flat-to-cinematic/index.html",
+  "skills/threejs-data-visualization/examples/point-cloud-colormap/index.html",
   "skills/threejs-game-design-playability/examples/game-feel-playground/index.html",
   "skills/threejs-geometry-modeling/examples/road-curve-sweep/index.html",
   "skills/threejs-material-lookdev/examples/material-calibration/index.html",
   "skills/threejs-shaders-vfx/examples/impact-vfx-system/index.html",
   "skills/threejs-shaders-vfx/examples/shader-noise-lab/index.html",
+  "skills/threejs-testing-debugging/examples/behavior-debug-overlay/index.html",
+  "skills/threejs-ui-text-accessibility/examples/accessible-object-picker/index.html",
 ];
 
 const contentTypes = new Map([
@@ -64,6 +68,19 @@ try {
     await page.waitForTimeout(300);
     if ((await page.locator("canvas").count()) !== 1) {
       errors.push("Expected exactly one canvas.");
+    }
+    if (example.includes("audio-unlock-mixer")) {
+      await page.locator("#enable").click();
+      await page.locator("#play").click();
+      if (!(await page.locator(".status").textContent())?.includes("Feedback cue played")) {
+        errors.push("Audio unlock/play interaction did not complete.");
+      }
+    }
+    if (example.includes("accessible-object-picker")) {
+      await page.locator('button[data-id="green"]').click();
+      if (await page.locator('button[data-id="green"]').getAttribute("aria-pressed") !== "true") {
+        errors.push("Accessible DOM selection did not synchronize.");
+      }
     }
     if (errors.length > 0) {
       throw new Error(`${example}: ${errors.join("; ")}`);

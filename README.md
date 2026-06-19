@@ -30,6 +30,10 @@ The pack is intentionally split by task. An agent should load the router first, 
 | `threejs-physics-collisions` | Collision strategy, engine choice, fixed stepping, colliders, sensors. |
 | `threejs-performance-profiling` | Measurement, budgets, bottleneck isolation, CPU/GPU/memory optimization. |
 | `threejs-r3f` | React Three Fiber architecture, frame updates, state, loading, ecosystem use. |
+| `threejs-testing-debugging` | Browser tests, visual regression, runtime diagnosis, context loss, leaks, and behavior/navigation debugging. |
+| `threejs-ui-text-accessibility` | DOM/3D text strategy, HUDs, labels, focus, keyboard access, responsive and reduced-motion UI. |
+| `threejs-audio-feedback` | Web Audio lifecycle, positional audio, pooling, event synchronization, mixing, and accessible feedback. |
+| `threejs-data-visualization` | Clear, scalable point, line, graph, scientific, and geospatial data scenes. |
 | `threejs-quality-audit` | Technical, visual, performance, accessibility, and playability review. |
 
 ## Use

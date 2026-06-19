@@ -21,6 +21,10 @@ Version-sensitive Three.js guidance must be checked against the installed projec
 | PBR and look development | Filament, Disney PBR, glTF extensions, three-gpu-pathtracer | material models and calibration | 2026-06-19 | paraphrase only |
 | shaders, VFX, post-processing, WebGPU | Three.js, GPU Gems, Book of Shaders, pmndrs postprocessing, TSL sources | rendering architecture and quality ladders | 2026-06-19 | paraphrase only |
 | cinematography, animation, game design | GDC camera material, Samurai Cinema, Game Feel, accessibility guidance, spring and IK references | diagnosis and authored-quality guidance | 2026-06-19 | paraphrase only |
+| testing and debugging | Playwright, MDN WebGL lifecycle, Three.js cleanup, Spector.js, navigation/steering references | browser verification, diagnosis, context loss, inspectability | 2026-06-19 | paraphrase only |
+| UI, text, accessibility | Three.js CSS renderers, Troika text, WCAG/APG, MDN canvas/keyboard guidance | strategy selection, semantics, focus, responsive access | 2026-06-19 | paraphrase only |
+| audio feedback | Three.js audio, MDN Web Audio/autoplay, Chrome autoplay guidance, howler.js | lifecycle, pooling, spatial audio, mixing, accessibility | 2026-06-19 | paraphrase only |
+| data visualization | Three.js primitives, deck.gl/loaders.gl, Potree, D3/ColorBrewer, Vega/Plot | encodings, scale, precision, streaming, platform choice | 2026-06-19 | paraphrase only |
 
 ## Reviewed repository license ledger
 
@@ -39,6 +43,14 @@ Version-sensitive Three.js guidance must be checked against the installed projec
 | pmndrs / postprocessing | `a0dce6` | zlib | paraphrase only |
 | N8AO | `6481f6` | inconsistent metadata: package ISC, repository CC0 | conceptual only; no code copied |
 | realism-effects | `061daea` | MIT | conceptual only; no code copied |
+| three-pathfinding | `4bd88e0c12a3` | MIT | behavior/navigation debugging concepts only |
+| recast-navigation-js | `8769e8b9995f` | MIT | navmesh debugging concepts only |
+| Yuka | `105913048112` | MIT | FSM, steering, perception inspectability only |
+| Troika | `bca98dddeb36` | MIT | SDF text lifecycle and capability verification |
+| howler.js | `1d3053576a86` | MIT | pooling/audio-sprite abstraction comparison |
+| deck.gl | `6b265fd810df` | MIT | data-layer, picking, scale, and geospatial comparison |
+| loaders.gl | `f7a4b32712ce` | MIT | streaming/loader comparison |
+| Potree | `5636cd471d9e` | BSD-2-Clause | large point-cloud architecture comparison |
 
 ## Reviewed and used
 
@@ -93,11 +105,36 @@ Version-sensitive Three.js guidance must be checked against the installed projec
 - [Game Accessibility Guidelines](https://gameaccessibilityguidelines.com/full-list/) — remapping, camera sensitivity, FOV, reduced motion, readable UI, subtitles, alternatives to color-only information, and assist options.
 - [Little Polygon: Analytical Two-Bone IK](https://blog.littlepolygon.com/posts/twobone/) — law-of-cosines IK, stable pole planes, reach clamping, and transform-space consistency.
 - [Orange Duck: Spring Roll Call](https://theorangeduck.com/page/spring-roll-call) — frame-rate-independent damping, half-life controls, springs, quaternion motion, and inertialization.
+- [Playwright browser testing](https://playwright.dev/docs/intro), [visual comparisons](https://playwright.dev/docs/test-snapshots), and [snapshot assertions](https://playwright.dev/docs/api/class-snapshotassertions) — browser smoke, deterministic capture, environment-sensitive baselines, and diff controls.
+- [MDN `webglcontextlost`](https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/webglcontextlost_event), [`WEBGL_lose_context`](https://developer.mozilla.org/en-US/docs/Web/API/WEBGL_lose_context/loseContext), [`WEBGL_debug_renderer_info`](https://developer.mozilla.org/en-US/docs/Web/API/WEBGL_debug_renderer_info), and [WebGL extensions](https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API/Using_Extensions) — context lifecycle and optional renderer diagnostics.
+- [Spector.js](https://spector.babylonjs.com/) and its [repository](https://github.com/BabylonJS/Spector.js) — WebGL frame-capture workflow.
+- [Real-Time Rendering: Debugging WebGL with SpectorJS](https://www.realtimerendering.com/blog/debugging-webgl-with-spectorjs/) — practical frame-capture investigation sequence.
+- [three-pathfinding](https://github.com/donmccurdy/three-pathfinding), [recast-navigation-js](https://github.com/isaac-mason/recast-navigation-js), and [Yuka](https://github.com/Mugen87/yuka) — navigation, steering, perception, and state concepts used only to make small-game behavior inspectable.
+- [Red Blob Games pathfinding introduction](https://www.redblobgames.com/pathfinding/a-star/introduction.html) and [implementation guide](https://www.redblobgames.com/pathfinding/a-star/implementation.html), [Craig Reynolds steering behaviors](https://www.red3d.com/cwr/steer/), and [Nature of Code autonomous agents](https://natureofcode.com/autonomous-agents/) — conceptual path and steering diagnostics.
+- [Three.js CSS2DRenderer](https://threejs.org/docs/pages/CSS2DRenderer.html) and [CSS3DRenderer](https://threejs.org/docs/pages/CSS3DRenderer.html) — DOM/scene transform capabilities and documented limitations.
+- [Three.js Fundamentals: aligning HTML elements to 3D](https://threejsfundamentals.org/threejs/lessons/threejs-align-html-elements-to-3d.html) — projected-DOM label patterns and occlusion considerations.
+- [Troika Three Text](https://protectwise.github.io/troika/troika-three-text/), [Drei Text](https://drei.docs.pmnd.rs/abstractions/text), and [Drei Html](https://drei.docs.pmnd.rs/misc/html) — SDF text and optional R3F adapters.
+- [WCAG 2.2](https://www.w3.org/TR/WCAG22/), [WAI WCAG overview](https://www.w3.org/WAI/standards-guidelines/wcag/), [WCAG understanding documents](https://www.w3.org/WAI/WCAG22/Understanding/), [WAI-ARIA APG](https://www.w3.org/WAI/ARIA/apg/), [MDN ARIA](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA), [MDN keyboard accessibility](https://developer.mozilla.org/en-US/docs/Web/Accessibility/Guides/Understanding_WCAG/Keyboard), and [MDN canvas](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/canvas) — semantics, focus, keyboard behavior, and canvas alternatives.
+- [Three.js AudioListener](https://threejs.org/docs/pages/AudioListener.html), [Audio](https://threejs.org/docs/pages/Audio.html), and [PositionalAudio](https://threejs.org/docs/pages/PositionalAudio.html) — listener topology and positional/non-positional APIs.
+- [MDN Web Audio](https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API), [best practices](https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API/Best_practices), [autoplay guidance](https://developer.mozilla.org/en-US/docs/Web/Media/Guides/Autoplay), [`PannerNode`](https://developer.mozilla.org/en-US/docs/Web/API/PannerNode), and [Web Audio examples](https://mdn.github.io/webaudio-examples/) — lifecycle, user activation, graphs, and spatial parameters.
+- [Chrome autoplay policy](https://developer.chrome.com/blog/autoplay), [Web Audio autoplay for games](https://developer.chrome.com/blog/web-audio-autoplay), [howler.js site](https://howlerjs.com/), and [howler.js repository](https://github.com/goldfire/howler.js) — browser policy context and optional pooling/audio-sprite abstraction.
+- [Three.js BufferGeometry](https://threejs.org/docs/#api/en/core/BufferGeometry), [Points](https://threejs.org/docs/#api/en/objects/Points), [PointsMaterial](https://threejs.org/docs/#api/en/materials/PointsMaterial), [Line](https://threejs.org/docs/#api/en/objects/Line), and [Raycaster](https://threejs.org/docs/#api/en/core/Raycaster) — data primitive and picking verification.
+- [deck.gl](https://deck.gl/), [ScatterplotLayer](https://deck.gl/docs/api-reference/layers/scatterplot-layer), [PointCloudLayer](https://deck.gl/docs/api-reference/layers/point-cloud-layer), and its [large-scale visual analytics paper](https://arxiv.org/abs/1910.08865) — platform choice, layer lifecycle, picking, and geospatial scale.
+- [loaders.gl](https://loaders.gl/), [Potree site](https://potree.github.io/), and [Potree repository](https://github.com/potree/potree) — streaming formats and purpose-built large point-cloud architecture.
+- [D3 scales](https://d3js.org/d3-scale), [D3 scale-chromatic](https://d3js.org/d3-scale-chromatic), [ColorBrewer](https://colorbrewer2.org/), and [scheme types](https://colorbrewer2.org/learnmore/schemes_full.html) — quantitative/categorical scale and palette semantics.
+- [Vega-Lite](https://vega.github.io/vega-lite/), [Vega](https://vega.github.io/vega/), and [Observable Plot](https://observablehq.com/plot/) — declarative and 2D alternatives to custom Three.js visualization.
 
 ## Reviewed with constraints
 
 - [N8AO](https://github.com/N8Programs/n8ao) — current AO implementation patterns; reviewed at commit `6481f6`. Repository/package license metadata was inconsistent during review, so no code was copied and it is not used as a normative source.
 - [realism-effects](https://github.com/0beqz/realism-effects) — useful SSGI, HBAO, and temporal concepts; reviewed at commit `061daea`. Its declared Three.js peer range is substantially older than the June 2026 research baseline, so it is treated as conceptual only.
+
+## Deferred or rejected for this pass
+
+- WebXR remains out of scope until a later research pass.
+- A standalone game-AI/navigation skill was rejected. Small-game FSM, steering, path, navmesh, perception, and line-of-sight material is included only as behavior/navigation debugging inside `threejs-testing-debugging`.
+- Full music production, advanced acoustics, and general sound-design curricula remain outside `threejs-audio-feedback`.
+- General charting theory and every 3D-web domain remain outside the data-visualization module; platform alternatives are preferred when Three.js is not justified.
 
 ## Supplied candidate backlog
 
