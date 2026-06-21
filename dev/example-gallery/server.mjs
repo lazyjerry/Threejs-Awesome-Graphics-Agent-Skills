@@ -155,8 +155,9 @@ export function createExampleGalleryServer({ includeFixtures = false } = {}) {
 
       const allowedProjectPrefixes = [
         "/skills/",
-        "/dev/example-gallery/runtime/",
+        "/dev/example-gallery/",
         "/node_modules/",
+        "/source_materials/",
       ];
       if (includeFixtures) {
         allowedProjectPrefixes.push("/dev/example-gallery/fixtures/");

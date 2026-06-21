@@ -1,24 +1,19 @@
-# `procedural-bank` GTAO and bent-normal extraction
+# GTAO and bent-normal pipeline
 
-Use this reference for a bounded-cost WebGPU/TSL screen-space ambient
-visibility pass with directional ambient tint.
+Use this reference for a bounded-cost WebGPU/TSL ambient-visibility pass with half-resolution horizon integration, bent normals, bilateral reconstruction, and directional ambient tint.
 
-Reviewed source:
+## Contents
 
-```text
-repository: https://github.com/vibe-stack/procedural-bank
-revision: 0034e80a61f02b88dbe13a385bdab734a365b82d
-gather:
-  src/scene/post-processing/gtao.ts
-composite:
-  src/scene/post-processing/gtao-composite.ts
-depth contract:
-  src/scene/post-processing/depth-constants.ts
-```
+1. Gather budget and depth convention
+2. World-radius projection and horizon integration
+3. Bent-normal encoding
+4. Bilateral reconstruction
+5. Indirect-light composite
+6. Implementation defects, adaptation, and diagnostics
 
 ## 1. Preserve the actual budget
 
-The reviewed gather uses:
+The gather uses:
 
 ```text
 resolution scale     0.5 × 0.5
@@ -33,7 +28,7 @@ A                     scalar visibility, 1 = open
 
 Half linear resolution means one quarter of full-resolution fragments.
 
-The source targets an approximately `2 ms` budget by combining:
+The implementation targets an approximately `2 ms` budget by combining:
 
 - half-resolution gather;
 - few slices;
@@ -45,9 +40,9 @@ The source targets an approximately `2 ms` budget by combining:
 Do not increase slices first. Validate whether the bilateral pass and stable
 rotation already remove directional structure.
 
-## 2. Use the source depth convention
+## 2. Preserve the depth convention
 
-The source uses reversed depth:
+The implementation uses reversed depth:
 
 ```text
 sky threshold          0.000001
@@ -131,7 +126,7 @@ stepUv = sliceDirection * radiusUv * t
 
 The shared noise rotates slices and jitters their radial positions.
 
-The reviewed pass has no temporal accumulation. Its stability depends on the
+The pass has no temporal accumulation. Its stability depends on the
 noise being screen-stable and the full-resolution spatial composite.
 
 ## 5. Keep horizon angle and distance falloff separate
@@ -188,7 +183,7 @@ at pipeline construction or add an update/render gate.
 
 ## 6. Treat the bent direction as an observed heuristic
 
-For accepted samples, the source accumulates:
+For accepted samples, the gather accumulates:
 
 ```text
 bentDirection +=
@@ -244,7 +239,7 @@ Dispose both the target and node material.
 Do not let a post node leak render target, viewport, or material state into the
 main pipeline.
 
-## 8. Upsample with the exact reviewed kernel
+## 8. Upsample with the exact kernel
 
 The full-resolution composite gathers eight neighbours:
 
@@ -263,8 +258,7 @@ weight = exp(-abs(sampleViewZ - centerViewZ) / 0.5)
 If total weight is above `0.01`, normalize the eight-sample sum. Otherwise use
 the center AO texel.
 
-The source comment calls this a `3×3 cross`, but it is the eight-neighbour ring
-with the center skipped.
+This is an eight-neighbour `3×3` ring with the center skipped, not a cross.
 
 The rationale is to cover the four-pixel interleaved-gradient-noise repeat
 while sampling across half-resolution AO texels.
@@ -295,7 +289,7 @@ normal buffers can be noisy at hard edges.
 
 ## 9. Apply AO only to reconstructed indirect light
 
-The source does not multiply final scene color by AO.
+Do not multiply final scene color by AO.
 
 It approximates indirect light:
 
@@ -349,7 +343,7 @@ available.
 
 ## 10. Verify view/world transform semantics
 
-The reviewed composite decodes the bent direction in view space and calls:
+The composite decodes the bent direction in view space and calls:
 
 ```text
 transformDirection(bentView, cameraViewMatrix)
@@ -372,7 +366,7 @@ Do not copy the matrix expression solely from the comment.
 
 ## 11. Temporal behavior
 
-The reviewed revision has no motion vectors, history target, reprojection,
+This pipeline has no motion vectors, history target, reprojection,
 neighborhood clamp, or disocclusion rejection.
 
 Do not describe it as temporally accumulated GTAO.

@@ -1,105 +1,195 @@
-# Production image pipeline
+# Production image-pipeline contracts
 
-## Buffer contract
+Use this reference to compose shared scene buffers, lighting effects, atmosphere, bloom, exposure, tone mapping, grading, and feature-local render targets with explicit ownership.
 
-Document each pass:
+## Contents
 
-| Signal | Space/range | Producer | Consumers |
-| --- | --- | --- | --- |
-| scene color | linear HDR | scene pass | AO composite, atmosphere, bloom |
-| depth | hardware or packed | scene pass | AO, atmosphere, outlines |
-| normal | view or world | geometry pass | AO, reflections |
-| velocity | screen delta | scene pass | temporal resolve |
+- production WebGPU pipeline WebGPU graph
+- selective gallery pipeline selective gallery graph
+- atlas-based renderer composer graph
+- Temporal-surface effect-local graph
+- Buffer and ownership rules
+- Resolution policies
+- Failure analysis
+- Diagnostics
 
-Do not infer spaces while writing effects.
 
-## GTAO/bent-normal pattern
+## production WebGPU pipeline WebGPU graph
 
-At reduced resolution:
-
-1. reconstruct view position;
-2. rotate slice azimuth with stable per-pixel noise;
-3. search horizons in several directions;
-4. accumulate scalar occlusion and an average unoccluded direction;
-5. store AO plus encoded bent normal.
-
-At full resolution:
-
-1. gather neighboring low-resolution samples;
-2. weight by full-resolution depth and normal similarity;
-3. reconstruct indirect environment lighting along the bent normal;
-4. darken/tint indirect light, not specular and direct sun indiscriminately.
-
-## Bloom
-
-Bloom input must be linear HDR. Tune in this order:
+When GTAO is enabled, the scene pass writes MRT:
 
 ```text
-threshold → smooth width → radius → strength
+output HDR color
+view-space normal
+diffuse albedo
+depth
 ```
 
-If ordinary white surfaces bloom, fix exposure/material luminance or selection. Use separate masks only when luminance cannot express the art direction.
-
-## Eye adaptation
-
-Render a small luminance target, for example 64×36. Encode high dynamic range if the readback format is limited:
+Graph:
 
 ```text
-encoded = Y / (Y + 1)
-Y = encoded / (1 - encoded)
+scene MRT
+  -> reduced GTAO + bent normal
+  -> full-resolution bilateral/lighting composite
+  -> atmosphere
+  -> bloom
+  -> adapted exposure
+  -> renderOutput / tone map
+  -> 3D LUT
+  -> FXAA
 ```
 
-Use log-average luminance and asymmetric adaptation:
+Near/far values, environment intensity, and environment texture remain
+updateable inputs. AO is applied through its dedicated composite rather than
+blindly multiplying the final image.
 
-```js
-const speed = target > current ? brightenSpeed : darkenSpeed
-const alpha = 1 - Math.exp(-dt * speed)
-current += (target - current) * alpha
+The atmosphere pass reconstructs view/world position from depth,
+classifies sky, and owns aerial haze, height fog, sun disc/shaft, lens flare,
+and distance grading. Its optional post-process cloud shadow is explicitly
+disabled in its configuration, avoiding duplicate ownership with material
+lighting.
+
+## selective gallery pipeline selective gallery graph
+
+The gallery owns three composers:
+
+```text
+neon selective bloom
+chandelier selective bloom
+base + final additive composite + OutputPass
 ```
 
-Read back infrequently. Smooth between readings.
+Selective renders use layer membership plus temporary black material
+substitution with `try/finally` restoration. CSS3D content is rendered by a
+separate renderer after WebGL when invalidated.
 
-## 3D LUT grading
+Shadows use VSM and manual invalidation:
 
-Generate a small 3D LUT when the grade is procedural or preset-driven. Apply:
+```text
+shadowMap.autoUpdate = false
+shadowMap.needsUpdate = true only after relevant scene/light changes
+```
 
-1. range normalization;
-2. contrast/curve;
-3. shadow, midtone, and highlight tint by luminance weights;
-4. per-channel gamma;
-5. saturation/vibrance;
-6. clamp.
+This is a bounded-scene optimization. It depends on every moving caster and
+light correctly invalidating the cache.
 
-Use a neutral LUT bypass for comparison.
+## atlas-based renderer composer graph
 
-## Lens treatment
+atlas-based renderer performs a separate depth prepass into a depth-stencil target before
+the composer:
 
-Lens flare needs a visible source and occlusion signal. Build:
+```text
+depth prepass target
+main render
+SSAO
+volumetric lighting
+bloom
+lens flare
+fog/color grading
+```
 
-- source halo;
-- directional streak;
-- ghosts along source-to-center axis;
-- edge fade;
-- spectral tint used sparingly.
+The depth target uses nearest filtering and a
+`DepthStencilFormat`/`UnsignedInt248Type` depth texture. Every depth consumer
+receives that same texture.
 
-Do not add flare as constant decoration.
+The composer recalculates effective pixel dimensions from renderer pixel ratio
+and resizes the depth target and all passes together.
+
+The composer can exist alongside another application post path. Verify the
+actual render-loop call path before claiming that this graph owns runtime
+output.
+
+## Temporal-surface effect-local graph
+
+The temporal frost graph is not a whole-scene post stack. It is a
+self-contained material effect:
+
+```text
+scene at full resolution
+  -> vertical blur at 0.4 DPR
+  -> horizontal blur at 0.4 DPR
+  -> frost composite at full resolution
+  -> pointer history write/swap at full resolution
+  -> final normal/refraction output
+```
+
+Three static procedural texture targets render once. This is a feature-local
+example of mixing persistent, static, low-resolution, and full-resolution
+signals in one feature.
+
+## Buffer and ownership rules
+
+Before implementation, write:
+
+| Signal | Producer | Consumers | Space/format | Resolution | History |
+| --- | --- | --- | --- | --- | --- |
+| HDR scene | scene pass | AO/atmosphere/bloom | linear HDR | full | no |
+| depth | scene or prepass | AO/fog/flare | renderer-defined | full | no |
+| normal | MRT/geometry | AO composite | view space | full | no |
+| albedo | MRT | indirect composite | linear | full | no |
+| bloom contributions | selective passes | final composite | HDR | full/pyramid | no |
+| exposure | meter | final color | scalar | 64x36 source | adapted |
+| interaction | ping-pong pass | frost/output | half-float | full | yes |
+
+Every signal has one producer. If a scene pass already owns depth and normal,
+do not add an uncoordinated duplicate prepass without measuring the reason.
+
+## Resolution policies
+
+selective gallery pipeline caps DPR from both device and pixel budget:
+
+```text
+mobile budget = 1,000,000 pixels, max DPR 1.25
+desktop budget = 1,650,000 pixels, max DPR 1.5
+minimum DPR = 1
+budget DPR = sqrt(pixelBudget / CSS pixel count)
+```
+
+All composers receive the same selected DPR and CSS size.
+
+The temporal frost graph instead gives individual passes fixed roles:
+
+```text
+blur and coarse noise = 0.4 DPR
+composite, history, output = display DPR
+```
+
+Choose global DPR budgeting for scene cost and per-pass scaling for effect
+bandwidth. They solve different problems.
+
+## Failure analysis
+
+- production WebGPU pipeline API names are version-sensitive; `PostProcessing` was renamed
+  and deprecated in favor of `RenderPipeline` in current Three.js history.
+- selective gallery pipeline selective bloom renders the scene multiple times.
+- selective gallery pipeline manual shadow invalidation can freeze unregistered motion.
+- atlas-based renderer depth prepass renders regular scene materials, not an explicit depth
+  override; verify transparent and alpha-tested behavior.
+- atlas-based renderer composer may not be the active runtime path.
+- The frost blur has a zero-weight division risk and pointer decay is frame
+  based.
+- None of these graphs provides a complete velocity/motion-vector
+  contract for general temporal effects.
+- Do not advertise velocity ownership or TAA merely because a generic pipeline
+  could include them.
 
 ## Diagnostics
 
-Required views:
+Expose a graph inspector or equivalent stable views:
 
 ```text
-HDR scene
-depth
-normals
-velocity
-AO
-bent normal
+scene HDR
+depth raw and reconstructed
+normal/albedo MRT
+GTAO and bent normal
 atmosphere only
-bloom only
-pre/post exposure
-pre/post tone map
-LUT identity difference
+each selective bloom contribution
+exposure meter and current exposure
+pre/post tone map and LUT
+frost static/history/composite targets
+pass resolution, format, memory, and GPU time
+manual invalidation state
 ```
 
-Record GPU cost per pass and resolution scale.
+The pipeline is accepted only when every enabled pass has a named input,
+output, owner, resolution, and disable path.

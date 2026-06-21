@@ -1,0 +1,50 @@
+{
+  "title": "Ash Growth System",
+  "description": "A structured Ash growth system with exact per-level species parameters, queue growth, deciduous terminal continuations, taper-coupled child radii, stratified and permuted emergence, final-branch leaf placement, rounded double cards, bark textures, rooted leaf wind, and a complete simplex-patched meadow with grass, flowers, rocks, forest, sky, fog, and daylight.",
+  "backend": "WebGL2 / GLSL",
+  "techniques": [
+    "exact Ash Medium species table",
+    "deciduous terminal continuation branches",
+    "stratified and permuted child emergence",
+    "taper-coupled child radius",
+    "rounded double leaf cards",
+    "rooted multi-frequency leaf wind",
+    "shared CPU and shader simplex patch field",
+    "textured bark and complete meadow composition"
+  ],
+  "defaultViewport": {
+    "width": 1440,
+    "height": 960
+  },
+  "defaultDpr": 1,
+  "debugModes": [
+    {
+      "value": "final",
+      "label": "Final"
+    },
+    {
+      "value": "hierarchy",
+      "label": "Branch hierarchy"
+    },
+    {
+      "value": "continuations",
+      "label": "Terminal continuations"
+    },
+    {
+      "value": "leaf-origins",
+      "label": "Leaf origins"
+    },
+    {
+      "value": "normals",
+      "label": "Surface normals"
+    }
+  ],
+  "controls": [
+    "orbit",
+    "pause",
+    "timeScale",
+    "dpr",
+    "debugMode",
+    "capture"
+  ]
+}

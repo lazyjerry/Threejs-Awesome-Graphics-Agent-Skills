@@ -12,6 +12,7 @@ function parseArgs(argv) {
     output: path.join(root, ".example-captures"),
     includeFixtures: false,
     debugMode: "final",
+    example: null,
   };
 
   for (let index = 0; index < argv.length; index += 1) {
@@ -23,6 +24,9 @@ function parseArgs(argv) {
       options.includeFixtures = true;
     } else if (argument === "--debug" && argv[index + 1]) {
       options.debugMode = argv[index + 1];
+      index += 1;
+    } else if (argument === "--example" && argv[index + 1]) {
+      options.example = argv[index + 1];
       index += 1;
     } else {
       throw new Error(`Unknown or incomplete option: ${argument}`);
@@ -44,9 +48,16 @@ function escapeHtml(value) {
 }
 
 const options = parseArgs(process.argv.slice(2));
-const examples = await discoverExamples(root, {
+let examples = await discoverExamples(root, {
   includeFixtures: options.includeFixtures,
 });
+if (options.example) {
+  examples = examples.filter(
+    (example) =>
+      example.id === options.example ||
+      example.id.includes(options.example),
+  );
+}
 
 if (examples.length === 0) {
   console.log("No examples discovered; nothing to capture.");

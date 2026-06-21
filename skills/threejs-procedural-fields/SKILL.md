@@ -39,7 +39,14 @@ sphereDirection
 6. Add debug output for every named field.
 7. Filter high-frequency fields by derivatives, tessellation density, or camera distance.
 
-Read [references/field-stack-recipes.md](references/field-stack-recipes.md) before implementing a multi-channel procedural material.
+Read [references/field-stack-recipes.md](references/field-stack-recipes.md)
+before implementation. It records sphere, terrain, water, and
+structured-placement field contracts plus common parity defects.
+
+Inspect the runnable
+[planet field and atmosphere](../threejs-procedural-planets/examples/planet-field-atmosphere/index.html)
+for a shared CPU/GLSL field bundle whose height, continents, climate, biomes,
+roughness, and normals remain independently inspectable.
 
 ## Non-negotiable rules
 
@@ -50,3 +57,10 @@ Read [references/field-stack-recipes.md](references/field-stack-recipes.md) befo
 - Do not displace geometry with frequencies the mesh cannot represent.
 - Keep categorical masks broad enough to avoid isolated “bubble” regions.
 - Parameter names must describe perception: `ridgeWidth`, `coastBlend`, `cavityDarkening`, not `noise3Amount`.
+
+## Routing boundary
+
+Use this skill when the shared field model is the task. Use
+`$threejs-procedural-materials` when the task is channel assembly and material
+response, and `$threejs-procedural-planets` when the deliverable is a complete
+planetary body.

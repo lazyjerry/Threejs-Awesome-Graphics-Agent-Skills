@@ -1,6 +1,9 @@
 source_materials/*
 !source_materials/README.md
 !source_materials/trace-manifest.json
+!source_materials/example-traces.json
+!source_materials/skill-coverage.json
+!source_materials/agent-routing-cases.json
 .playwright-mcp/
 .DS_Store
 node_modules/

@@ -1,6 +1,6 @@
 ---
 name: threejs-screen-space-ambient-occlusion
-description: Implement and tune screen-space ambient occlusion in Three.js. Use for GTAO-style horizon sampling, bent normals, depth and normal reconstruction, thickness control, temporal denoising, bilateral upsampling, indirect-light application, contact grounding, and diagnosing halos or view-dependent darkening.
+description: Implement a production GTAO path in Three.js. Use for half-resolution horizon sampling, reversed-depth reconstruction, bent-normal encoding, full-resolution bilateral reconstruction, environment-light application, contact grounding, and halo diagnosis.
 ---
 
 # Screen-Space Ambient Occlusion
@@ -14,8 +14,7 @@ AO estimates missing ambient visibility. It must modulate indirect lighting, not
 3. Sample horizon visibility in a controlled radius.
 4. Estimate AO and optional bent normal.
 5. Denoise with depth/normal-aware filters.
-6. Reproject only when motion/history validity exists.
-7. Apply to indirect diffuse and environment response.
+6. Apply to indirect diffuse and environment response.
 
 Read [references/gtao-bent-normal-pipeline.md](references/gtao-bent-normal-pipeline.md).
 
@@ -27,4 +26,10 @@ Read [references/gtao-bent-normal-pipeline.md](references/gtao-bent-normal-pipel
 - depth discontinuities are blurred together;
 - AO remains strong at distances where its world radius is subpixel;
 - bent normals are treated as ordinary geometric normals;
-- temporal history survives disocclusion.
+- the implementation claims temporal accumulation even though this path has none.
+
+## Routing boundary
+
+This skill owns GTAO gathering, bent normals, denoising, and AO application.
+Use `$threejs-image-pipeline` only when its depth/normal buffers or pass order
+must be coordinated with other image-space systems.

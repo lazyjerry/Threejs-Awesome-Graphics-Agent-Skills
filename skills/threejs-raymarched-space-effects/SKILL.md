@@ -17,7 +17,14 @@ Treat these effects as numerical renderers with explicit integration state. The 
 6. Sample the background only after integration terminates.
 7. Add diagnostics for trajectory, step count, and termination reason.
 
-Read [references/curved-ray-integrators.md](references/curved-ray-integrators.md).
+Read [references/curved-ray-integrators.md](references/curved-ray-integrators.md)
+for the RK4 wormhole, artistic curved-ray accretion integrator, disk
+composition, and implementation defects.
+
+Inspect the runnable
+[curved-ray accretion volume](examples/curved-ray-accretion-volume/index.html)
+for the inverse-square steering loop, thin disk density, front-to-back
+accumulation, deterministic star environment, and integrator diagnostics.
 
 ## Constraints
 
@@ -27,3 +34,9 @@ Read [references/curved-ray-integrators.md](references/curved-ray-integrators.md
 - Keep numerical stability independent from frame rate.
 - Separate the integrator from shading of the accretion disk or wormhole interior.
 - Provide a cheaper approximation for non-hero views.
+
+## Routing boundary
+
+Use `$threejs-procedural-vfx` for ordinary particles, trails, plasma, and event
+effects. This skill is for per-pixel numerical ray integration through curved
+or bounded space-effect domains.

@@ -8,6 +8,14 @@ Run:
 npm run dev:examples
 ```
 
+Capture all examples or one exact/partial example ID:
+
+```sh
+npm run capture:examples
+npm run capture:examples -- --example threejs-volumetric-clouds/weather-volume-clouds
+npm run capture:examples -- --example weather-volume-clouds --debug density
+```
+
 The server discovers:
 
 ```text
@@ -31,36 +39,18 @@ No central manifest is edited when an example is added.
     { "value": "final", "label": "Final" },
     { "value": "macro", "label": "Macro height" }
   ],
-  "controls": ["pause", "timeScale", "dpr", "capture"],
-  "sourceTrace": [
-    {
-      "source": "stellar",
-      "files": [
-        "src/game/runtime/solar/bodyMaterial.ts",
-        "src/game/runtime/solar/atmosphere.ts"
-      ],
-      "mechanisms": [
-        "tangential sphere-domain warp",
-        "shared geological field bundle",
-        "shell and post atmosphere handoff"
-      ],
-      "boundary": "independent-distillation",
-      "assets": [
-        {
-          "sourcePath": "src/app/public/textures/leaves/ash.png",
-          "localPath": "assets/ash.png"
-        }
-      ]
-    }
-  ]
+  "controls": ["pause", "timeScale", "dpr", "capture"]
 }
 ```
 
-`source` must exist in
+Development provenance belongs in
+[`source_materials/example-traces.json`](../../source_materials/example-traces.json),
+keyed by the discovered `<skill>/<example>` ID. Source IDs must exist in
 [`source_materials/trace-manifest.json`](../../source_materials/trace-manifest.json).
-Every listed file is checked against the reviewed trace. An unlicensed source
-must use the `conceptual-only` boundary. Examples without file-level traceability
-fail pack validation.
+Every listed file and copied asset is validated against the reviewed trace.
+Unlicensed sources must use the `conceptual-only` boundary. Distributed
+`example.json` files must not contain repository identities, revisions, or
+source paths.
 
 Import the optional runtime contract:
 

@@ -1,0 +1,48 @@
+{
+  "title": "Sculpted Gallery Frame",
+  "description": "A production-grade sculpted frame system with an exact multi-lobe 92-sample rail profile, orientation-specific miter-like sweeps, coupled artwork depth, distinct walnut/gold/ebony texture bundles, gallery wall and floor surfaces, warm grazing spotlights, static VSM shadows, ACES exposure, and selective bloom restoration.",
+  "backend": "WebGL2 / Three.js physical materials",
+  "techniques": [
+    "exact multi-lobe sculpted rail profile",
+    "orientation-specific closed rail mesh emission",
+    "authored walnut, antique-gold, and ebony PBR identities",
+    "warm grazing painting spotlights",
+    "static VSM shadow invalidation",
+    "selective bloom material substitution and restoration"
+  ],
+  "defaultViewport": {
+    "width": 1440,
+    "height": 900
+  },
+  "defaultDpr": 1,
+  "debugModes": [
+    {
+      "value": "final",
+      "label": "Final"
+    },
+    {
+      "value": "profile",
+      "label": "Profile construction"
+    },
+    {
+      "value": "topology",
+      "label": "Rail topology"
+    },
+    {
+      "value": "normals",
+      "label": "Surface normals"
+    },
+    {
+      "value": "no-bloom",
+      "label": "No bloom"
+    }
+  ],
+  "controls": [
+    "orbit",
+    "pause",
+    "timeScale",
+    "dpr",
+    "debugMode",
+    "capture"
+  ]
+}

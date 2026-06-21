@@ -18,7 +18,9 @@ Evaluate the mechanism that creates the image. A beautiful hero screenshot can h
 7. Record image, geometry, memory, and timing budgets.
 8. Keep a small regression set tied to visual invariants.
 
-Read [references/graphics-validation-protocol.md](references/graphics-validation-protocol.md).
+Read [references/graphics-validation-protocol.md](references/graphics-validation-protocol.md)
+for visual contracts, required inspection controls, mechanism-specific
+evidence, temporal checks, budgets, and explicit rejection criteria.
 
 ## Required evidence
 
@@ -38,3 +40,9 @@ Read [references/graphics-validation-protocol.md](references/graphics-validation
 - GPU time is inferred only from CPU frame time;
 - temporal artifacts are judged from still images;
 - comparison thresholds ignore intentional stochastic pixels without stabilizing them.
+
+## Routing boundary
+
+This skill evaluates an implementation; it does not supply the implementation
+mechanism. Load the subject or image-effect skill first, then use this protocol
+to decide whether the result is acceptable.

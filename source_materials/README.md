@@ -1,6 +1,6 @@
 # Source material ledger
 
-This directory contains research inputs for the Three.js procedural-graphics skill pack. Downloaded repositories are ignored by Git. They are inspected as untrusted code and are not installed, executed, or distributed with the package.
+This directory contains research inputs for Three.js Awesome Graphics Agent Skills. Downloaded repositories are ignored by Git. They are inspected as untrusted code and are not installed, executed, or distributed with the package.
 
 The pack is an independent distillation of mechanisms and workflows.
 Third-party code is not copied into distributed skills. Assets may be bundled
@@ -25,13 +25,17 @@ Generic setup, API inventories, and introductory tutorials are not skill content
 
 ## Author-supplied projects
 
-These projects were supplied by the author as reference implementations. The table records their Git remotes and reviewed revisions rather than local checkout paths. They are not copied into this repository.
+These projects were supplied by the author as reference implementations. The
+table records their Git remotes and reviewed revisions rather than local
+checkout paths. Source code is independently distilled; explicitly traced
+author-supplied texture assets may be bundled when an accepted example needs
+the original material or shader input.
 
 | Project | Reviewed revision | Reviewed areas | Mechanisms distilled into |
 | --- | --- | --- | --- |
 | [scottstts/MyCraft](https://github.com/scottstts/MyCraft) | `7fdb3cee3d7d99b42ee47dd659b90a4f6a658074` | `BlockMaterial.ts`, `WaterSurfaceMaterial.ts`, custom shadow targets, composer and post passes | `$threejs-procedural-materials`, `$threejs-shadow-systems`, `$threejs-image-pipeline`, `$threejs-bloom`, `$threejs-screen-space-ambient-occlusion`; water retained as a bounded/analytic comparison |
-| [scottstts/Stellar](https://github.com/scottstts/Stellar) | `ad8062b54ec86312d7c028d46727796eb802c9b2` | planetary field stack, crater/ridge/biome logic, procedural normals, atmosphere shell/post handoff, reentry plasma | `$threejs-procedural-planets`, `$threejs-procedural-fields`, `$threejs-atmosphere-aerial-perspective`, `$threejs-procedural-vfx` |
-| [scottstts/Interstellar.three.js](https://github.com/scottstts/Interstellar.three.js) | `0c9c4635f9e0cbcb1598a2af8914c3086f8629a3` | wormhole integration, black-hole lensing/accretion, analytic ocean waves and normals | `$threejs-raymarched-space-effects`, `$threejs-water-optics` |
+| [scottstts/Stellar](https://github.com/scottstts/Stellar) | `ad8062b54ec86312d7c028d46727796eb802c9b2` | planetary field stack, crater/ridge/biome logic, procedural normals, atmosphere shell/post handoff, reentry plasma, dimension-scaled chase/side/orbit camera rigs, body-relative frames, bounded second-order camera response, launch/orbit handoffs, ship orientation control | `$threejs-procedural-planets`, `$threejs-procedural-fields`, `$threejs-atmosphere-aerial-perspective`, `$threejs-procedural-vfx`, `$threejs-camera-direction`, `$threejs-procedural-animation` |
+| [scottstts/Interstellar.three.js](https://github.com/scottstts/Interstellar.three.js) | `0c9c4635f9e0cbcb1598a2af8914c3086f8629a3` | wormhole integration, black-hole lensing/accretion and `noise_deep.png`, analytic ocean waves and normals, scene-owned lenses, pointer look, floating-origin framing, launch kinematics, staging, spin docking, spring convergence, rotating-frame debris | `$threejs-raymarched-space-effects`, `$threejs-water-optics`, `$threejs-camera-direction`, `$threejs-procedural-animation` |
 | [scottstts/mysite_React](https://github.com/scottstts/mysite_React) | `98bb4ad75561aaf7263dbc6c92e2d66268f69f43` | `ArtInLifeGallery.tsx`: sculpted frame/rail geometry, procedural metal texture, selective bloom, instanced chandelier and placeholders, shadow invalidation, adaptive DPR | `$threejs-procedural-geometry`, `$threejs-procedural-materials`, `$threejs-bloom`, `$threejs-visual-validation` |
 
 ### Local-project findings retained
@@ -43,6 +47,10 @@ These projects were supplied by the author as reference implementations. The tab
 - Thin raymarched structures need crossing tests rather than hoping a fixed step lands inside them.
 - Selective bloom requires explicit contribution ownership and reliable restoration when material substitution is used.
 - Adaptive quality needs observable decisions and reset rules, not an opaque frame-rate reaction.
+- Camera offsets should scale from subject dimensions and be evaluated in the subject or dominant-body frame.
+- A camera handoff needs one interpolation owner; stacked transition and follow smoothing creates a visible half-halt.
+- Authored motion should separate analytic travel phases, spring convergence, exact terminal poses, and secondary motion.
+- Rotating-frame docking is stable when axial/radial error, alignment, and spin are solved independently.
 
 ## Supplied external repositories
 
@@ -54,7 +62,7 @@ Repositories were cloned shallowly under this directory for inspection.
 | [takram-design-engineering/three-geospatial](https://github.com/takram-design-engineering/three-geospatial) | `b012ad06d858fc035d88aacfd73f092f93c994e4` | MIT | independent prose/pseudocode only |
 | [perplexdotgg/mecs-tower-defense-example](https://codeberg.org/perplexdotgg/mecs-tower-defense-example) | `d7b4e8815fcee18d97e9a12c00f900294773ad1c` | MIT code; CC0 assets | independent prose/pseudocode only; no assets copied |
 | [YasirAwan4831/holographic-shader-visualizer-three.Js](https://github.com/YasirAwan4831/holographic-shader-visualizer-three.Js) | `34810a6e09d0d640d06a2e83c5abab749baf04d5` | no root license observed | conceptual analysis only |
-| [vibe-stack/procedural-bank](https://github.com/vibe-stack/procedural-bank) | `0034e80a61f02b88dbe13a385bdab734a365b82d` | MIT | independent prose/pseudocode only |
+| [vibe-stack/procedural-bank](https://github.com/vibe-stack/procedural-bank) | `0034e80a61f02b88dbe13a385bdab734a365b82d` | MIT | independent implementation plus attributed MIT stone textures |
 | [takuma-hmng8/frozen](https://github.com/takuma-hmng8/frozen) | `15a98a5104951a0bd734eb23ab21b7f79741ab09` | no root license observed | conceptual analysis only |
 | [owenyuwono/poseidon](https://github.com/owenyuwono/poseidon) | `caddf773c7e2b7c9b00ad232d21cca4f364d5272` | no root license or package license observed | conceptual analysis only; no code copied |
 
@@ -111,6 +119,8 @@ Reviewed:
 - exposed-edge analysis before façade placement;
 - semantic façade modules, profiles, arches, cornices, ornaments, and roofs;
 - material-slot mesh writing and texture-density handling;
+- limestone/ornament albedo and normal response, daylight environment,
+  camera framing, exposure, and dark-ground presentation;
 - stable cached clipmap shadows with texel snapping, guard bands, update budgets, and targeted invalidation;
 - GTAO/bent-normal composition;
 - bloom, exposure, LUT grading, and atmosphere ordering;
@@ -133,10 +143,12 @@ The key retained mechanism is explicit compilation and ownership: design plans, 
 Reviewed:
 
 - pooled instanced meshes and sprites;
-- per-instance shader attributes;
-- TSL material composition;
-- terrain wetness and effect fields;
-- compact bloom contribution;
+- dynamic/static per-instance shader attributes;
+- dense-swap removal that copies matrices, attributes, and entity indices;
+- three-band terrain color/roughness with normal-driven grass and water-level wetness;
+- 12,000-slot analytic spark pool with 1.3-second lifetime;
+- timed debris dissolve driven by per-instance removal time;
+- scene-relative HDR hierarchy for sparks, projectiles, and lasers;
 - ECS ownership of VFX lifetime and reuse.
 
 Consumed by:
@@ -151,16 +163,27 @@ The retained mechanism is data-oriented effect ownership and pooling. General EC
 
 Reviewed conceptually:
 
-- object/world-height transition bands;
-- boundary-local glitch displacement;
-- scanlines;
-- Fresnel reinforcement;
-- additive transparency and depth-write choices;
-- shape transition timing.
+- one shared min/max Y range across three shapes;
+- current/next mesh discard around a linear 1.5-second height sweep;
+- a narrow transition glitch plus a separate full-body glitch;
+- object-attached scanlines at frequency 20 and speed 0.2;
+- squared Fresnel opacity under additive blending with depth write disabled;
+- ACES exposure 1.2 and a DPR cap of 2.
 
-Consumed by:
+Rejected as a skill source:
 
-- `$threejs-stylized-shader-transitions`
+- the full-body glitch conflicts with the more controlled boundary behavior the
+  proposed skill claimed;
+- normals are transformed by `modelMatrix` rather than a normal matrix;
+- scanlines are not derivative-filtered;
+- there is no depth prepass or volume strategy for the double-sided additive
+  meshes;
+- the implementation is too narrow and rudimentary to support an
+  excellence-level transition skill.
+
+The repository remains documented as reviewed negative evidence. The previous
+transition skill was removed rather than publishing guidance invented beyond
+this source.
 
 No source code was copied because a repository license was not observed.
 
@@ -168,12 +191,13 @@ No source code was copied because a repository license was not observed.
 
 Reviewed conceptually:
 
-- root scene render followed by reduced-resolution separable blur;
-- static procedural noise render targets;
-- high-resolution frost composite;
-- ping-pong interaction/history state;
-- normal/refraction output;
-- resize/reset/disposal boundaries.
+- exact full-resolution root, frost, pointer-history, and output ownership;
+- `0.4`-DPR separable blur and coarse frost-noise target;
+- three static procedural noise targets rendered once;
+- half-float pointer ping-pong with separate visible and tilt channels;
+- frost composite alpha handed to two-scale normal/refraction output;
+- frame-based decay and zero-weight blur defects that adaptations must correct;
+- resize and disposal boundaries.
 
 Consumed by:
 
@@ -236,7 +260,9 @@ These sources are paraphrased. Official documentation remains the authority for 
 | Skill | Primary distilled evidence |
 | --- | --- |
 | `$threejs-skill-router` | repeated decomposition patterns across all reviewed systems |
-| `$threejs-procedural-fields` | Stellar, MyCraft, `ez-tree`, field mathematics |
+| `$threejs-camera-direction` | Stellar camera rig/runtime systems; Interstellar scene cameras, pointer look, floating-origin shots, and scene lifecycle |
+| `$threejs-procedural-animation` | Interstellar launch, staging, spin docking, and debris; Stellar frame-rate-independent response and quaternion control |
+| `$threejs-procedural-fields` | Stellar, MyCraft, `ez-tree`, `mecs-tower-defense-example` |
 | `$threejs-procedural-materials` | MyCraft, Stellar, `mecs-tower-defense-example`, PBR references |
 | `$threejs-procedural-geometry` | ArtInLife, `ez-tree`, `procedural-bank` |
 | `$threejs-procedural-vegetation` | `ez-tree` |
@@ -248,7 +274,6 @@ These sources are paraphrased. Official documentation remains the authority for 
 | `$threejs-volumetric-clouds` | `three-geospatial` |
 | `$threejs-raymarched-space-effects` | interstellarThreeJS |
 | `$threejs-procedural-vfx` | Stellar, `mecs-tower-defense-example` |
-| `$threejs-stylized-shader-transitions` | holographic visualizer, conceptual only |
 | `$threejs-temporal-surfaces` | `frozen`, conceptual only |
 | `$threejs-shadow-systems` | MyCraft, `procedural-bank` |
 | `$threejs-screen-space-ambient-occlusion` | MyCraft, `procedural-bank`, `three-geospatial` |

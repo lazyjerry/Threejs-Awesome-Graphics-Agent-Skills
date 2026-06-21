@@ -1,7 +1,7 @@
 {
-  "name": "threejs-gamedev-mega-skills",
+  "name": "threejs-awesome-graphics-agent-skills",
   "version": "0.1.0",
-  "description": "Expert procedural geometry, materials, shaders, atmosphere, effects, and final-image skills for Three.js.",
+  "description": "Expert agent skills for creating exceptional Three.js graphics.",
   "author": {
     "name": "Scott"
   },
@@ -16,9 +16,9 @@
   ],
   "skills": "./skills/",
   "interface": {
-    "displayName": "Three.js Visual Mega Skills",
+    "displayName": "Three.js Awesome Graphics Agent Skills",
     "shortDescription": "Expert procedural Three.js graphics systems",
-    "longDescription": "A modular expertise pack for procedural geometry, coherent materials, advanced shaders, atmosphere, volumetrics, shadows, temporal effects, and deliberate final-image pipelines in Three.js.",
+    "longDescription": "Atomic expertise for procedural geometry, coherent materials, advanced shaders, atmosphere, volumetrics, shadows, temporal effects, and deliberate final-image pipelines in Three.js.",
     "developerName": "Scott",
     "category": "Developer Tools",
     "capabilities": [

@@ -1,0 +1,57 @@
+{
+  "title": "Spectral Cascade Ocean",
+  "description": "A deterministic spectral-ocean inspection path with directional JONSWAP/TMA spectra, three disjoint wavelength cascades, packed complex displacement fields, staged two-dimensional GPU IFFTs, choppy derivatives, persistent Jacobian whitecaps, fold-aware normals, shared analytic sky reflection, crest scatter, and filtered micro-detail.",
+  "backend": "WebGL2 fragment FFT inspection path",
+  "techniques": [
+    "three disjoint directional spectrum cascades",
+    "GPU staged two-dimensional inverse FFT",
+    "packed horizontal displacement fields",
+    "finite-difference derivative map assembly",
+    "persistent Jacobian whitecaps",
+    "fold-aware normal reconstruction",
+    "shared sky and reflection radiance"
+  ],
+  "defaultViewport": {
+    "width": 1440,
+    "height": 900
+  },
+  "defaultDpr": 1,
+  "debugModes": [
+    {
+      "value": "final",
+      "label": "Final"
+    },
+    {
+      "value": "cascade-bands",
+      "label": "Cascade bands"
+    },
+    {
+      "value": "normals",
+      "label": "Resolved normals"
+    },
+    {
+      "value": "jacobian",
+      "label": "Jacobian / foam history"
+    },
+    {
+      "value": "spectrum-0",
+      "label": "250 m spectrum"
+    },
+    {
+      "value": "spectrum-1",
+      "label": "17 m spectrum"
+    },
+    {
+      "value": "spectrum-2",
+      "label": "5 m spectrum"
+    }
+  ],
+  "controls": [
+    "orbit",
+    "pause",
+    "timeScale",
+    "dpr",
+    "debugMode",
+    "capture"
+  ]
+}

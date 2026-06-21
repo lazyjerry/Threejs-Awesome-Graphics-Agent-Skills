@@ -1,6 +1,6 @@
 ---
 name: threejs-bloom
-description: Design and implement bloom in advanced Three.js scenes. Use for HDR emission hierarchy, threshold and soft-knee control, multi-scale downsample and upsample chains, selective bloom, transparent emitters, exposure coupling, halo diagnosis, and bloom that supports rather than replaces authored lighting.
+description: Implement production bloom in advanced Three.js scenes. Use for HDR signal ordering, bloom-node controls, dual selective bloom with guaranteed material restoration, scene-relative emissive hierarchy, and effect-isolation diagnostics.
 ---
 
 # Bloom
@@ -11,13 +11,20 @@ Bloom is a camera/display response to bright HDR signal. Establish scene exposur
 
 1. Inspect pre-tone-map luminance.
 2. Choose which scene values should bloom.
-3. Extract with threshold and soft knee.
-4. Downsample into multiple scales with an energy-aware filter.
-5. Upsample and combine with controlled radius weights.
-6. Composite in HDR before exposure/tone mapping.
-7. Validate with bloom-only, no-bloom, and threshold views.
+3. Choose a single-node or dual selective-render ownership model.
+4. Calibrate threshold, radius, smooth width, and strength in HDR.
+5. Restore all substituted materials transactionally for selective passes.
+6. Composite before exposure/tone mapping.
+7. Validate base, contribution, and final views.
 
-Read [references/hdr-bloom-system.md](references/hdr-bloom-system.md).
+Read [references/hdr-bloom-system.md](references/hdr-bloom-system.md) for the
+HDR ordering, dual selective-bloom transaction, compact emissive hierarchy,
+and the costs and limits of each ownership model.
+
+Inspect the runnable
+[sculpted gallery frame](../threejs-procedural-geometry/examples/sculpted-gallery-frame/index.html)
+and compare its `Final` and `No bloom` modes for the material
+substitution/restoration ownership pattern.
 
 ## Failure conditions
 
@@ -28,3 +35,9 @@ Read [references/hdr-bloom-system.md](references/hdr-bloom-system.md).
 - transparent particles disappear from extraction because pass ownership is unclear;
 - bloom radius changes wildly with resolution;
 - highlights become gray because energy is clamped too early.
+
+## Routing boundary
+
+Use `$threejs-exposure-color-grading` for metering, adaptation, tone mapping,
+and LUTs. Load `$threejs-image-pipeline` only when bloom must be composed with
+several shared image-space systems.

@@ -1,238 +1,198 @@
-# Procedural PBR system
+# Procedural PBR material systems
 
-## 1. Material bundle
+Use this reference for atlas filtering, shared shadow and light causes, planet-space material fields, wetness, per-instance dissolve, and authored physical-material identities.
 
-Keep material identity separate from final channels:
+## Contents
 
-```ts
-type SurfaceFields = {
-  identityWeights: Node[]
-  height: Node
-  cavity: Node
-  convexity: Node
-  exposure: Node
-  wetness: Node
-  dust: Node
-  microHeight: Node
-}
+- atlas-based renderer block material
+- Atlas and minification response
+- Shared shadow/light causes
+- planet-space implementation planetary material
+- pooled VFX system terrain and debris
+- selective gallery pipeline authored PBR identities
+- Selection rules and limitations
+- Diagnostics
 
-type PBRChannels = {
-  baseColor: Node
-  roughness: Node
-  metalness: Node
-  normal: Node
-  transmission: Node
-  emission: Node
-}
-```
 
-The material layer decides the dry clean surface first. Environmental modifiers operate afterward.
+## atlas-based renderer block material
 
-## 2. Identity before variation
-
-For each base material, define:
+The block material is a complete custom shader whose inputs include:
 
 ```text
-color family
-roughness range
-metalness
-normal spectrum
-edge response
-porosity
-wet response
-wear response
+atlas albedo and optional normal
+per-vertex AO/skylight/tint color
+sun direction/color
+four custom shadow cascades
+projected procedural cloud shadow
+environment cube
+roughness/metalness
+daylight and starlight factors
 ```
 
-Example:
+Its useful material mechanisms are:
+
+1. world position and view-space depth remain available for cascade choice;
+2. world-space shadow texel width scales bias and filter radius;
+3. cloud shadow projects a receiver point to a cloud plane along sun direction;
+4. normal derivatives increase effective roughness;
+5. atlas sampling clamps to the current tile interior;
+6. anisotropic minification chooses a major-axis multi-tap filter.
+
+Specular antialiasing:
 
 ```text
-stone:
-  broad mineral color variation
-  high average roughness
-  low metalness
-  chipped convex edges
-  dark wet response with lower roughness
-  cavity dirt
+variance =
+  max(dot(dFdx(N), dFdx(N)),
+      dot(dFdy(N), dFdy(N)))
+
+filteredRoughness =
+  clamp(sqrt(roughness^2 + variance), 0, 1)
 ```
 
-Do not begin with “add noise to color.” First define what changes together.
+This is a practical filtering mechanism. It should still be compared against the
+renderer’s current physical-material and normal-filtering behavior before
+replacing built-in shading.
 
-## 3. Layer weights
+## Atlas and minification response
 
-Create soft weights for surface identities:
-
-```glsl
-vec3 raw = max(vec3(stoneWeight, mortarWeight, metalWeight), 0.0);
-vec3 w = raw / max(raw.x + raw.y + raw.z, 1e-4);
-```
-
-Blend base channels by the same weights. Normals require reorientation or height blending rather than naïve linear interpolation when layers are strong.
-
-For height-aware blending:
+For an atlas with `atlasSize` tiles across and `tileSize` texels per tile:
 
 ```text
-adjustedWeight_i = weight_i * exp(height_i * contrast)
-normalize(adjustedWeights)
+tile width = 1 / atlasSize
+horizontal inset = 0.5 / (atlasSize * tileSize)
+vertical inset = 0.5 / tileSize
 ```
 
-## 4. Causal modifiers
+Estimate the `dFdx/dFdy` footprint in texels. When minification grows, blend
+away from the base sample. If anisotropy exceeds `2`, sample `7` or `9` taps
+along the major axis.
 
-Useful causes:
+This avoids adjacent-tile bleed for direct taps, but shader clamping cannot fix
+atlas mip levels that were generated without duplicated tile borders. Require
+offline mip-safe padding when adopting this mechanism.
+
+## Shared shadow/light causes
+
+atlas-based renderer’s cloud shadow uses the same conceptual field as its visible cloud
+layer:
 
 ```text
-cavity dirt = cavity * materialPorosity * dirtAvailability
-edge wear = convexity * exposure * contactExclusion
-wetness = rainExposure * lowDrainage + waterProximity
-dust = upwardFacing * sheltered * dryness
-oxidation = metalIdentity * moistureHistory * exposureTime
-burn = heatHistory * oxygenAccess
+project receiver to cloud altitude along sun direction
+advect by shared wind and time scale
+evaluate the same five-octave cloud field
+apply coverage and density shaping
+attenuate direct sunlight
 ```
 
-Apply coupled responses:
+The material does not darken emission or all ambient response with this term.
+Keep projected environmental shadows attached to direct-light ownership.
+
+## planet-space implementation planetary material
+
+planet-space implementation’s solid planets preserve an undeformed radial attribute and use it for
+all geological sampling. Camera-altitude weights reduce high-frequency bump
+and optical detail.
+
+For gas and ice giants, seam-free longitude is represented as:
 
 ```text
-wetness:
-  color darkens/saturates
-  roughness falls
-  normal contrast may fall under a film
-  clearcoat/specular lobe may rise
-
-edge wear:
-  coating weight falls
-  substrate color appears
-  roughness changes
-  local normal profile chips
+longitude = atan(z, x)
+longitude circle = (cos(longitude + advection), sin(longitude + advection))
+coordinate = (circle.x, circle.y, latitude01)
 ```
 
-## 5. Coordinate strategy
+Latitude bands, seeded warp, turbulence, and storm masks share this coordinate.
+Roughness responds to the same final mask. Limb haze and wrapped diffuse
+lighting are added separately.
 
-Choose by surface:
+For solid bodies, procedural bump normal is derived from screen derivatives of
+the height node and view position. This keeps the renderer’s material lighting
+path while changing only the normal input.
 
-- object UV: authored seams and anisotropy;
-- world/object triplanar: seamless solids and generated meshes;
-- cylindrical: trunks, pipes, columns;
-- profile coordinates: trim and sweeps;
-- planet direction: spherical bodies;
-- screen projection: only for explicitly screen-space effects.
+The known debt is geometry/material field mismatch; see the planet and field
+references. Do not infer that close bump can substitute for silhouette parity.
 
-Triplanar weights:
+## pooled VFX system terrain and debris
 
-```glsl
-vec3 w = pow(abs(normalObject), vec3(blendSharpness));
-w /= max(w.x + w.y + w.z, 1e-4);
-```
-
-Use consistent units for all axes. Rotate tangent-space normals from each projection into a shared frame before blending.
-
-## 6. Derivative-aware texture sampling
-
-For an atlas tile, compute derivatives before applying tile scale and offset:
-
-```glsl
-vec2 uvTile = uv * tileScale + tileOffset;
-vec2 dx = dFdx(uv) * tileScale;
-vec2 dy = dFdy(uv) * tileScale;
-vec4 value = textureGrad(atlas, uvTile, dx, dy);
-```
-
-Clamp sampling to padded interiors:
+Terrain identity:
 
 ```text
-safeMin = tileMin + paddingTexels / atlasResolution
-safeMax = tileMax - paddingTexels / atlasResolution
+grassness = smoothstep(0.01, 1, normalWorld.y^1.6)
+color = mix(shared-noise soil, shared-noise grass, grassness)
+roughness = blend(soil response, grass response, grassness) - wetness
+metalness = 0.2
 ```
 
-The atlas needs duplicated border texels through every mip level. Shader clamping cannot repair contaminated offline mips.
+Wetness comes from world height near the water plane and the broad noise field.
+It changes roughness and color together.
 
-## 7. Procedural antialiasing
+Debris uses per-instance `isOrange` and `removalTimeSeconds`. Geometry-space
+noise controls discard as lifetime expires. Its color is reinforced at the rim
+through Fresnel and receives a small environment term of `0.05`.
 
-For thresholded fields:
+The reusable pattern is per-instance material state, not one cloned material
+per object.
 
-```glsl
-float width = max(fwidth(field) * filterScale, minimumWidth);
-float mask = smoothstep(threshold - width, threshold + width, field);
-```
+## selective gallery pipeline authored PBR identities
 
-For band-limited noise, attenuate octaves whose projected frequency exceeds the pixel footprint. A practical fBm loop should stop contributing before Nyquist rather than always running all octaves.
+The gallery defines distinct frame surfaces with real texture and response
+bundles:
 
-## 8. Specular antialiasing
+| Surface | Roughness | Metalness | Clearcoat | Clearcoat roughness | Bump |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| walnut | 0.42 | 0.04 | 0.62 | 0.28 | 0.022 |
+| antique gold | 0.24 | 0.78 | 0.24 | 0.20 | 0.012 |
+| ebony | 0.40 | 0.03 | 0.70 | 0.24 | 0.018 |
 
-Normal variance should increase effective roughness:
+Wall plaster stays near roughness `0.94–0.96`, floor `0.92`, and mat board
+`0.92`. These ranges preserve material separation before bloom.
+
+Chandelier bloom meshes intentionally use `MeshBasicMaterial`, with bulb and
+filament materials marked `toneMapped = false`. That is contribution ownership
+for a stylized light source, not a physically based metal recipe.
+
+## Selection rules and limitations
+
+Use the material mechanisms according to representation:
 
 ```text
-normalVariance = estimate from derivatives or normal-map statistics
-roughnessAA = sqrt(saturate(roughness² + varianceScale * normalVariance))
+atlas voxel surface -> atlas-based renderer filtering and custom shadow hooks
+planet surface -> planet-space implementation radial fields and altitude filtering
+terrain/wetness -> pooled VFX system world-height causal blend
+authored luxury material -> selective gallery pipeline response bundle
+pooled effect debris -> pooled VFX system per-instance attributes
 ```
 
-With shader derivatives:
+Do not combine every mechanism into one universal material.
 
-```glsl
-vec3 dndx = dFdx(normalWorld);
-vec3 dndy = dFdy(normalWorld);
-float variance = max(dot(dndx, dndx), dot(dndy, dndy));
-float filteredRoughness = sqrt(clamp(roughness * roughness + variance * aaStrength, 0.0, 1.0));
-```
+Exact node/material extension hooks are version-sensitive. Inspect the
+installed renderer before porting atlas-based renderer's full custom shader or adapting
+planet-space implementation's node-material normal and emissive inputs.
 
-Tune against grazing motion, not a still frame.
+Observed limits:
 
-## 9. Procedural normal
+- atlas-based renderer replaces the full physical shader, increasing maintenance and making
+  backend migration harder.
+- Its custom lighting must be checked for energy consistency and environment
+  parity.
+- selective gallery pipeline’s chandelier basic materials rely on selective bloom and are not a
+  substitute for lit metal in non-emissive views.
+- pooled VFX system uses undefined reversed-edge `smoothstep` in wetness expressions; write
+  portable equivalent logic.
+- planet-space implementation has approximate rather than exact geometry/material field parity.
 
-When height is known:
-
-- use analytic derivatives where possible;
-- otherwise finite-difference in the material's stable coordinate frame;
-- scale epsilon to represented feature size;
-- suppress frequencies smaller than the pixel footprint.
-
-Do not derive a normal from final color. Color boundaries may represent pigment, not height.
-
-## 10. Custom shadow modulation
-
-Procedural cloud or canopy shadow:
-
-```text
-shadowCoordinates = worldPosition * worldScale + wind * time
-cloudDensity = filteredCloudField(shadowCoordinates)
-cloudTransmittance = mix(1, minTransmittance, cloudDensity)
-directLight *= cloudTransmittance
-```
-
-Apply to direct light, not indiscriminately to emission or already-occluded ambient light.
-
-For cascaded or clipmap shadow sampling, keep the material hook limited to:
-
-- level selection;
-- stable coordinate transform;
-- depth compare;
-- normal/slope bias;
-- cross-level blend.
-
-## 11. Physical material extension
-
-Prefer extending the renderer's physical material path through supported node/material hooks. Preserve:
-
-- light loops;
-- environment BRDF;
-- shadowing;
-- fog/atmosphere handoff;
-- tone-mapping expectations;
-- backend compatibility.
-
-Replace the entire shader only when the surface model genuinely differs, such as water, volume, or stylized non-PBR rendering.
-
-## 12. Debug modes
+## Diagnostics
 
 Expose:
 
 ```text
-coordinates and scale
-identity weights
-height/cavity/convexity
-wetness/dust/wear
-base color
-roughness before/after AA
-metalness/transmission
-geometric and final normal
-per-frequency contribution
-direct-light shadow modifier
+atlas tile and sample footprint
+roughness before/after specular AA
+cloud shadow field
+shadow cascade and world texel size
+planet coordinate, altitude weights, and material masks
+terrain grassness and wetness
+debris instance attributes and dissolve threshold
+base frame material without post
+raw emissive contribution for bloom-only materials
 ```

@@ -87,12 +87,6 @@ function markReady() {
   send("ready", { state });
 }
 
-if (document.readyState === "loading") {
-  document.addEventListener("DOMContentLoaded", markReady, { once: true });
-} else {
-  markReady();
-}
-
 export const exampleRuntime = {
   get state() {
     return { ...state };

@@ -1,0 +1,37 @@
+{
+  "title": "Touch-History Frost",
+  "description": "A complete screen-space frost graph with a procedural source scene, reduced-resolution separable blur, three pre-rendered crystalline structure targets, full-resolution half-float touch-history ping-pong, frame-rate-independent decay, visible and tilt-response channels, frost compositing, two-scale refractive normals, reset/resize ownership, and state diagnostics.",
+  "backend": "WebGL2 / GLSL render-target pipeline",
+  "techniques": [
+    "full-resolution touch-history ping-pong",
+    "frame-rate-independent deposit and decay",
+    "reduced-resolution separable scene blur",
+    "pre-rendered crystalline structure targets",
+    "frost mask and sharp-blur coupling",
+    "two-scale normal refraction"
+  ],
+  "defaultViewport": {
+    "width": 1440,
+    "height": 900
+  },
+  "defaultDpr": 1,
+  "debugModes": [
+    { "value": "final", "label": "Final" },
+    { "value": "root-scene", "label": "Root scene" },
+    { "value": "blur", "label": "Reduced blur" },
+    { "value": "history-previous", "label": "Previous history" },
+    { "value": "deposit", "label": "Current deposit" },
+    { "value": "history-next", "label": "Next history" },
+    { "value": "structure", "label": "Static structure" },
+    { "value": "frost-mask", "label": "Frost mask" },
+    { "value": "no-refraction", "label": "No refraction" }
+  ],
+  "controls": [
+    "pointer",
+    "pause",
+    "timeScale",
+    "dpr",
+    "debugMode",
+    "capture"
+  ]
+}

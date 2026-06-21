@@ -26,8 +26,14 @@ async function discoverDirectories(root, segments) {
   for (const entry of entries) {
     if (!entry.isDirectory()) continue;
     const directory = path.join(root, entry.name);
-    if (await isFile(path.join(directory, "index.html"))) {
-      found.push({ directory, segments: [...segments, entry.name] });
+    const nextSegments = [...segments, entry.name];
+    if (
+      await isFile(path.join(directory, "scene.js")) &&
+      await isFile(path.join(directory, "example.json"))
+    ) {
+      found.push({ directory, segments: nextSegments });
+    } else {
+      found.push(...await discoverDirectories(directory, nextSegments));
     }
   }
   return found;
@@ -108,7 +114,9 @@ async function loadExample(projectRoot, candidate, origin) {
       : [],
     backend:
       typeof metadata.backend === "string" ? metadata.backend : "unspecified",
-    entry: `/${relativeDirectory}/index.html`,
+    entry: origin === "skill"
+      ? `/dev/example-gallery/runtime/index.html?module=/${relativeDirectory}/scene.js`
+      : `/${relativeDirectory}/index.html`,
     source: `/${relativeDirectory}/`,
     preview:
       typeof metadata.preview === "string"
@@ -133,21 +141,13 @@ export async function discoverExamples(
   projectRoot,
   { includeFixtures = false } = {},
 ) {
-  const skillsRoot = path.join(projectRoot, "skills");
-  const skillEntries = await readdir(skillsRoot, { withFileTypes: true });
-  const candidates = [];
-
-  for (const skillEntry of skillEntries) {
-    if (!skillEntry.isDirectory()) continue;
-    const examplesRoot = path.join(
-      skillsRoot,
-      skillEntry.name,
-      "examples",
-    );
-    candidates.push(
-      ...await discoverDirectories(examplesRoot, [skillEntry.name]),
-    );
-  }
+  const examplesRoot = path.join(
+    projectRoot,
+    "dev",
+    "example-gallery",
+    "examples",
+  );
+  const candidates = await discoverDirectories(examplesRoot, []);
 
   const loaded = await Promise.all(
     candidates.map((candidate) =>

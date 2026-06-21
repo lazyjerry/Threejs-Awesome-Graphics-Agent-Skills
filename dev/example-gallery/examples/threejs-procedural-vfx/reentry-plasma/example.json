@@ -1,0 +1,32 @@
+{
+  "title": "Reentry Plasma",
+  "description": "A hull-conforming reentry shell with flow-facing heat, a Fresnel ion envelope, shock filaments, generated capsule core, haze and shear wakes, explicit HDR layer hierarchy, selective bloom, and mechanism-isolation diagnostics.",
+  "backend": "WebGPU / TSL additive VFX",
+  "techniques": [
+    "hull-conforming flow-facing plasma shell",
+    "generated capsule-profile wake volumes",
+    "coarse and fine advected filament fields",
+    "support-point wake placement",
+    "scene-relative HDR emission and bloom"
+  ],
+  "defaultViewport": {
+    "width": 1440,
+    "height": 900
+  },
+  "defaultDpr": 1,
+  "debugModes": [
+    { "value": "final", "label": "Final" },
+    { "value": "shell-masks", "label": "Shell masks" },
+    { "value": "wake-density", "label": "Wake density" },
+    { "value": "hdr-layers", "label": "HDR layers" },
+    { "value": "no-bloom", "label": "No bloom" }
+  ],
+  "controls": [
+    "orbit",
+    "pause",
+    "timeScale",
+    "dpr",
+    "debugMode",
+    "capture"
+  ]
+}

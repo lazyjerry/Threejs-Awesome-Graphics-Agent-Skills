@@ -1,180 +1,205 @@
-# Scene-referred color pipeline
+# Scene-referred exposure and color pipeline
 
-## 1. Establish spaces
+Use this reference for a measured HDR-to-display path with encoded luminance readback, asymmetric adaptation, one tone-map owner, and a generated display-domain 3D LUT.
 
-Record:
+## Contents
 
-```text
-material/texture input spaces
-working linear primaries
-environment-map decoding
-HDR render-target format
-tone-map operator
-grading space
-display output space
-```
+- Exact pipeline order
+- Luminance meter
+- Exposure target and adaptation
+- 3D LUT construction
+- LUT placement
+- Tone mapping ownership
+- Observed limitations
+- Diagnostics
 
-Color textures decode to linear. Data textures such as normals, roughness, depth, masks, and LUT coordinates do not.
 
-## 2. Luminance meter
+## Exact pipeline order
 
-Compute log luminance:
-
-```glsl
-float luminance = max(dot(hdrColor, vec3(0.2126, 0.7152, 0.0722)), minimumLuminance);
-float logLuminance = log2(luminance);
-```
-
-Reduce into a small target or histogram. Log averaging handles wide dynamic range better than linear averaging.
-
-Mask or weight:
-
-- UI;
-- letterbox regions;
-- invalid sky/background when appropriate;
-- tiny extreme emitters;
-- center or subject priority.
-
-For more control, use histogram percentiles and meter between low/high percentile bounds.
-
-## 3. Exposure target
-
-Map measured luminance to a target middle value:
+The pipeline computes:
 
 ```text
-targetExposure = middleGray / measuredLuminance
+HDR scene after AO/atmosphere
+  -> bloom added in HDR
+  -> multiply by adapted exposure
+  -> renderOutput using renderer tone mapping
+  -> saturate to LUT domain
+  -> sample 3D LUT
+  -> blend LUT intensity
+  -> optional FXAA
 ```
 
-Clamp to artistic/physical limits:
+`RenderPipeline.outputColorTransform` is disabled and one output node owns the
+final conversion. Renderer tone-mapping mode and renderer exposure are still
+configuration inputs to `renderOutput`.
+
+## Luminance meter
+
+The implementation renders a `64 x 36` meter target using unsigned bytes. It encodes
+unbounded luminance:
 
 ```text
-minExposure ≤ targetExposure ≤ maxExposure
+encoded = luminance / (luminance + 1)
+decoded = encoded / max(0.0001, 1 - encoded)
 ```
 
-Apply compensation in stops:
+Readback occurs asynchronously every `12` frames by default. While one readback
+is pending, another is not started.
+
+CPU reduction uses weighted log average:
 
 ```text
-targetExposure *= 2 ^ exposureCompensationEV
+weight = 1.0 when luminance > 0.002
+weight = 0.15 otherwise
+
+average =
+  exp(sum(log(max(luminance, 0.0001)) * weight) / sum(weight))
 ```
 
-## 4. Adaptation
+This suppresses black-pixel dominance without requiring a histogram.
 
-Use exponential adaptation independent of frame rate:
+## Exposure target and adaptation
 
-```js
-const rate = targetExposure > exposure
-  ? brightenRate
-  : darkenRate
-const alpha = 1 - Math.exp(-rate * deltaSeconds)
-exposure += (targetExposure - exposure) * alpha
-```
-
-Typically adaptation toward darkness and toward bright light use different rates. Add reset/cut handling and guard long suspended-frame deltas.
-
-GPU readback can stall. Options:
-
-- keep exposure entirely on GPU;
-- read a tiny target asynchronously at low cadence;
-- double-buffer readback;
-- accept delayed CPU updates with smooth adaptation.
-
-## 5. Tone-map placement
-
-Apply exposure once:
+Defaults:
 
 ```text
-exposedColor = hdrColor * exposure
-displayLinear = toneMap(exposedColor)
+minimum exposure = 0.45
+maximum exposure = 1.85
+middle gray = 0.18
+compensation = 0 EV
+speed up = 3.2
+speed down = 1.1
 ```
 
-Tone-map operators differ in highlight roll-off, saturation, and midtone contrast. Validate with:
-
-- neutral gray ramp;
-- saturated lights;
-- bright sky/sun;
-- skin/organic tones when relevant;
-- emissive VFX;
-- dark interiors.
-
-Do not choose an operator only from a single cinematic frame.
-
-## 6. Creative grading
-
-Prefer operations with explicit purpose:
+Target:
 
 ```text
-white balance
-lift/gamma/gain or slope/offset/power
-contrast/pivot
-saturation or chroma shaping
-selective hue treatment
-3D LUT
+target =
+  clamp(
+    middleGray / averageLuminance
+    * 2^exposureCompensation,
+    minExposure,
+    maxExposure
+  )
 ```
 
-If using a LUT, document:
-
-- expected input gamut;
-- expected transfer curve;
-- whether input is scene-linear, log-encoded, or display-linear;
-- LUT domain min/max;
-- output gamut.
-
-A LUT authored for log footage is not valid on arbitrary tone-mapped sRGB values.
-
-## 7. 3D LUT sampling
-
-Clamp or map color into the LUT domain:
-
-```glsl
-vec3 coord = (color - domainMin) / (domainMax - domainMin);
-coord = clamp(coord, 0.0, 1.0);
-vec3 graded = texture(lut3D, coord).rgb;
-```
-
-Use tetrahedral interpolation if supported/implemented and quality warrants it; trilinear interpolation is a reasonable baseline.
-
-Blend:
+Frame-rate-independent adaptation:
 
 ```text
-final = mix(ungraded, graded, lutStrength)
+speed = target > current ? speedUp : speedDown
+amount = 1 - exp(-max(deltaSeconds, 0) * speed)
+current += (target - current) * amount
 ```
 
-## 8. Gamut and saturation
+When disabled, current and target reset to `1`.
 
-Tone mapping and bloom can produce out-of-gamut colors. Handle them deliberately:
+## 3D LUT construction
 
-- gamut compression;
-- hue-preserving luminance compression;
-- controlled desaturation in highlights;
-- output-space clipping only as a final safeguard.
+Build a `32^3` RGBA `Data3DTexture` with linear filtering, clamp wrapping, no
+mipmaps, and unsigned-byte storage.
 
-Naïve channel clipping shifts hue.
+Each preset recipe owns:
 
-## 9. Output
+```text
+contrast
+saturation
+vibrance
+black/white point
+per-channel gamma
+shadow/midtone/highlight tint
+strength for each tonal range
+```
 
-Perform one output conversion to the target transfer function. Verify renderer defaults and whether the final pass expects linear input.
+Recipe order:
 
-Add subtle dithering before low-bit output to reduce banding in skies, fog, and dark gradients.
+```text
+normalize black/white range
+S-curve blend, fixed amount 0.44
+contrast around 0.5
+shadow tint
+midtone tint
+highlight tint
+per-channel gamma
+saturation
+vibrance
+small highlight glow bias
+clamp to [0, 1]
+```
 
-UI strategy:
+Tonal weights are calculated from pre-grade luminance:
 
-- composite display-referred UI after scene tone mapping; or
-- author UI for the scene pipeline and protect it from bloom/exposure as needed.
+```text
+shadow = 1 - smoothstep(0.12, 0.54, luma)
+highlight = smoothstep(0.48, 0.92, luma)
+midtone = max(0, 1 - abs(luma - 0.5) * 2)
+```
 
-Do not mix both without explicit conversion.
+## LUT placement
 
-## 10. Debug views
+The LUT samples tone-mapped display-linear RGB after saturation:
+
+```text
+uv = saturate(displayColor.rgb) * ((32 - 1) / 32) + 0.5 / 32
+graded = texture3D(lut, uv)
+final = mix(displayColor, graded, lutIntensity)
+```
+
+This means the included recipes are authored for a bounded post-tone-map
+domain. Do not move them before tone mapping without rebuilding the recipes and
+documenting a scene-linear or log domain.
+
+## Tone mapping ownership
+
+Available renderer modes include:
+
+```text
+None, Linear, Reinhard, Cineon, ACES, AgX, Neutral
+```
+
+Color defaults:
+
+```text
+tone mapping = ACES
+renderer exposure = 0.72
+LUT = Real Daylight
+LUT intensity = 1
+```
+
+The feature factory initially disables LUT intensity and eye adaptation until
+enabled through settings. Distinguish configuration defaults from active
+feature state.
+
+## Observed limitations
+
+- The meter has no center weighting, percentile clipping, sky mask, or UI mask.
+- Unsigned-byte encoding loses precision near extreme luminance.
+- Readback cadence is frame-count based, so wall-clock cadence changes with
+  frame rate.
+- A failed readback resets target exposure to `1`, which can cause a visible
+  adaptation shift.
+- LUT generation clamps every entry to `[0,1]`; it is display-domain grading,
+  not HDR scene-referred grading.
+- The pipeline exposes both renderer `toneMappingExposure` and a separate
+  adapted exposure multiplier. Their combined ownership must be documented to
+  avoid accidental double exposure.
+- FXAA is applied after grading, but dithering/gamut compression are absent.
+
+## Diagnostics
 
 Expose:
 
 ```text
-HDR false-color luminance
-meter mask
-luminance histogram
-measured and target exposure
-adapted exposure over time
-pre/post tone map
-pre/post LUT
-out-of-gamut mask
-output ramp and banding test
+meter source
+encoded meter target
+decoded luminance
+weight mask
+measured average
+target/current exposure over time
+readback pending and cadence
+HDR before exposure
+tone-mapped before LUT
+neutral versus selected LUT
+per-recipe tonal weights
+clipped/out-of-domain mask
+final with one exposure stage disabled at a time
 ```

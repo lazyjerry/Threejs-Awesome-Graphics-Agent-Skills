@@ -1,22 +1,19 @@
-# `procedural-bank` cached clipmap shadow extraction
+# Cached clipmap shadow system
 
-Use this reference for large procedural scenes requiring stable directional
-shadows beyond one bounded receiver region.
+Use this reference for stable directional shadows across a large procedural scene using committed light-space centers, texel snapping, bounded refresh budgets, cross-level blending, and targeted invalidation.
 
-Reviewed source:
+## Contents
 
-```text
-repository: https://github.com/vibe-stack/procedural-bank
-revision: 0034e80a61f02b88dbe13a385bdab734a365b82d
-primary:
-  src/scene/csm/cached-clipmap-shadow-node.ts
-projection guard:
-  src/scene/csm/bounded-shadow-node.ts
-```
+1. Representation and defaults
+2. Light-space stabilization
+3. Committed centers and containment
+4. Sampling and cross-level blending
+5. Cache scheduling and invalidation
+6. Bias, defects, adaptation, and diagnostics
 
 ## 1. Identify the representation correctly
 
-The reviewed system is a set of concentric square shadow maps centered around
+The system is a set of concentric square shadow maps centered around
 the camera in light space.
 
 It is **not** a virtual shadow map:
@@ -64,7 +61,7 @@ min(firstRadius * scaleFactor^level, maxDistance)
 
 The last level is forced to `maxDistance` exactly.
 
-Clamp adaptation controls as the source does:
+Clamp adaptation controls to safe ranges:
 
 ```text
 firstRadius >= 1
@@ -134,7 +131,7 @@ desiredY = round(cameraLightY / texelWidth) * texelWidth
 
 This aligns the orthographic projection to a fixed world-space texel grid.
 
-The reviewed implementation quantizes Z more coarsely:
+Quantize Z more coarsely:
 
 ```text
 zQuantum = halfWidth * 0.5
@@ -198,10 +195,9 @@ explicitly invalidated levels:
   bypass the cached budget
 ```
 
-The last rule is observed source behavior. Although the method comment calls
-invalidation "rate-limited", `forceDirty` currently renders without consuming
-or checking the ordinary budget. Preserve this intentionally or change both
-behavior and documentation together.
+Although invalidation may be described as “rate-limited”, `forceDirty` renders
+without consuming or checking the ordinary budget. Preserve that exception
+intentionally or change both behavior and documentation together.
 
 On first update or light-direction change:
 
@@ -295,8 +291,8 @@ sample every level's depth-comparison texture unconditionally
 multiply the result by its weight afterward
 ```
 
-Do not put comparison sampling behind a per-pixel conditional. The source
-records view-dependent flicker and undefined derivatives when it did so.
+Do not put comparison sampling behind a per-pixel conditional. Doing so can
+produce view-dependent flicker and undefined derivatives.
 
 `BoundedShadowNode` still evaluates the filter function, then selects `1`
 outside the level's projected XYZ range. This keeps the comparison sample in
@@ -314,7 +310,7 @@ shadow.bias = baseBias
 shadow.normalBias = baseNormalBias * texelScale
 ```
 
-The source keeps depth bias unchanged and scales only world-space normal bias.
+The implementation keeps depth bias unchanged and scales only world-space normal bias.
 
 Inspect acne and peter-panning separately per level. A single normal bias
 across 12 m and 2000 m levels is not coherent.

@@ -1,6 +1,6 @@
 ---
 name: threejs-temporal-surfaces
-description: Build persistent and accumulating screen-space or UV-space surface effects in Three.js. Use for frost, condensation, wetness, paint, footprints, damage, reveal masks, trails, heat, and interaction fields that must grow, decay, blur, or retain history over time.
+description: Build screen-space temporal surface effects in Three.js. Use for full-resolution touch-history ping-pong, frost and thaw masks, reduced-resolution separable blur, static crystalline structure targets, and two-scale normal-map refraction.
 ---
 
 # Temporal Surfaces
@@ -10,22 +10,35 @@ Use render-target state when the effect depends on history. Do not fake accumula
 ## Pipeline
 
 ```text
-interaction sources
+screen-space touch source
   → ping-pong state update
-  → optional blur/diffusion
+  → reduced-resolution scene blur
   → static structure textures
-  → final material/composite
+  → frost composite
+  → normal/refraction output
 ```
 
-Read [references/ping-pong-accumulation.md](references/ping-pong-accumulation.md) for the direct implementation pattern.
+Read [references/ping-pong-accumulation.md](references/ping-pong-accumulation.md)
+for an exact frost pass graph, pointer-history channels, blur and refraction
+coupling, and implementation defects that must be corrected.
+
+Inspect the runnable
+[touch-history frost example](examples/touch-history-frost/index.html) for the
+previous/deposit/next state transition, reduced blur, static structures,
+frost-mask composition, and two-scale refraction.
 
 ## Rules
 
 - Separate persistent state from static noise and scene color.
-- Store state in one or two meaningful channels; do not waste RGBA by default.
-- Use half-float only when the accumulation range or precision requires it.
-- Apply decay in the update pass, never by mutating CPU-side pixel data.
-- Run broad blur/diffusion at reduced resolution.
+- Preserve separate visible-mask and tilt-response channels.
+- Use half-float for this history path unless a measured lower format is equivalent.
+- Convert per-frame history decay to frame-rate-independent decay.
+- Run the two-pass scene blur at reduced resolution.
 - Pre-render static procedural textures once.
-- Clear history on resize, camera-space discontinuity, scene reset, or representation change.
-- Define whether the field lives in screen UV, object UV, world projection, or a simulation plane.
+- Define and test resize/reset behavior for both history targets and static targets.
+- Do not route world footprints, object-UV paint, or simulation-plane wetness here; this skill is screen-space.
+
+## Routing boundary
+
+Use `$threejs-procedural-vfx` for world- or object-space residue, particles, and
+dissolves. This skill owns screen-space persistent history and its composite.

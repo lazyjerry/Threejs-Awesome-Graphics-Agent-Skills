@@ -1,0 +1,264 @@
+{
+  "schemaVersion": 1,
+  "cases": [
+    {
+      "request": "Frame a scale-aware chase camera with thrust lag and a side-camera handoff.",
+      "routes": [
+        {
+          "skill": "threejs-camera-direction",
+          "signals": ["chase", "side", "camera", "handoff"]
+        }
+      ]
+    },
+    {
+      "request": "Animate spin docking with axial/radial error, staging, and a terminal lock.",
+      "routes": [
+        {
+          "skill": "threejs-procedural-animation",
+          "signals": ["docking", "staging", "rotating-frame", "springs"]
+        }
+      ]
+    },
+    {
+      "request": "Design one coherent field bundle that drives terrain height, slope, coast, biome, and roughness.",
+      "routes": [
+        {
+          "skill": "threejs-procedural-fields",
+          "signals": ["scalar/vector fields", "causal masks", "domain warping"]
+        }
+      ]
+    },
+    {
+      "request": "Build a gold and walnut physical material with derivative normals and specular antialiasing.",
+      "routes": [
+        {
+          "skill": "threejs-procedural-materials",
+          "signals": ["authored frame pbr", "specular aa", "materials"]
+        }
+      ]
+    },
+    {
+      "request": "Emit a sculpted rail sweep with deliberate caps, UV density, normals, and material groups.",
+      "routes": [
+        {
+          "skill": "threejs-procedural-geometry",
+          "signals": ["sculpted rails", "semantic mesh writers", "material groups"]
+        }
+      ]
+    },
+    {
+      "request": "Generate a deterministic deciduous tree species with branch hierarchy, foliage normals, and wind.",
+      "routes": [
+        {
+          "skill": "threejs-procedural-vegetation",
+          "signals": ["trees", "foliage", "wind deformation"]
+        }
+      ]
+    },
+    {
+      "request": "Compile a financial tower from massing tiers, façade bays, cornices, roof modules, and material slots.",
+      "routes": [
+        {
+          "skill": "threejs-procedural-architecture",
+          "signals": ["buildings", "façade grammars", "ornaments"]
+        }
+      ]
+    },
+    {
+      "request": "Create a terrestrial planet with continents, coastlines, biomes, terrain displacement, and close-approach detail.",
+      "routes": [
+        {
+          "skill": "threejs-procedural-planets",
+          "signals": ["planets", "biome fields", "spherical detail"]
+        }
+      ]
+    },
+    {
+      "request": "Implement Rayleigh and Mie sky scattering with a continuous ground-to-space aerial perspective.",
+      "routes": [
+        {
+          "skill": "threejs-atmosphere-aerial-perspective",
+          "signals": ["sky scattering", "aerial perspective", "planetary shells"]
+        }
+      ]
+    },
+    {
+      "request": "Raymarch weather-shaped multi-layer clouds with temporal reconstruction and cloud shadows.",
+      "routes": [
+        {
+          "skill": "threejs-volumetric-clouds",
+          "signals": ["weather-driven", "clouds", "cloud shadows"]
+        }
+      ]
+    },
+    {
+      "request": "Build an open ocean from three directional FFT cascades with Jacobian whitecaps.",
+      "routes": [
+        {
+          "skill": "threejs-spectral-ocean",
+          "signals": ["fft oceans", "spectral cascades", "jacobian whitecaps"]
+        }
+      ]
+    },
+    {
+      "request": "Build a bounded Gerstner-wave water surface with shared normals, Fresnel, refraction, and Beer-Lambert absorption.",
+      "routes": [
+        {
+          "skill": "threejs-water-optics",
+          "signals": ["authored analytic waves", "heuristic refraction", "fallback absorption"]
+        }
+      ]
+    },
+    {
+      "request": "Render a black hole with curved-ray integration, an accretion disk, and a lensed star field.",
+      "routes": [
+        {
+          "skill": "threejs-raymarched-space-effects",
+          "signals": ["curved-ray", "black holes", "accretion disks"]
+        }
+      ]
+    },
+    {
+      "request": "Author a reentry plasma shell, generated wake, analytic sparks, dissolving debris, and HDR bloom contribution.",
+      "routes": [
+        {
+          "skill": "threejs-procedural-vfx",
+          "signals": ["plasma", "particles", "trails"]
+        }
+      ]
+    },
+    {
+      "request": "Build screen-space frost that accumulates and clears through touch history, blur, and refraction.",
+      "routes": [
+        {
+          "skill": "threejs-temporal-surfaces",
+          "signals": ["accumulated screen frost", "touch clearing", "refraction masks"]
+        }
+      ]
+    },
+    {
+      "request": "Stabilize directional shadows over a moving large-world camera using cached clipmaps.",
+      "routes": [
+        {
+          "skill": "threejs-shadow-systems",
+          "signals": ["large-world shadows", "clipmaps", "cached updates"]
+        }
+      ]
+    },
+    {
+      "request": "Add half-resolution GTAO with bent normals and bilateral reconstruction.",
+      "routes": [
+        {
+          "skill": "threejs-screen-space-ambient-occlusion",
+          "signals": ["gtao", "bent normals", "bilateral reconstruction"]
+        }
+      ]
+    },
+    {
+      "request": "Tune selective HDR bloom while guaranteeing restoration of substituted materials.",
+      "routes": [
+        {
+          "skill": "threejs-bloom",
+          "signals": ["hdr bloom", "selective emission"]
+        }
+      ]
+    },
+    {
+      "request": "Implement encoded luminance metering, eye adaptation, one tone-map owner, and a display LUT.",
+      "routes": [
+        {
+          "skill": "threejs-exposure-color-grading",
+          "signals": ["eye adaptation", "tone mapping", "lut grading"]
+        }
+      ]
+    },
+    {
+      "request": "Coordinate shared depth and normal buffers across GTAO, bloom, exposure, tone mapping, and grading.",
+      "routes": [
+        {
+          "skill": "threejs-image-pipeline",
+          "signals": ["shared depth/normal/velocity ownership", "multi-pass ordering"]
+        },
+        {
+          "skill": "threejs-screen-space-ambient-occlusion",
+          "signals": ["gtao"]
+        },
+        {
+          "skill": "threejs-bloom",
+          "signals": ["bloom"]
+        },
+        {
+          "skill": "threejs-exposure-color-grading",
+          "signals": ["eye adaptation", "tone mapping"]
+        }
+      ]
+    },
+    {
+      "request": "Produce deterministic final, no-post, diagnostic, seed, camera-scale, temporal, and GPU evidence.",
+      "routes": [
+        {
+          "skill": "threejs-visual-validation",
+          "signals": ["fixed-view diagnostics", "seed sweeps", "budget evidence"]
+        }
+      ]
+    }
+  ],
+  "boundaries": [
+    {
+      "skill": "threejs-camera-direction",
+      "mustMention": ["$threejs-procedural-animation"]
+    },
+    {
+      "skill": "threejs-procedural-animation",
+      "mustMention": ["$threejs-camera-direction"]
+    },
+    {
+      "skill": "threejs-procedural-materials",
+      "mustMention": ["$threejs-procedural-fields", "$threejs-procedural-planets"]
+    },
+    {
+      "skill": "threejs-procedural-geometry",
+      "mustMention": ["$threejs-procedural-architecture", "$threejs-procedural-vegetation"]
+    },
+    {
+      "skill": "threejs-procedural-planets",
+      "mustMention": ["$threejs-procedural-fields", "$threejs-atmosphere-aerial-perspective"]
+    },
+    {
+      "skill": "threejs-atmosphere-aerial-perspective",
+      "mustMention": ["$threejs-volumetric-clouds"]
+    },
+    {
+      "skill": "threejs-volumetric-clouds",
+      "mustMention": ["$threejs-atmosphere-aerial-perspective"]
+    },
+    {
+      "skill": "threejs-spectral-ocean",
+      "mustMention": ["$threejs-water-optics"]
+    },
+    {
+      "skill": "threejs-water-optics",
+      "mustMention": ["$threejs-spectral-ocean"]
+    },
+    {
+      "skill": "threejs-procedural-vfx",
+      "mustMention": ["$threejs-temporal-surfaces"]
+    },
+    {
+      "skill": "threejs-temporal-surfaces",
+      "mustMention": ["$threejs-procedural-vfx"]
+    },
+    {
+      "skill": "threejs-screen-space-ambient-occlusion",
+      "mustMention": ["$threejs-image-pipeline"]
+    },
+    {
+      "skill": "threejs-image-pipeline",
+      "mustMention": [
+        "$threejs-screen-space-ambient-occlusion",
+        "$threejs-bloom",
+        "$threejs-exposure-color-grading"
+      ]
+    }
+  ]
+}

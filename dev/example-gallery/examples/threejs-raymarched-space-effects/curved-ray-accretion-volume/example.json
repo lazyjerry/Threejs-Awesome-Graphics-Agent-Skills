@@ -1,0 +1,47 @@
+{
+  "title": "Curved-Ray Accretion Volume",
+  "description": "A bounded WebGL2 curved-ray renderer with 128-step inverse-square steering, preserved double advance, rotating deep-noise accretion density, white-hot/gold/amber emission, black core occlusion, front-to-back alpha accumulation, and deterministic equirectangular stars sampled only after integration.",
+  "backend": "WebGL2 / GLSL curved-ray volume",
+  "techniques": [
+    "bounded 128-step inverse-square ray steering",
+    "rotating deep-noise thin-disk density",
+    "front-to-back emissive transmittance accumulation",
+    "deterministic equirectangular star environment",
+    "post-integration background lookup",
+    "integrator and density diagnostic modes"
+  ],
+  "defaultViewport": {
+    "width": 1440,
+    "height": 900
+  },
+  "defaultDpr": 1,
+  "debugModes": [
+    {
+      "value": "final",
+      "label": "Final"
+    },
+    {
+      "value": "steering",
+      "label": "Accumulated steering"
+    },
+    {
+      "value": "disk-density",
+      "label": "Disk density"
+    },
+    {
+      "value": "transmittance",
+      "label": "Remaining transmittance"
+    },
+    {
+      "value": "bent-direction",
+      "label": "Bent environment direction"
+    }
+  ],
+  "controls": [
+    "pause",
+    "timeScale",
+    "dpr",
+    "debugMode",
+    "capture"
+  ]
+}

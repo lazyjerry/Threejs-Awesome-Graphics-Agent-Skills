@@ -19,6 +19,11 @@ Use a single shadow map only when its receiver region is genuinely bounded. For 
 
 Read [references/cached-clipmap-shadows.md](references/cached-clipmap-shadows.md) before implementing a large-world directional light.
 
+Inspect the runnable
+[authored financial tower](../threejs-procedural-architecture/examples/authored-financial-tower/index.html)
+for three light-space square levels, per-level texel snapping, containment
+cross-fades, cached coarse updates, scaled bias, and unshadowed outside weight.
+
 ## Failure conditions
 
 - projection centers move by fractions of a texel;
@@ -28,3 +33,9 @@ Read [references/cached-clipmap-shadows.md](references/cached-clipmap-shadows.md
 - depth texture samples occur in divergent fragment control flow;
 - the same normal bias is used across radically different texel sizes;
 - level boundaries become visible under camera motion.
+
+## Routing boundary
+
+Use this skill for light-space directional shadow maps. Use
+`$threejs-screen-space-ambient-occlusion` for view-dependent ambient
+visibility; AO is not a replacement for cast shadows.

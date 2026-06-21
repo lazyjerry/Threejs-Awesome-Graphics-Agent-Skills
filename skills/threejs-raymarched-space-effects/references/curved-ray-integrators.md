@@ -1,178 +1,194 @@
-# Curved-ray integrators
+# Curved-ray numerical integrators
 
-## 1. Full-screen ray contract
+Use this reference for an RK4 wormhole integrator and an artistic inverse-square curved-ray accretion volume, including state reduction, disk accumulation, background lensing, and numerical diagnostics.
 
-Reconstruct a world ray from the inverse projection and camera transform:
+## Contents
 
-```glsl
-vec4 view = inverseProjection * vec4(uv * 2.0 - 1.0, 1.0, 1.0);
-vec3 rayDirectionView = normalize(view.xyz / view.w);
-vec3 rayOriginWorld = cameraPosition;
-vec3 rayDirectionWorld = normalize((cameraWorld * vec4(rayDirectionView, 0.0)).xyz);
-```
+- Wormhole state reduction
+- Wormhole RK4 integration
+- Universe selection
+- accretion volume screen-volume integration
+- Disk density and color
+- Background lensing
+- Observed defects and boundaries
+- Diagnostics
 
-Transform origin and direction into effect space once. Keep the black hole, disk, or wormhole near a numerically stable origin.
 
-## 2. Integration state
+## Wormhole state reduction
 
-Track:
-
-```glsl
-struct RayState {
-  vec3 p;
-  vec3 v;
-  vec3 radiance;
-  vec3 throughput;
-  float traveled;
-  int termination;
-};
-```
-
-Do not hide state mutation in unrelated shading functions.
-
-## 3. Physically inspired bending
-
-A practical artistic acceleration toward a compact mass:
-
-```glsl
-vec3 toCenter = -p;
-float r2 = max(dot(toCenter, toCenter), radiusEpsilon);
-vec3 perpendicular = toCenter - v * dot(toCenter, v);
-vec3 acceleration = bendStrength * perpendicular / (r2 * sqrt(r2));
-```
-
-Integrate with a stable method:
-
-```glsl
-v = normalize(v + acceleration * ds);
-p += v * ds;
-```
-
-This is not a general-relativity solver. Name it “physically inspired” unless implementing a validated geodesic equation.
-
-For hero scientific work, integrate the selected metric's geodesics and validate against known deflection or photon-sphere behavior.
-
-## 4. Adaptive step policy
-
-Use distance to important structures:
+The wormhole renderer uses a spherically symmetric throat model. It reduces
+each 3D ray to a two-dimensional integration state:
 
 ```text
-ds = clamp(
-  min(distanceToMass * massStepFactor,
-      distanceToDisk * diskStepFactor,
-      distanceToBoundary * boundaryStepFactor),
-  minStep,
-  maxStep
-)
+y.x = signed radial coordinate l
+y.y = radial momentum pL
+impact parameter b = length(cross(rayOrigin, rayDirection))
+throat radius Rth = 1.2
 ```
 
-Limit the rate of step-size change to avoid skipping after a close encounter.
-
-Use fixed compile-time maximum iterations with runtime early exit for broad shader compatibility.
-
-## 5. Termination
-
-Record distinct reasons:
+It constructs an orbital plane:
 
 ```text
-escaped effect bounds
-crossed event boundary
-entered wormhole throat
-throughput exhausted
-distance budget exhausted
-iteration cap
+normal = normalize(cross(origin, direction))
+u = normalize(origin)
+v = cross(normal, u)
 ```
 
-Render termination IDs as debug colors. If many pixels hit the iteration cap, the integrator is not production-ready.
+Near-radial rays use fallback axes to avoid a zero cross product.
 
-## 6. Thin disk crossing
-
-Track previous and current signed distance to the disk plane:
-
-```glsl
-float d0 = dot(previousP - diskCenter, diskNormal);
-float d1 = dot(currentP - diskCenter, diskNormal);
-bool crossed = d0 * d1 <= 0.0;
-float t = d0 / (d0 - d1);
-vec3 hit = mix(previousP, currentP, clamp(t, 0.0, 1.0));
-```
-
-Then test radial bounds and disk thickness. This remains stable when `ds` exceeds the geometric thickness.
-
-## 7. Accretion disk shading
-
-Use disk-local radius and azimuth:
+Initial signed coordinate:
 
 ```text
-temperature(radius) → blackbody-inspired color
-density(radius, azimuth, time) → optical depth/emission
-velocityDirection → Doppler-inspired asymmetry
+l = sqrt(max(length(origin)^2 - Rth^2, 0.001))
+pL = dot(normalize(origin), direction)
 ```
 
-Front-to-back emission:
+## Wormhole RK4 integration
 
-```glsl
-float alpha = 1.0 - exp(-density * pathLength);
-state.radiance += state.throughput * emission * alpha;
-state.throughput *= 1.0 - alpha;
+The derivative is:
+
+```text
+r2 = l^2 + Rth^2
+dl/ds = r2 * pL
+dpL/ds = b^2 * l / r2
 ```
 
-Use turbulence to distort coherent spiral/band structure. Raw noise alone reads as a glowing fog ring.
+The shader runs fourth-order Runge–Kutta with:
 
-## 8. Background sampling
-
-When the ray escapes, sample an environment using the final bent direction:
-
-```glsl
-vec3 background = texture(environmentMap, finalDirection).rgb;
-color = accumulatedRadiance + throughput * background;
+```text
+maximum iterations = 920
+base step = 0.0042
+per-ray step jitter = +/- 0.00045
+escape distance = abs(l) > 40
+azimuth accumulation = step * b
 ```
 
-For stars, use a filtered cubemap or procedural field designed to avoid subpixel flicker. Tiny unfiltered point stars alias severely under lensing.
+On escape:
 
-## 9. Wormhole mapping
+```text
+finalDirection =
+  normalize(u * cos(phi) + v * sin(phi))
+```
 
-Define two exterior frames and a throat coordinate. On throat entry:
+The sign of final `l` selects which exterior universe is visible. Failure to
+escape renders a bright fallback color, making iteration-cap pixels observable.
 
-1. map the entry point to throat coordinates;
-2. evolve through the throat or apply an explicit transfer map;
-3. transform the exit position and direction into the destination frame;
-4. continue integration or sample the destination environment.
+This is materially stronger than a UV swirl because the final environment
+direction comes from numerical integration.
 
-Preserve orientation deliberately. An arbitrary UV rotation at the seam makes the effect feel like a portal texture.
+## Universe selection
 
-For an artistic tunnel, use a signed distance or parametric tube with:
+The two exterior universes are independent procedural directional fields. Both
+use five-octave FBM, animated coordinate drift, broad/fine structure, and
+different plane orientation.
 
-- longitudinal coordinate;
-- local radial coordinate;
-- transported frame without sudden twist;
-- emission/density bands tied to curvature and flow.
+Sample those fields only after integration. Lensing must change the lookup
+direction rather than distort an already rendered screen image.
 
-## 10. Temporal and spatial quality
+A small direction-hashed grain of amplitude `0.01` reduces visible gradient
+banding.
 
-Ray integration can run:
+## accretion volume screen-volume integration
 
-- at reduced resolution with edge-aware reconstruction;
-- with interleaved steps and temporal accumulation;
-- in a bounded screen region;
-- only for a hero object, with a cheaper displacement material elsewhere.
+The black-hole effect is evaluated on a sphere surrounding the effect. Defaults:
 
-History rejection must consider camera motion and large changes in final ray direction.
+```text
+iterations = 128
+step = 0.0071
+ray jitter = 0.01
+bending power = 0.3
+core radius = 0.13
+disk half-width = 0.03
+```
 
-## 11. Debug output
+Per step:
+
+```text
+r = length(rayPosition)
+steerMagnitude = step * power / r^2
+steerRange = remapClamped(r, 1 -> 0.5, 0 -> 1)
+newDirection = normalize(direction - radial * steerMagnitude * steerRange)
+```
+
+The ray direction is bent toward the center only inside the configured range.
+Unlike the wormhole, this is an artistic inverse-square steering field, not a
+validated metric geodesic.
+
+## Disk density and color
+
+Disk coordinates rotate around the local Z axis with radius and time:
+
+```text
+rotation phase = radialDistance * 4.27 - time * 0.1
+noise UV = rotatedPosition * 2
+```
+
+A repeated deep-noise texture is multiplied by a quadratic band across
+`[-width, 0, +width]`. Radial distance, noise value, and a nearby noise sample
+produce a ramp coordinate.
+
+The three-point color ramp is:
+
+```text
+white-hot at 0.06
+gold at 0.33
+dark amber at 1.0
+emission scale 1.95
+additional emission color (1.0, 0.72, 0.26)
+```
+
+The central sphere below `originRadius` is black. Disk opacity accumulates
+front-to-back into `alphaAcc`; color accumulates using remaining transmittance.
+
+## Background lensing
+
+After the fixed loop, the final bent direction samples a deterministic
+equirectangular star texture generated from `5200` seeded stars on a sphere.
+
+```text
+final = accumulated disk color
+      + remaining transmittance * star environment
+```
+
+The deterministic star field is important: lensing motion can be compared
+without random stars moving between runs.
+
+## Observed defects and boundaries
+
+- The demonstrated accretion-volume loop advances `rayPosition` twice per
+  iteration while its steering magnitude uses a single `step`. Treat the
+  effective distance step as `2 * step`, or remove the duplicate advance and
+  retune the complete density-and-bending system explicitly.
+- accretion volume has no early exit and no termination IDs; every pixel pays the full
+  iteration count.
+- Its disk is detected by local band density at samples, not by a continuous
+  plane-crossing test. A large step can skip a thin disk.
+- The artistic inverse-square steering must not be described as general
+  relativity.
+- The wormhole uses a fixed high iteration cap and per-ray step jitter but has
+  no CPU reference-ray tests.
+- Both effects render on bounded proxy geometry; coordinate transforms must be
+  verified if the proxy is nonuniformly scaled or moved far from the origin.
+- The star texture is finite-resolution and can alias under extreme
+  magnification.
+
+## Diagnostics
 
 Expose:
 
 ```text
-iteration count
-minimum radius
-step length
-integrated bend angle
-disk crossing count
-throughput
-termination reason
-final direction
+wormhole l and pL
+impact parameter and orbital-plane basis
+RK4 step count and escaped/capped state
+final exterior side and environment direction
+accretion volume radius and steering magnitude
+effective traveled distance
+disk band, noise, ramp coordinate, and local alpha
+accumulated alpha and remaining transmittance
+core-hit mask
+final bent background direction
 NaN/invalid-state mask
 ```
 
-Add CPU-side reference tests for a few rays if the bending model claims physical behavior.
+Add CPU reference rays for the wormhole before claiming physical parity, and a
+continuous disk-crossing variant before increasing accretion volume’s step size.

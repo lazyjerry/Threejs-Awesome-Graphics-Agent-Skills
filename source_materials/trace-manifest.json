@@ -101,9 +101,71 @@
         "src/grammar/generator-assertions.ts": "7cac4f61942b1da542c0f42b9c1e221175d66835836ff7970f87c99253ce9a78",
         "src/scene/csm/cached-clipmap-shadow-node.ts": "aaba259e83e9b4bc33beb929c98f3d90c0ab21b35730aa91a4d68dbd6ab4fd68",
         "src/scene/csm/bounded-shadow-node.ts": "43f359ba1f1c3f788c09d2504c2bf580f0d0ee7dfe4c5a85085d955fd4ad361d",
+        "src/scene/materials.ts": "0a31e5bee4ca4719c13a6d14baaceadec9c91cd7c3dcd0e48323ccce449a63e5",
+        "src/scene/daylight-lighting.ts": "ded4589d28b4f0c4b8e20d22643c3947d81504190894514a637beae9452cbefb",
+        "src/scene/daylight-sky.ts": "1fae7e511966ad764ef215655fe209c20def5a17e121f748e6b4220257cf011f",
+        "src/scene/scene-environment.ts": "0dbf374a1cb8a29b714945899a255bdc929c3de24bb87c9dad586f771753b8d5",
+        "src/app/building-canvas.tsx": "f0863482b5f3aedea7f8710e1e2830caf8139828c10f7e82a7b58bac7647c410",
+        "src/app/ground-plane.tsx": "461f432c7b98c020b099de2b35223dcaecaba64a2e2952da6aed0b5804bbb18f",
         "src/scene/post-processing/gtao.ts": "138d852aeafaebfe8c5c0df7ccb957cc9a0362096ee1b69f178cf0ed8ab523d7",
         "src/scene/post-processing/gtao-composite.ts": "fa0cd1263f782e5156c425cbf36693f98766a4091be280e7412f27d36a9c6ccf",
         "src/scene/post-processing/depth-constants.ts": "6fadb3371b81d2b5f6e8f1829f1366cc28e0491a4a481f81e45ce71355006d3a"
+      },
+      "assets": {
+        "public/assets/financial-core/limestone-albedo.png": "e6a31f83f69425e59e3e487ecd21570b2c504417d7aff1cd3d366d5e340da8b0",
+        "public/assets/financial-core/limestone-normal.png": "87768195ef74251aefe4f8672af37787349b329f476bcee484eb68ea869b0426",
+        "public/assets/financial-core/ornaments-albedo.png": "8f76f3cf3289eff684f48143129f52968eaa1164f7c2069a7a74c523c4434d38",
+        "public/assets/financial-core/ornaments-normal.png": "dd9379d3171536dbe7dcbf5534528d0c5c2ab865841f56e088148b71bf1295a0"
+      }
+    },
+    "mecs-tower-defense-example": {
+      "repository": "https://codeberg.org/perplexdotgg/mecs-tower-defense-example",
+      "revision": "d7b4e8815fcee18d97e9a12c00f900294773ad1c",
+      "license": "MIT",
+      "localDirectory": "mecs-tower-defense-example",
+      "files": {
+        "src/materials/attributeLogic.ts": "5321026984e9fea6168e6f4bd940ca4c54838399b9fc4a704c9689d4b55a01a7",
+        "src/materials/terrain.ts": "f88a73d85f836636ae9464bfa0909e81fd577cd9af83a5f5a87ca4c806be4772",
+        "src/materials/debris.ts": "d662f9c29d29136f430f4466e008017db43caa4fe811ac70ded7c612d7106d0f",
+        "src/materials/spark.ts": "a015bb387160ae8b1085494d73cdfaf6ca78cc5ab934c1a3a7f48de2a49e7a5c",
+        "src/materials/homingProjectile.ts": "e4c3e3eba25a1bf014d16e1c4c1c2f74dc7a9f6631e2a6d95d3f0e208e9ddefd",
+        "src/materials/laserBeam.ts": "5475cb5b312d26a5ea0a250cb774c86c57e55d208d797369f7b302fcdf85eac0",
+        "src/entities/createSpark.ts": "0c78c4bed757a0361de0e3d8c9ecbe62728320cd0e9937e8e7d529f579b5d1df",
+        "src/entities/createDebrisBall.ts": "54db83bc9227f33801c2cdeb1ebe80deb4eae85282703a6973182d49866c7b97",
+        "src/init/createInstancedMeshes.ts": "9840b5ba3867e3142727a7433389e22b34f2a55152dfcb167d32955ef2ba07f1",
+        "src/systems/renderInstancedAndSprites.ts": "fc5a7e42de3355f28841c3d89635561c9a4c971e5852b2d645ff8cdd76064a43",
+        "src/systems/timedDestruction.ts": "86a2b7d6c393a6435934ad65d2fcfc06d7e86cb8c9eca48dabc2d763491568e4"
+      }
+    },
+    "holographic-shader-visualizer": {
+      "repository": "https://github.com/YasirAwan4831/holographic-shader-visualizer-three.Js",
+      "revision": "34810a6e09d0d640d06a2e83c5abab749baf04d5",
+      "license": "unobserved",
+      "localDirectory": "holographic-shader-visualizer-threejs",
+      "files": {
+        "src/hooks/useHologram.js": "9676d891548a9b3f3f5c68814ade5696bca4985931cbdd2a0e8c0008e83d0b4c",
+        "src/shaders/vertexShader.glsl.js": "0496851abdbf4d9c0cc095433e9d8dffb8af2b547a745f5d4fb3b891af1932c3",
+        "src/shaders/fragmentShader.glsl.js": "3a55e62a986fbe1c9f28f6cc05bbed5e1541149d50dfeb5c2a4c20510c9d97ed",
+        "src/constants/params.js": "ea73f5535b40316f7535c3372e8296cca5d56fd2747ecfadb27dacb8b2c19c98",
+        "src/utils/threeHelpers.js": "5bf6af2a8580011c4ddb3d5c9f1a3aebcd71664f54658e41bc2e6640b3ce7ee8"
+      }
+    },
+    "frozen": {
+      "repository": "https://github.com/takuma-hmng8/frozen",
+      "revision": "15a98a5104951a0bd734eb23ab21b7f79741ab09",
+      "license": "unobserved",
+      "localDirectory": "frozen",
+      "files": {
+        "src/Frozen/index.tsx": "151fa11c7837a3b132bf1ceaf1fbdea8c34569ad4f67525a7e48940148baab5a",
+        "src/Frozen/hooks/useSingleFBO.ts": "de21cdd1b85ecae5386a91e7dbf5b5ca0fcfd123610dc467c334e3eb51e35af1",
+        "src/Frozen/hooks/useDoubleFBO.ts": "ba86dead13b04bfc7a75514b60db6c8eab6f362026b0486544b92c33a9bca6da",
+        "src/Frozen/materials/Blur.ts": "b935d0816ba4c4972523c458bfe81489be312832860b3041fcb31f2cb146b6da",
+        "src/Frozen/materials/Frost.ts": "507894d964949d3ca12d732ec04c38655e6b5e4aac8671fcb8538888ce0454cb",
+        "src/Frozen/materials/Output.ts": "cb562f47a7199658d72c52de5f1252b5f929925fce880230ae69e8798ad4d062",
+        "src/Frozen/materials/Pointer.ts": "f43e4e1978986a8e1001e6f44d807385be110fc284192da4c51dc798fb47072c",
+        "src/Frozen/materials/noise/FrostNoise.ts": "f6547fffa4ffb0351beabcffcf29962291e301fb2316cb7b5aa0b6d86893e014",
+        "src/Frozen/materials/noise/FrozenNoise.ts": "409c8953c8bdbfcd33ef07888861ca7a91dfa728a5bbc82581fdc9087e4e899c",
+        "src/Frozen/materials/noise/HighlightNoise.ts": "b028f9d12c07fd19c33ea1c78915df216461f78c7e8964a5d9731f1d959c6397"
       }
     },
     "poseidon": {
@@ -142,7 +204,13 @@
         "src/game/runtime/solar/definitions/verdance.ts": "af0de1303e8d0c9ee071edaca0a405d8b75030875413a6df88ffd0a66c65a2bf",
         "src/game/runtime/solar/definitions/brontes.ts": "6178c5bd21e9c77e586d4d6ce5787e4c330829f1f67132a61af05a67676f6157",
         "src/game/runtime/solar/definitions/nyx.ts": "bb9066b9efc790b6d69904d4f0d8e3fa1a8726617693811fc4ab82a906c4553b",
-        "src/game/render/createReentryPlasma.ts": "5dbf16c8089ff1f412d0e78eadd33be7a7408b7b90892f7263209f7681875c55"
+        "src/game/render/createReentryPlasma.ts": "5dbf16c8089ff1f412d0e78eadd33be7a7408b7b90892f7263209f7681875c55",
+        "src/game/runtime/systems/CameraRigSystem.ts": "4e87b25b12d182d9376d642779d9e5b1eeb95d03e177dfe4c00de6e13f5652cd",
+        "src/game/runtime/runtimeMath.ts": "827c3af150c734f00780245d28185562589c37b39d9f8b9430e483cbc8b3bea3",
+        "src/game/runtime/runtimeConstants.ts": "1e3cad5df6c2b944054d679a56be5d65ec656c3248cdbe59a25546fac280cd28",
+        "src/game/runtime/GameRuntime.ts": "aa90348a9fd40a6a93520da35841aa694779b57bacf676a98e48066faa3fc473",
+        "src/game/runtime/systems/ShipControlSystem.ts": "1cce920753d1e9338caf8e6decbb3c0bce6cadad345e10aab1f06e0786071c14",
+        "src/game/runtime/systems/PhysicsSystem.ts": "df4656fdc46b34b9779c68c5c322c35145397f8eaef72aed10e4cb5708997e33"
       }
     },
     "mycraft": {
@@ -159,9 +227,19 @@
       "revision": "0c9c4635f9e0cbcb1598a2af8914c3086f8629a3",
       "license": "author-supplied",
       "files": {
+        "src/three/controls/PointerLookControls.js": "dec1e5dca1982f433fe86f1e730c572c976d9111595053b479c7beddfd2f19ab",
+        "src/three/SceneManager.js": "a94371dcd3f7f3803b773d17ae6c11398ee97431174279e51d7a467b4dc531c9",
+        "src/three/ThreeApp.js": "3ca7fd82e2c65734fde5b7fd3b3ad1d2a089001d4f6dabc05e80b5311268b1ba",
+        "src/three/scenes/05EnduranceLaunchScene.js": "2ffb516289440493c42b6742814b3acc8f66f43e81bcfead51a29c50db14991f",
+        "src/three/scenes/06SaturnApproachScene.js": "fd26f261de0d9b9c4a3a9783f863e632034deddfd7cf8000e29eec572c57d54e",
         "src/three/scenes/07WormholeScene.js": "9e44086f7eee0fcfc6a67e729f49da988f3788bfa08c22317382d622e5cbceb7",
         "src/three/scenes/08MillersPlanetScene.js": "0b8c160297d69db5b204668357bb18a2286829bd29e9f4be1ea55bf012eac0fe",
+        "src/three/scenes/09MannsPlanetScene.js": "cc9b8cc6d91876f3890ef0b7ead6d38b76bea4353012174681966496df50bc5e",
+        "src/three/scenes/10SpinDockingScene.js": "63d6bd03083a6caf90110adb99aa379e48faac95780ca033d58fe6eb54b6d47a",
         "src/three/scenes/11GargantuaSlingshotScene.js": "ab7b3d76323061ac8ed7092ab4cf8492a6821b95e5217a08833d083a77973382"
+      },
+      "assets": {
+        "public/textures/noise_deep.png": "bd5a1339eff491cc769c7832013ad29051afa43b7e64bd6ba799bd83fc33d729"
       }
     },
     "mysite-react": {
@@ -170,6 +248,15 @@
       "license": "author-supplied",
       "files": {
         "src/features/art-in-life/ArtInLifeGallery.tsx": "b65bc745d1d2177803edf58aa4d0e61cfa05cfedb33fb66cebadcee2bbc664e9"
+      },
+      "assets": {
+        "src/assets/textures/aged-walnut-frame.webp": "f9b331006846204af5f74a99f7c7c87b2e788507f32ae4976804b4de7f436c06",
+        "src/assets/textures/antique-gold-frame.webp": "0adee0ae4fb20884085a4a7b2f872c03753ca863a9aaa0e86860f32b987aab85",
+        "src/assets/textures/dark-ebony-frame.webp": "6b3f675a18f8d1c9138b158900d26358bd9523d873e4f3806615c4bd712d9e39",
+        "src/assets/textures/gallery-mat-board.webp": "664740f48c3c1d314b19e0388e849a4ecac61355878d8014fee098f61abf9cea",
+        "src/assets/textures/gallery-plaster.webp": "ecfe101ea9972290541fabcee7de478ecf673f0cf01ce69bc3c6886f24b415d1",
+        "src/assets/textures/gallery-plaster-bump.webp": "1b31fc72ea1b98b70e0ed5bad4f1a81bf14c44210029cac517c60e1e7724adb0",
+        "src/assets/textures/gallery-floor.webp": "d334222a578e566f4d16b39a360144bb930fa88196e2ed476879eec4cf11ed33"
       }
     }
   }

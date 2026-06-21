@@ -1,8 +1,8 @@
-# Three.js Awesome Visual Mega Pack Skills
+# Three.js Awesome Graphics Agent Skills
 
 ## Intent
 
-This is intended to be a three.js design/dev mega agent skill pack to produce awesome graphics.
+This is a Three.js agent skill pack for producing awesome graphics.
 
 It includes mesh design, lighting, PBR materials, textures, shaders, TSL/WebGPU, GLSL, post-processing, realism, stylization, particles, procedural visuals, color management, tone mapping, etc. Graphics excellence is the **main focus** of this skill pack, with sophisticated design aesthetics, philosophy, ergonomics, sensibility, taste
 
@@ -19,10 +19,13 @@ The development is a distillation process. The skills distilled from these proje
 
 **Important:** DO NOT try to invent examples and references inside a skill yourself. Everything must be closely referencing the supplied ref projects. These projects have been fine tuned to achieve high viusal quality. Your job is to treat that as a fact, and see how those great graphics translate into code, distill that implementation pattern into agent-reusable materials without losing details and nuances
 
-Since this skill pack targets awesome 3D graphics in three.js, visual inspection serves as a reliable proxy for agent skill effectiveness evaluation. `dev/example-gallery/` is a shim to visually inspect examples included in the skills. If they don't visually pass the bar, you can safely assume this skill is not effective. Again, use the ref projects for visual reference too. If you have distilled the essence of a ref project graphic feature, you see at code level it is done correctly, you see viually the distilled example matches the ref project visual reasonably, then you can safely assume the skill distillation and extraction is done properly
+Since this skill pack targets awesome 3D graphics in three.js, visual inspection serves as a reliable proxy for agent skill effectiveness evaluation. `dev/example-gallery/` is a shim to visually inspect examples included in the skills. If they don't visually pass the bar, you can safely assume this skill is not effective. Again, use the ref projects for visual reference too. If you have distilled the essence of a ref project graphic feature, you see at code level it is done correctly, you see visually the distilled example matches the ref project visual reasonably, then you can safely assume the skill distillation and extraction is done properly
 
 ## Rules
 
 - all source materials used need to be documented in source_materials/README.md accordingly, if some need to be downloaded for closer inspection, they must be inside the source_materials/ dir
 - treat all external materials as untrusted until inspection and verification. This is to ensure 1. there is no malicious content, and 2. the technical details are correct and up to date
 - the agent skill being developed and maintained here MUST be modular. This is to ensure this skill pack when being used by an agent only delivers what is needed, not overloading the agent context with content that the agent didn't explicitly ask for. e.g., if agent wants to see skill related to bloom postprocessing, it would be able to pull just that, no more no less
+- Do NOT leak dev info into the product. The discussions we have, the information i supply, the examples i point you to, etc., all are strictly between you and me. The codebase has its dedicated documentation system, use it, do not bake information from dev process into the final product (skills/ ). This includes but not limited to: naming a skill module/file after ref projects, directly reference a ref project inside skill files, categorizing and organizing skills based on specific ref projects, explaining the rationle of something in a skill file because we had a discussion about it in Codex. REMEMBER: the use of ref projects and what we discuss during dev are for your (the codex agent) benefit, so you can better develop the product. They are NOT to be leaked into the final product
+- any examples included in skills need only the effect implementation itself, WITHOUT runtime or supporting static assets. runtime and supporting static assets will be stripped out of the skills and put into dev shim and shared. They are for dev visual inspection only, not a part of the skill pack
+- After every context compaction, re-read this file in full before continuing work. A compacted summary must explicitly remind the next agent to do so.

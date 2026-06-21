@@ -1,0 +1,165 @@
+{
+  "schemaVersion": 1,
+  "skills": {
+    "threejs-skill-router": {
+      "classification": "meta",
+      "evidence": [
+        "skills/threejs-skill-router/SKILL.md"
+      ],
+      "rationale": "Routing metadata does not author graphics; it is verified by route reachability, ambiguity checks, and forward tests."
+    },
+    "threejs-camera-direction": {
+      "classification": "reference-sufficient",
+      "evidence": [
+        "skills/threejs-camera-direction/references/camera-rig-and-cinematic-systems.md"
+      ],
+      "rationale": "The reviewed camera systems are transform, state, and lifecycle logic with exact constants and pseudocode; the author explicitly accepted prose-only coverage."
+    },
+    "threejs-procedural-animation": {
+      "classification": "reference-sufficient",
+      "evidence": [
+        "skills/threejs-procedural-animation/references/procedural-motion-and-docking-systems.md"
+      ],
+      "rationale": "The reviewed procedural motion systems are exact phase, frame, spring, and quaternion algorithms; the author explicitly accepted prose-only coverage."
+    },
+    "threejs-procedural-fields": {
+      "classification": "example-required",
+      "evidence": [
+        "threejs-procedural-planets/planet-field-atmosphere"
+      ],
+      "rationale": "Coupled fields, masks, displacement, and procedural normals need inspectable shader implementation."
+    },
+    "threejs-procedural-materials": {
+      "classification": "example-required",
+      "evidence": [
+        "threejs-procedural-geometry/sculpted-gallery-frame",
+        "threejs-procedural-planets/planet-field-atmosphere",
+        "threejs-water-optics/analytic-wave-optics"
+      ],
+      "rationale": "Material identity must be demonstrated under real geometry and lighting, including coupled procedural channels."
+    },
+    "threejs-procedural-geometry": {
+      "classification": "example-required",
+      "evidence": [
+        "threejs-procedural-geometry/sculpted-gallery-frame",
+        "threejs-procedural-vegetation/structured-ash-growth",
+        "threejs-procedural-architecture/authored-financial-tower"
+      ],
+      "rationale": "Profile sweeps, branch rings, and semantic mesh compilation cannot be reconstructed reliably from prose alone."
+    },
+    "threejs-procedural-vegetation": {
+      "classification": "example-required",
+      "evidence": [
+        "threejs-procedural-vegetation/structured-ash-growth"
+      ],
+      "rationale": "Growth hierarchy, branch topology, foliage normals, and rooted wind require runnable source-matched evidence."
+    },
+    "threejs-procedural-architecture": {
+      "classification": "example-required",
+      "evidence": [
+        "threejs-procedural-architecture/authored-financial-tower"
+      ],
+      "rationale": "Massing, exposed-edge analysis, façade grammar, semantic modules, and grouped mesh emission require implementation evidence."
+    },
+    "threejs-procedural-planets": {
+      "classification": "example-required",
+      "evidence": [
+        "threejs-procedural-planets/planet-field-atmosphere"
+      ],
+      "rationale": "Spherical domain warping, geological bands, biome masks, and orbit-to-close shading require a runnable implementation."
+    },
+    "threejs-spectral-ocean": {
+      "classification": "example-required",
+      "evidence": [
+        "threejs-spectral-ocean/spectral-cascade-ocean"
+      ],
+      "rationale": "Spectral synthesis, staged FFTs, derivatives, and persistent foam are implementation-critical."
+    },
+    "threejs-water-optics": {
+      "classification": "example-required",
+      "evidence": [
+        "threejs-water-optics/analytic-wave-optics"
+      ],
+      "rationale": "Shared wave displacement/normals and reflection/refraction/absorption coupling require runnable shader evidence."
+    },
+    "threejs-atmosphere-aerial-perspective": {
+      "classification": "example-required",
+      "evidence": [
+        "threejs-procedural-planets/planet-field-atmosphere"
+      ],
+      "rationale": "Sky, shell, and surface-segment scattering must be visibly coupled to the same atmosphere parameters."
+    },
+    "threejs-volumetric-clouds": {
+      "classification": "example-required",
+      "evidence": [
+        "threejs-volumetric-clouds/weather-volume-clouds"
+      ],
+      "rationale": "Density shaping, bounded integration, lighting, reconstruction, and shadows require runnable shader evidence."
+    },
+    "threejs-raymarched-space-effects": {
+      "classification": "example-required",
+      "evidence": [
+        "threejs-raymarched-space-effects/curved-ray-accretion-volume"
+      ],
+      "rationale": "Numerical curved-ray integration and volumetric disk accumulation require inspectable implementation."
+    },
+    "threejs-procedural-vfx": {
+      "classification": "example-required",
+      "evidence": [
+        "threejs-procedural-vfx/reentry-plasma-and-sparks"
+      ],
+      "rationale": "Layered shells, wakes, sparks, pooling, and HDR contribution hierarchy require runnable evidence."
+    },
+    "threejs-temporal-surfaces": {
+      "classification": "example-required",
+      "evidence": [
+        "threejs-temporal-surfaces/touch-history-frost"
+      ],
+      "rationale": "Ping-pong history, reduced blur, static structure, and two-scale refraction are implementation-critical."
+    },
+    "threejs-shadow-systems": {
+      "classification": "example-required",
+      "evidence": [
+        "threejs-procedural-architecture/authored-financial-tower"
+      ],
+      "rationale": "Clipmap coverage, texel snapping, cache state, cross-fades, and invalidation need a visible inspection surface."
+    },
+    "threejs-screen-space-ambient-occlusion": {
+      "classification": "reference-sufficient",
+      "evidence": [
+        "skills/threejs-screen-space-ambient-occlusion/references/gtao-bent-normal-pipeline.md"
+      ],
+      "rationale": "The source extraction contains exact buffer contracts, equations, sampling, reconstruction, and diagnostics; the author accepted practical post-processing references without mandatory standalone examples."
+    },
+    "threejs-bloom": {
+      "classification": "example-required",
+      "evidence": [
+        "threejs-procedural-geometry/sculpted-gallery-frame"
+      ],
+      "rationale": "Selective contribution ownership and guaranteed material restoration are exercised by the sculpted gallery-frame example."
+    },
+    "threejs-exposure-color-grading": {
+      "classification": "reference-sufficient",
+      "evidence": [
+        "skills/threejs-exposure-color-grading/references/scene-referred-color-pipeline.md"
+      ],
+      "rationale": "The reviewed post path is fully specified as meter dimensions, encoding, readback, adaptation constants, tone-map ownership, LUT generation, and diagnostics."
+    },
+    "threejs-image-pipeline": {
+      "classification": "reference-sufficient",
+      "evidence": [
+        "skills/threejs-image-pipeline/references/production-image-pipeline.md"
+      ],
+      "rationale": "This skill owns signal contracts and ordering across atomic effects; practical pass graphs and ownership tables are the directly applicable artifact."
+    },
+    "threejs-visual-validation": {
+      "classification": "tooling",
+      "evidence": [
+        "dev/example-gallery/README.md",
+        "scripts/capture-examples.mjs",
+        "scripts/test-example-gallery.mjs"
+      ],
+      "rationale": "The repository gallery, deterministic capture workflow, diagnostics, metrics, and smoke tests are the executable implementation of this skill."
+    }
+  }
+}

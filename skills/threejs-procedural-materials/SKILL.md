@@ -1,6 +1,6 @@
 ---
 name: threejs-procedural-materials
-description: Author coherent procedural PBR materials in Three.js. Use for shared material fields, layered surface identity, causal wear and wetness, derivative-aware filtering, specular antialiasing, triplanar or atlas sampling, custom shadow modulation, and extending physical materials without losing their lighting model.
+description: Author production procedural materials in Three.js. Use for atlas filtering and specular AA, planet-space material fields, terrain wetness, per-instance dissolve, authored PBR identities, derivative normals, and custom direct-light shadow modulation.
 ---
 
 # Procedural Materials
@@ -19,14 +19,31 @@ stable coordinates
   → lighting/shadow extensions
 ```
 
-Read [references/procedural-pbr-system.md](references/procedural-pbr-system.md).
+Read [references/procedural-pbr-system.md](references/procedural-pbr-system.md)
+for atlas filtering, specular AA, planetary coordinates,
+world-height wetness, per-instance dissolve, and authored PBR response bundles.
+
+Inspect the runnable
+[sculpted gallery frame](../threejs-procedural-geometry/examples/sculpted-gallery-frame/index.html)
+for walnut, antique-gold, and ebony texture/roughness/metalness/clearcoat
+bundles under a grazing-light setup.
+
+Inspect the runnable
+[planet field and atmosphere](../threejs-procedural-planets/examples/planet-field-atmosphere/index.html)
+for shared geological, climate, water, biome, roughness, and derivative-normal
+causes on a procedural planetary surface.
+
+Inspect the runnable
+[analytic wave optics](../threejs-water-optics/examples/analytic-wave-optics/index.html)
+for coupled reflection, refraction, absorption, filtered microstructure,
+resolved crest response, and their diagnostic channels.
 
 ## Required controls
 
 - real or perceptual texture scale;
 - material identity weights;
 - roughness range and micro-normal strength;
-- wear, cavity, wetness, dust, or oxidation causes;
+- the causal fields required by the selected material pattern;
 - distance/derivative filtering;
 - specular antialiasing;
 - channel and mask debug modes.
@@ -40,3 +57,9 @@ Read [references/procedural-pbr-system.md](references/procedural-pbr-system.md).
 - atlas padding is ignored under mipmapping;
 - custom lighting removes energy conservation without an explicit stylized goal;
 - post-processing is used to hide unstable highlights.
+
+## Routing boundary
+
+Use `$threejs-procedural-fields` when the main problem is designing shared
+scalar/vector causes. Use `$threejs-procedural-planets` for a complete
+orbit-to-close-approach body, not merely its material.

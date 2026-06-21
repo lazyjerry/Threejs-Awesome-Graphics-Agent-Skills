@@ -1,6 +1,6 @@
 ---
 name: threejs-image-pipeline
-description: Build a deliberate final-image pipeline for advanced Three.js scenes. Use for depth/normal/velocity ownership, GTAO or bent normals, bilateral reconstruction, bloom, eye adaptation, tone mapping, 3D LUT grading, lens effects, dithering, and pass-level diagnostics.
+description: Build a deliberate final-image pipeline for advanced Three.js scenes. Use for depth, normal, albedo, and history ownership; GTAO or bent normals; bloom; eye adaptation; tone mapping; 3D LUT grading; effect-local render targets; and pass diagnostics.
 ---
 
 # Image Pipeline
@@ -18,7 +18,7 @@ The pipeline must expose its signals and ordering. Do not install a pile of effe
 ## Signal order
 
 ```text
-scene HDR color + depth + normals + velocity
+scene HDR color + depth + normals + albedo where required
   → lighting-related screen effects
   → atmosphere/transparency composition
   → bloom
@@ -26,10 +26,12 @@ scene HDR color + depth + normals + velocity
   → tone mapping
   → grading
   → lens/presentation effects
-  → dithering/output
+  → output conversion
 ```
 
-Read [references/production-image-pipeline.md](references/production-image-pipeline.md).
+Read [references/production-image-pipeline.md](references/production-image-pipeline.md)
+for four production pass graphs, their buffer/resolution contracts, and the
+ownership boundaries between whole-scene and effect-local graphs.
 
 ## Rules
 
@@ -41,3 +43,9 @@ Read [references/production-image-pipeline.md](references/production-image-pipel
 - Build pass toggles and effect-only views before tuning.
 - UI rendered in the same target needs an explicit protection strategy.
 - Do not load all atomic post skills by default. Route only the effects actually requested.
+
+## Routing boundary
+
+Use this skill when multiple image-space systems must share buffers, ordering,
+or output ownership. For one isolated effect, use its atomic skill without
+loading this coordinator.

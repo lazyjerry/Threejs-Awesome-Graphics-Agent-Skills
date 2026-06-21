@@ -22,11 +22,10 @@ Represent a plant as a growth hierarchy plus rendering adaptations. Do not model
 7. Build foliage normals from both card orientation and local crown volume.
 8. Choose wind scope explicitly. Leaf-root deformation, branch hierarchy deformation, and whole-tree sway are separate systems.
 
-Read [references/branch-growth-system.md](references/branch-growth-system.md) for the implementation skeleton and tuning constraints.
+Read [references/structured-ash-growth-system.md](references/structured-ash-growth-system.md) and preserve its preset, continuation, child-placement, leaf, material, wind, and composition contracts before tuning.
 
-For deciduous trees modeled after the reviewed `ez-tree` result, read [references/ez-tree-ash-extraction.md](references/ez-tree-ash-extraction.md) and preserve its preset, continuation, child-placement, leaf, material, and composition contracts before tuning.
-
-Inspect the source-traceable [Ash Growth System](examples/ez-tree-ash/index.html) for a runnable parity-oriented implementation and its diagnostic views.
+Inspect the [Ash Growth System](examples/structured-ash-growth/index.html) for
+a runnable contract-accurate implementation and its diagnostic views.
 
 ## Visual failure conditions
 
@@ -38,3 +37,9 @@ Inspect the source-traceable [Ash Growth System](examples/ez-tree-ash/index.html
 - branch wind is claimed to match a reference whose branches are static;
 - different seeds change species identity rather than controlled variation;
 - geometry cost grows without a per-level budget.
+
+## Routing boundary
+
+Use `$threejs-procedural-geometry` for generic branch-ring emission without a
+growth model. This skill owns species tables, topology, child placement,
+foliage, roots, and hierarchical wind.

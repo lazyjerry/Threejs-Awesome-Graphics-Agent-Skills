@@ -1,138 +1,185 @@
-# HDR bloom system
+# HDR bloom systems
 
-## 1. Signal contract
+Use this reference to choose bloom ownership, signal order, selective contribution, and scene-relative emissive ranges without making bloom responsible for the underlying form.
 
-Bloom input must be linear HDR scene color before tone mapping:
+## Contents
 
-```text
-opaque/transparency/atmosphere HDR
-  → bloom extraction and pyramid
-  → bloom composite
-  → exposure
-  → tone mapping
-```
+- production WebGPU pipeline signal order
+- production WebGPU pipeline bloom controls
+- selective gallery pipeline selective ownership
+- Material substitution invariant
+- atlas-based renderer baseline
+- pooled VFX system HDR hierarchy
+- Implementation limits
+- Diagnostics
 
-If the renderer or pipeline applies exposure during material shading, verify what numeric range reaches extraction. Avoid applying exposure twice.
 
-## 2. Luminance extraction
+## production WebGPU pipeline signal order
 
-Use luminance:
-
-```glsl
-float luma = dot(color, vec3(0.2126, 0.7152, 0.0722));
-```
-
-Soft knee:
-
-```glsl
-float soft = clamp(luma - threshold + knee, 0.0, 2.0 * knee);
-soft = soft * soft / max(4.0 * knee, 1e-4);
-float contribution = max(luma - threshold, soft) / max(luma, 1e-4);
-vec3 bright = color * contribution;
-```
-
-Expose threshold in the same HDR units used by scene lighting.
-
-## 3. Multi-scale pyramid
-
-Build levels at decreasing resolution. Each downsample should combine filtering and reduction. Then upsample from coarse to fine:
+The WebGPU pipeline owns bloom before exposure and render output:
 
 ```text
-L0 half resolution
-L1 quarter
-L2 eighth
-L3 sixteenth
-L4 thirty-second
+scene pass
+  -> optional GTAO composite
+  -> optional atmosphere
+  -> bloom node
+  -> sampled scene + bloom
+  -> eye-adaptation exposure
+  -> renderOutput / tone map
+  -> optional 3D LUT
+  -> optional FXAA
 ```
 
-Combine:
+The render pipeline disables its automatic output color transform and assigns
+one final output node. Preserve this one-owner rule when adapting to current
+Three.js `RenderPipeline`.
+
+## production WebGPU pipeline bloom controls
+
+Bloom defaults:
 
 ```text
-bloom = Σ level_i * weight_i
+enabled = false
+strength = 0
+radius = 0.35
+threshold = 0.72
+smooth width = 0.08
 ```
 
-Fine levels create glow around details; coarse levels create broad atmosphere. Tune weights by visual role, not one global radius.
+The Three.js bloom node reads the HDR texture produced after atmosphere. Its
+strength becomes zero when disabled; radius, threshold, and smooth width remain
+independently updateable.
 
-Use resolution-relative kernels so output remains stable across viewport sizes.
+This path does not implement a custom pyramid. Its contract is signal placement
+and parameter ownership around the renderer’s bloom node.
+Verify the installed Three.js node API before using the exact constructor or
+property names.
 
-## 4. Energy and color
+## selective gallery pipeline selective ownership
 
-Avoid repeated unnormalized blur that grows energy unpredictably. Track kernel normalization and final intensity explicitly.
-
-Preserve HDR color ratios where possible. If saturated emitters turn white too early, inspect:
-
-- extraction;
-- texture format;
-- clamping;
-- upsample addition;
-- tone mapping;
-- gamut conversion.
-
-## 5. Selective bloom strategies
-
-Prefer, in order:
-
-1. emissive values naturally above threshold;
-2. explicit bloom mask or contribution target;
-3. layer-based secondary render;
-4. temporary material substitution only with robust traversal and restoration.
-
-An explicit target can contain:
+The gallery uses two separate selective bloom pipelines:
 
 ```text
-RGB bloom contribution
-A contribution confidence/mask
+neon layer -> neon UnrealBloomPass
+chandelier layer -> chandelier UnrealBloomPass
+base scene -> final composer
+
+final = base + neon bloom + chandelier bloom
 ```
 
-For material substitution:
+Each bloom composer renders off-screen. A final shader adds both bloom textures
+to the base render, then an `OutputPass` performs display output.
 
-- cache original material by object;
-- account for arrays of materials;
-- exclude background and protected UI;
-- restore in `finally`;
-- handle newly added objects;
-- avoid compiling a unique black material per object.
+Separate ownership lets neon animation change strength/radius without forcing
+the chandelier glow to share the same threshold or spread.
 
-## 6. Transparent emitters
+Chandelier bulbs, filaments, and glow meshes use unlit materials; bulb and
+filament materials set `toneMapped = false`. The pipeline therefore combines
+explicit layer membership with material-level HDR/display behavior.
 
-Ensure the bloom input includes the intended transparent composition. Options:
+## Material substitution invariant
 
-- render emitters into the main HDR target before extraction;
-- output additive emission to a separate buffer;
-- include them in a dedicated contribution pass.
+For each selective pass, selective gallery pipeline traverses visible meshes and replaces every
+non-member material with one shared black material.
 
-Depth sorting and premultiplied alpha affect extracted color. Inspect the raw contribution buffer.
+Required transaction:
 
-## 7. Exposure coupling
+```text
+set active bloom layer
+traverse visible meshes
+record { mesh, original material }
+replace non-members with shared black material
+try:
+  render bloom composer
+finally:
+  restore every recorded material
+  clear restoration list
+```
 
-Bloom threshold and exposure are related:
+Support material arrays by storing the complete original `mesh.material`
+value. Also toggle the high-detail and simplified
+chandelier representations so only the intended version contributes.
 
-- physical approach: threshold in scene-referred units; exposure changes display brightness but not which scene radiance blooms;
-- stylized approach: threshold may track exposure partially to maintain a look.
+The `finally` block is non-negotiable. Without it, a render error permanently
+blackens scene meshes.
 
-Choose and document one. Hidden reciprocal tuning causes unstable day/night transitions.
+## atlas-based renderer baseline
 
-## 8. Temporal behavior
+atlas-based renderer wraps `UnrealBloomPass` with:
 
-Bloom itself usually does not need history. If the source is temporally noisy:
+```text
+strength = 0.30
+radius = 0.50
+threshold = 0.05
+```
 
-- stabilize the source;
-- filter subpixel emissive features;
-- accumulate the source pass with valid motion/history;
-- avoid simply blurring more.
+Composer order:
 
-## 9. Debug views
+```text
+scene -> SSAO -> volumetrics -> bloom -> lens flare -> fog/color
+```
+
+This is a useful comparison, not the quality target. The threshold is very low
+and can bloom ordinary bright surfaces. The wrapper exposes only enabled,
+strength, and threshold, while radius stays at its constructor value.
+
+## pooled VFX system HDR hierarchy
+
+pooled VFX system assigns compact effect luminance before bloom:
+
+```text
+spark initial RGB multiplier = 80
+homing projectile = 30
+laser = 10
+```
+
+These values establish a material-level contribution hierarchy, but they do
+not define the bloom pass. Validate them against actual renderer exposure
+before reuse.
+
+Use the relationship, not the raw numbers:
+
+```text
+short spark flash
+  > projectile core
+  > persistent laser
+  > ordinary lit surface
+```
+
+## Implementation limits
+
+- selective gallery pipeline renders the scene multiple times for selective bloom. This is
+  acceptable for its bounded gallery but expensive for large scenes.
+- Temporary material substitution can trigger shader/program changes and must
+  account for newly added meshes.
+- The final selective gallery pipeline composite adds bloom textures directly; energy is
+  artistic, not physically conserved.
+- atlas-based renderer’s low threshold is not evidence for a general HDR calibration.
+- production WebGPU pipeline depends on version-sensitive Three.js bloom-node behavior.
+- pooled VFX system material multipliers are scene-relative and cannot be treated as
+  exposure-independent units.
+
+Prefer a dedicated contribution target when MRT/backend architecture supports
+it and the scene cannot afford multiple full renders. Validate that decision
+against the target scene’s measured cost and contribution masks.
+
+## Diagnostics
 
 Expose:
 
 ```text
-pre-bloom HDR with false-color luminance
-threshold contribution
-each pyramid level
-combined bloom only
-final without bloom
-final with bloom
-protected UI mask
+HDR scene before bloom
+false-color luminance
+neon contribution
+chandelier contribution
+each bloom result
+base without bloom
+final composite
+active layer membership
+material restoration count and leak assertion
+transparent-emitter contribution
+bloom GPU time per render
 ```
 
-Bloom is accepted only if the no-bloom frame still has intentional hierarchy.
+Acceptance requires the base frame to retain form and material hierarchy with
+both bloom textures disabled.

@@ -21,6 +21,11 @@ settings
 
 Read [references/grammar-and-mesh-compiler.md](references/grammar-and-mesh-compiler.md) before implementing the generator.
 
+Inspect the runnable
+[authored financial tower](examples/authored-financial-tower/index.html)
+for seeded tier planning, semantic façade placement, reserved zones,
+material-slot instancing, projected detail, and mechanism-specific diagnostics.
+
 ## Rules
 
 - Massing, façade rhythm, and detail modules are separate layers.
@@ -41,3 +46,9 @@ The generated building must survive:
 - close inspection of corners and roof transitions;
 - seed variation without broken bays, overlapping ownership, or floating ornament;
 - triangle and module-count reporting.
+
+## Routing boundary
+
+Use `$threejs-procedural-geometry` for a reusable profile, sweep, ring, or mesh
+writer without a building grammar. This skill owns massing, façade semantics,
+architectural modules, and building-plan compilation.

@@ -13,7 +13,14 @@ Treat sky rendering and aerial perspective as two views of the same scattering m
 - Planetary ground-to-space camera: ray integration or precomputed LUTs.
 - Large geospatial world: LUTs plus world-to-planet transform, altitude correction, and depth-aware aerial perspective.
 
-Read [references/atmosphere-system-contract.md](references/atmosphere-system-contract.md) before implementing the system.
+Read [references/atmosphere-system-contract.md](references/atmosphere-system-contract.md)
+before implementation. It separates the LUT/ellipsoid architecture from
+dynamic integration and the shell/post handoff.
+
+Inspect the runnable
+[planet field and atmosphere](../threejs-procedural-planets/examples/planet-field-atmosphere/index.html)
+for bounded Rayleigh/Mie integration, ground shadowing, and shared surface/shell
+sun ownership.
 
 ## Required outputs
 
@@ -32,3 +39,9 @@ Read [references/atmosphere-system-contract.md](references/atmosphere-system-con
 - scene depth is treated as linear when it is not;
 - exposure is used to hide incorrect radiance scale;
 - atmosphere fades abruptly at shell entry.
+
+## Routing boundary
+
+This skill owns molecular/aerosol sky scattering and surface-segment aerial
+perspective. Use `$threejs-volumetric-clouds` for weather-shaped cloud density,
+temporal cloud reconstruction, and cloud shadows.

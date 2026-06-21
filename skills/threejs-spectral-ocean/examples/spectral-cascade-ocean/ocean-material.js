@@ -32,6 +32,7 @@ export function createOceanMaterial(cascades, options) {
     foamThreshold: { value: 0.4 },
     foamScale: { value: 2.5 },
     detailStrength: { value: 0.1 },
+    detailTexture: { value: options.detailTexture },
     time: { value: 0 },
     fogColor: { value: new THREE.Color(0x9fb8cc) },
     fogDensity: { value: 0.0045 },
@@ -87,6 +88,7 @@ export function createOceanMaterial(cascades, options) {
       uniform float foamThreshold;
       uniform float foamScale;
       uniform float detailStrength;
+      uniform sampler2D detailTexture;
       uniform float time;
       uniform float fogDensity;
       uniform int debugMode;
@@ -134,17 +136,18 @@ export function createOceanMaterial(cascades, options) {
           -derivative.y / denominatorZ
         ));
 
-        vec2 detailCoordinate =
-          oceanPosition * 0.085 +
-          vec2(time * 0.04, time * 0.025);
-        float detailX =
-          valueNoise(detailCoordinate + vec2(0.18, 0)) -
-          valueNoise(detailCoordinate - vec2(0.18, 0));
-        float detailZ =
-          valueNoise(detailCoordinate + vec2(0, 0.18)) -
-          valueNoise(detailCoordinate - vec2(0, 0.18));
+        vec2 detailA = texture(
+          detailTexture,
+          oceanPosition * 0.06 + vec2(time * 0.012, time * 0.008)
+        ).rg * 2.0 - 1.0;
+        vec2 detailB = texture(
+          detailTexture,
+          oceanPosition * 0.17 + vec2(-time * 0.02, time * 0.015)
+        ).rg * 2.0 - 1.0;
+        vec2 detailNormal = detailA + detailB * 0.5;
         normal = normalize(
-          normal + vec3(detailX, 0.0, detailZ) * detailStrength
+          normal +
+          vec3(detailNormal.x, 0.0, detailNormal.y) * detailStrength
         );
 
         vec4 displacementA =
@@ -200,9 +203,19 @@ export function createOceanMaterial(cascades, options) {
         );
         vec3 water = mix(body, reflection, fresnel);
 
-        float bubble =
-          0.55 +
-          0.45 * valueNoise(oceanPosition * 0.5 + time * vec2(0.04, 0.03));
+        float bubbleA = texture(
+          detailTexture,
+          oceanPosition * 0.45 + vec2(time * 0.03, time * 0.02)
+        ).b;
+        float bubbleB = texture(
+          detailTexture,
+          oceanPosition * 1.6 + vec2(-time * 0.05, time * 0.04)
+        ).a;
+        float bubble = clamp(
+          bubbleA * 0.7 + bubbleB * 0.5 + 0.2,
+          0.0,
+          1.0
+        );
         float foamLight =
           0.55 +
           0.6 * clamp(dot(normal, sunDirection), 0.0, 1.0);

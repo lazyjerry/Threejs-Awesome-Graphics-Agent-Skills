@@ -1,7 +1,7 @@
 {
-  "name": "threejs-gamedev-mega-skills",
+  "name": "threejs-awesome-graphics-agent-skills",
   "version": "0.1.0",
-  "description": "Expert procedural geometry, materials, shaders, atmosphere, effects, and image-pipeline skills for Three.js coding agents.",
+  "description": "Expert agent skills for creating exceptional Three.js graphics.",
   "license": "MIT",
   "author": "Scott",
   "keywords": [
@@ -24,7 +24,7 @@
   ],
   "type": "module",
   "bin": {
-    "threejs-gamedev-mega-skills": "bin/threejs-gamedev-mega-skills.mjs"
+    "threejs-awesome-graphics-agent-skills": "bin/threejs-awesome-graphics-agent-skills.mjs"
   },
   "files": [
     ".codex-plugin/",
@@ -41,13 +41,14 @@
   },
   "scripts": {
     "validate": "node scripts/validate-pack.mjs",
-    "test": "npm run validate && npm run test:references && npm run test:installer && npm run test:gallery",
+    "test": "npm run validate && npm run test:routing && npm run test:references && npm run test:installer && npm run test:gallery",
     "dev:examples": "node dev/example-gallery/server.mjs --open",
     "dev:examples:no-open": "node dev/example-gallery/server.mjs",
     "dev:examples:fixture": "node dev/example-gallery/server.mjs --open --include-fixtures",
     "capture:examples": "node scripts/capture-examples.mjs",
     "audit:sources": "node scripts/validate-source-traces.mjs",
     "test:references": "node scripts/test-reference-examples.mjs",
+    "test:routing": "node scripts/test-agent-routing.mjs",
     "test:installer": "node scripts/test-installer.mjs",
     "test:gallery": "node scripts/test-example-gallery.mjs",
     "check:freshness": "node scripts/check-three-freshness.mjs",

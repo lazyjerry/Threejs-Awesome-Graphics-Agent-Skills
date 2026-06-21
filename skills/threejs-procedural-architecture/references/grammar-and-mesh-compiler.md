@@ -1,34 +1,6 @@
-# `procedural-bank` architecture extraction
+# Architecture grammar and mesh compiler
 
-Use this reference when building a procedural architectural generator whose
-output must retain deliberate massing, façade rhythm, construction depth, and
-inspectable ownership.
-
-Reviewed source:
-
-```text
-repository: https://github.com/vibe-stack/procedural-bank
-revision: 0034e80a61f02b88dbe13a385bdab734a365b82d
-planning:
-  src/grammar/building-grammar.ts
-  src/grammar/mass-grammar.ts
-  src/grammar/footprint-edge-graph.ts
-  src/grammar/facade-grammar.ts
-  src/grammar/placement-factory.ts
-  src/grammar/podium-grammar.ts
-  src/grammar/shaft-grammar.ts
-  src/grammar/crown-grammar.ts
-  src/grammar/roof-grammar.ts
-  src/grammar/generator-assertions.ts
-compilation:
-  src/kit/building/compile-building.ts
-  src/kit/building/mass-caps.ts
-  src/kit/shared/module-api.ts
-  src/kit/shared/transforms.ts
-  src/kit/shared/mesh-writer.ts
-contracts:
-  src/kit/kit-types.ts
-```
+Use this reference when a procedural architectural generator must retain deliberate massing, façade rhythm, construction depth, semantic placement, and inspectable ownership.
 
 ## Contents
 
@@ -45,7 +17,7 @@ contracts:
 
 ## 1. Preserve the compilation boundary
 
-The reviewed system does not generate triangles while deciding the building:
+Do not generate triangles while deciding the building:
 
 ```text
 BuildingSettings
@@ -81,7 +53,7 @@ without changing mass grammar.
 
 ## 2. Use dimensional constants as grammar anchors
 
-The reviewed revision fixes:
+The dimensional contract fixes:
 
 ```text
 BAY_WIDTH = 3.2 m
@@ -126,7 +98,7 @@ Without that invariant, upper tiers collapse into non-architectural slivers.
 
 ### Exact mass patterns
 
-The source supports:
+The mass grammar supports:
 
 ```text
 single tower
@@ -159,7 +131,7 @@ the same contracts.
 
 ## 3. Decompose compound footprints into rectangles
 
-The reviewed footprint grammar uses rectangular pieces:
+The footprint grammar uses rectangular pieces:
 
 ```text
 L:
@@ -181,7 +153,7 @@ courtyard block:
 The free-court path clamps the inner court so every bar retains at least
 `1.8 * BAY_WIDTH`, then applies bounded X/Z offsets.
 
-Do not union the pieces before façade planning. The source keeps pieces and
+Do not union the pieces before façade planning. The implementation keeps pieces and
 computes exposed intervals per rectangle.
 
 ### Exposed-edge subtraction
@@ -213,7 +185,7 @@ type FacadeEdge = {
 This prevents façades on shared walls between courtyard bars and compound
 wings. Use interval subtraction, not center-point tests.
 
-Observed limitation: the reviewed revision marks both endpoints as inner
+Observed limitation: the implementation marks both endpoints as inner
 corners whenever a surviving segment is shorter than the original side. It
 does not preserve which endpoint was clipped. Derive endpoint flags from the
 subtraction result if corner semantics matter.
@@ -289,8 +261,8 @@ cornice, corner cornices, and explicit corner-joint modules.
 
 ### Shaft
 
-Shaft edges use at least four bays. The source reserves whole-height zones
-before filling ordinary floor bays:
+Shaft edges use at least four bays. Reserve whole-height zones before filling
+ordinary floor bays:
 
 - front central glass shaft and side piers for tower archetypes;
 - structural blank/service zones on non-front sides;
@@ -315,7 +287,7 @@ Chicago grid:
 High ornament density can rewrite one bay into a lower carved/spandrel module
 plus an upper window module. It is not a decal.
 
-The source adds construction rhythm independently of windows:
+Add construction rhythm independently of windows:
 
 - floor band, sill, and lintel strips;
 - pilaster bundles every two or three bays;
@@ -389,7 +361,7 @@ silently producing holes.
 
 ## 6. Preserve material-slot ownership
 
-The reviewed slots are:
+The material slots are:
 
 ```text
 limestone
@@ -429,13 +401,13 @@ vSpan = min(1, subquadWorldHeight / 1.45)
 This prevents one stone sample stretching across a tower wall.
 
 Observed behavior: `chooseStoneAtlasCell()` returns cell `4` for both limestone
-and ornament in the reviewed revision. The constants permit multiple cells,
+and ornament in this implementation. The constants permit multiple cells,
 but the current implementation produces coherent stone rather than per-quad
 random variation.
 
 ## 7. Close the mass independently
 
-Before placement compilation, the source adds:
+Before placement compilation, the mass compiler adds:
 
 - soffits under elevated tiers;
 - decks on podium/crown/bridge tiers;
@@ -444,7 +416,7 @@ Before placement compilation, the source adds:
 
 This prevents holes at setbacks and compound-footprint seams.
 
-The reviewed revision skips decks for shaft tiers but still creates their
+The implementation skips decks for shaft tiers but still creates their
 soffits. Adapt that decision if upper shaft roofs can be visible.
 
 Structural closure belongs to the mass compiler, not window or cornice
@@ -452,7 +424,7 @@ modules.
 
 ## 8. Preserve exact assertions and limitations
 
-The source fails on:
+Fail generation on:
 
 ```text
 registered module IDs without builders

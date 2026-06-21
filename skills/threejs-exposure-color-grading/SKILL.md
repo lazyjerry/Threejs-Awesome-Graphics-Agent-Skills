@@ -1,6 +1,6 @@
 ---
 name: threejs-exposure-color-grading
-description: Build scene-referred exposure, tone mapping, and color grading for Three.js. Use for luminance metering, eye adaptation, percentile control, HDR range placement, tone-map selection, white balance, contrast curves, 3D LUTs, gamut handling, output transforms, and avoiding double color conversion.
+description: Build a measured exposure and grading path in Three.js. Use for a 64x36 encoded luminance meter, asynchronous readback, weighted log-average exposure, asymmetric adaptation, single tone-map ownership, and a generated 32-cube post-tone-map LUT.
 ---
 
 # Exposure and Color Grading
@@ -15,18 +15,25 @@ HDR scene
   → adapted exposure
   → tone map
   → creative grade / 3D LUT
-  → output gamut and transfer function
-  → dither
+  → final output conversion
 ```
 
-Read [references/scene-referred-color-pipeline.md](references/scene-referred-color-pipeline.md).
+Read [references/scene-referred-color-pipeline.md](references/scene-referred-color-pipeline.md)
+for the exact 64x36 meter, encoded readback, adaptation constants, 32-cube LUT,
+and signal-ownership ambiguities.
 
 ## Failure conditions
 
 - tone mapping occurs in both materials and post;
 - exposure is used to repair physically inconsistent light ratios;
-- average luminance is dominated by the sun or black borders;
+- meter weighting and scene framing are not inspected;
 - adaptation speed is the same toward light and dark;
 - LUT input/output spaces are undocumented;
 - sRGB encoding happens twice;
-- grading clips HDR before tone mapping.
+- a display-domain LUT is moved before tone mapping without being rebuilt.
+
+## Routing boundary
+
+Use `$threejs-bloom` for HDR glow contribution and
+`$threejs-image-pipeline` when this color path must share ownership with AO,
+atmosphere, or effect-local render targets.

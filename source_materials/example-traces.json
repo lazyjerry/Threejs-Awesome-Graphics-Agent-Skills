@@ -1,0 +1,452 @@
+{
+  "schemaVersion": 1,
+  "examples": {
+    "threejs-procedural-architecture/authored-financial-tower": [
+      {
+        "source": "procedural-bank",
+        "files": [
+          "src/kit/building/building-generator.ts",
+          "src/kit/building/compile-building.ts",
+          "src/grammar/building-grammar.ts",
+          "src/grammar/mass-grammar.ts",
+          "src/grammar/facade-grammar.ts",
+          "src/grammar/footprint-edge-graph.ts",
+          "src/grammar/podium-grammar.ts",
+          "src/grammar/shaft-grammar.ts",
+          "src/grammar/crown-grammar.ts",
+          "src/grammar/roof-grammar.ts",
+          "src/kit/shared/mesh-writer.ts",
+          "src/kit/shared/module-api.ts",
+          "src/kit/financial-core-kit.ts",
+      "src/scene/csm/cached-clipmap-shadow-node.ts",
+      "src/scene/csm/bounded-shadow-node.ts",
+      "src/scene/materials.ts",
+      "src/scene/daylight-lighting.ts",
+      "src/scene/daylight-sky.ts",
+      "src/scene/scene-environment.ts",
+      "src/app/building-canvas.tsx",
+      "src/app/ground-plane.tsx"
+        ],
+        "mechanisms": [
+          "default seed 1042 financial-tower settings and exact 3.2 metre bay and 3.35 metre floor anchors",
+          "podium shaft crown and roof intermediate plan before geometry emission",
+          "reserved central glass shaft, corner piers, bay rhythms, projected colonnade, cornices, finials, and statue roof",
+          "semantic material-slot compilation with reusable geometry and per-placement transforms",
+          "three light-space square shadow levels with per-level texel snapping and scaled normal bias",
+      "dynamic near level, cached coarse levels, one-level update budget, containment cross-fade, and unshadowed outside weight"
+    ],
+    "assets": [
+      {
+        "sourcePath": "public/assets/financial-core/limestone-albedo.png",
+        "localPath": "assets/limestone-albedo.png"
+      },
+      {
+        "sourcePath": "public/assets/financial-core/limestone-normal.png",
+        "localPath": "assets/limestone-normal.png"
+      },
+      {
+        "sourcePath": "public/assets/financial-core/ornaments-albedo.png",
+        "localPath": "assets/ornaments-albedo.png"
+      },
+      {
+        "sourcePath": "public/assets/financial-core/ornaments-normal.png",
+        "localPath": "assets/ornaments-normal.png"
+      }
+    ],
+        "boundary": "independent-distillation",
+        "divergences": [
+          "the focused inspection compiler implements the reviewed default board-of-trade tower modules rather than all registered kit modules",
+          "material slots compile to instanced primitive batches instead of one indexed BufferGeometry per slot",
+          "the WebGL2 inspection path manually renders and samples three ground-receiver depth maps instead of using the reviewed WebGPU TSL ShadowBaseNode",
+          "shadow receivers are limited to the plaza so clipmap stabilization and cache behavior remain isolated and inspectable"
+        ]
+      }
+    ],
+    "threejs-procedural-geometry/sculpted-gallery-frame": [
+      {
+        "source": "mysite-react",
+        "files": [
+          "src/features/art-in-life/ArtInLifeGallery.tsx"
+        ],
+        "mechanisms": [
+          "92-sample crown, bead, groove, shoulder, and cove rail profile",
+          "orientation-specific profile sweep with closed backing and end caps",
+          "desktop frame dimensions and coupled artwork depth",
+          "walnut, antique-gold, and ebony physical-material response bundles",
+          "warm picture spotlights with static high-resolution VSM shadows",
+          "selective bloom by temporary non-contributor material substitution"
+        ],
+        "boundary": "independent-distillation",
+        "divergences": [
+          "the inspection scene presents three frames on one wall instead of virtualizing a long scrolling hallway",
+          "painting shadow maps use the reviewed mobile 2048 resolution instead of the desktop 4096 resolution to keep the gallery inspection surface bounded",
+          "the single-bay chandelier point fill uses intensity 18 instead of 70 because the reviewed long hallway distributes multiple chandelier lights over a much larger volume",
+          "procedural placeholder artwork is retained while Instagram CSS3D embeds, navigation, neon signage, and the full chandelier are outside this focused extraction"
+        ],
+        "assets": [
+          {
+            "sourcePath": "src/assets/textures/aged-walnut-frame.webp",
+            "localPath": "assets/aged-walnut-frame.webp"
+          },
+          {
+            "sourcePath": "src/assets/textures/antique-gold-frame.webp",
+            "localPath": "assets/antique-gold-frame.webp"
+          },
+          {
+            "sourcePath": "src/assets/textures/dark-ebony-frame.webp",
+            "localPath": "assets/dark-ebony-frame.webp"
+          },
+          {
+            "sourcePath": "src/assets/textures/gallery-mat-board.webp",
+            "localPath": "assets/gallery-mat-board.webp"
+          },
+          {
+            "sourcePath": "src/assets/textures/gallery-plaster.webp",
+            "localPath": "assets/gallery-plaster.webp"
+          },
+          {
+            "sourcePath": "src/assets/textures/gallery-plaster-bump.webp",
+            "localPath": "assets/gallery-plaster-bump.webp"
+          },
+          {
+            "sourcePath": "src/assets/textures/gallery-floor.webp",
+            "localPath": "assets/gallery-floor.webp"
+          }
+        ]
+      }
+    ],
+    "threejs-procedural-planets/planet-field-atmosphere": [
+      {
+        "source": "stellar",
+        "files": [
+          "src/game/runtime/solar/terrain.ts",
+          "src/game/runtime/solar/bodySurface.ts",
+          "src/game/runtime/solar/bodyMaterial.ts",
+          "src/game/runtime/solar/atmosphere.ts",
+          "src/game/runtime/solar/definitions/pelagia.ts"
+        ],
+        "mechanisms": [
+          "normalized pre-displacement surfaceDirection retained as an explicit geometry attribute",
+          "terrestrial CPU terrain stack with three-channel warp, continental, highland, and ridge bands",
+          "radius-scaled tangential shader warp for climate and material causes",
+          "altitude, latitude, humidity, slope, coast, snow, aridity, lushness, rock, and water coupling",
+          "screen-derivative procedural bump and normal-variance roughness filtering",
+          "Rayleigh and Mie bounded atmosphere integration with ground shadowing"
+        ],
+        "boundary": "independent-distillation",
+        "divergences": [
+          "the inspection mesh uses 228 by 114 segments, matching the reviewed terrestrial far LOD rather than its 380-segment near LOD",
+          "geometry and shader terrain evaluate the same value-noise field to remove the reviewed source's documented CPU/TSL parity debt",
+          "the atmosphere shell uses 16 view samples and 4 light samples for bounded gallery inspection instead of the production constants",
+          "the atmosphere visual height is enlarged from the physical 200 km ratio so the ground-to-space contract remains inspectable at a whole-planet camera"
+        ]
+      }
+    ],
+    "threejs-procedural-vegetation/structured-ash-growth": [
+      {
+        "source": "ez-tree",
+        "files": [
+          "src/lib/tree.js",
+          "src/lib/options.js",
+          "src/lib/presets/ash_medium.json",
+          "src/app/scene.js",
+          "src/app/main.js",
+          "src/app/environment.js",
+          "src/app/textures.js",
+          "src/app/noise.js",
+          "src/app/grass.js",
+          "src/app/ground.js",
+          "src/app/skybox.js",
+          "src/app/shaders/skybox.vert",
+          "src/app/shaders/skybox.frag",
+          "src/app/rocks.js"
+        ],
+        "mechanisms": [
+          "Ash Medium per-level species parameters",
+          "queue growth with lateral and terminal continuation descendants",
+          "radius-amplified gnarliness and inverse-radius growth force",
+          "stratified longitudinal placement with independently permuted azimuth slots",
+          "final-branch leaf placement with double cards and rounded normals",
+          "leaf-root multi-frequency wind",
+          "shared simplex field for grass rejection and ground blending",
+          "daylight fog meadow with grass, flowers, rocks, and background forest"
+        ],
+        "boundary": "independent-distillation",
+        "divergences": [
+          "background forest reuses the reviewed Ash geometry instead of generating 100 mixed presets",
+          "random placement is seeded so gallery captures are deterministic",
+          "camera distance is 115 instead of the startup value 100 to reproduce the reviewed hero frame's visible crown margin at a 3:2 inspection viewport"
+        ],
+        "assets": [
+          {
+            "sourcePath": "src/app/public/textures/leaves/ash.png",
+            "localPath": "assets/ash.png"
+          },
+          {
+            "sourcePath": "src/app/public/textures/bark/Bark001_1K-JPG/Bark001_1K-JPG_Color.jpg",
+            "localPath": "assets/bark-color.jpg"
+          },
+          {
+            "sourcePath": "src/app/public/textures/bark/Bark001_1K-JPG/Bark001_1K-JPG_NormalGL.jpg",
+            "localPath": "assets/bark-normal.jpg"
+          },
+          {
+            "sourcePath": "src/app/public/textures/bark/Bark001_1K-JPG/Bark001_1K-JPG_Roughness.jpg",
+            "localPath": "assets/bark-roughness.jpg"
+          },
+          {
+            "sourcePath": "src/app/public/models/grass.glb",
+            "localPath": "assets/grass.glb"
+          },
+          {
+            "sourcePath": "src/app/public/models/flower_blue.glb",
+            "localPath": "assets/flower-blue.glb"
+          },
+          {
+            "sourcePath": "src/app/public/models/flower_white.glb",
+            "localPath": "assets/flower-white.glb"
+          },
+          {
+            "sourcePath": "src/app/public/models/flower_yellow.glb",
+            "localPath": "assets/flower-yellow.glb"
+          },
+          {
+            "sourcePath": "src/app/public/models/rock1.glb",
+            "localPath": "assets/rock1.glb"
+          },
+          {
+            "sourcePath": "src/app/public/models/rock2.glb",
+            "localPath": "assets/rock2.glb"
+          },
+          {
+            "sourcePath": "src/app/public/models/rock3.glb",
+            "localPath": "assets/rock3.glb"
+          },
+          {
+            "sourcePath": "src/app/public/textures/ground/grass.jpg",
+            "localPath": "assets/ground-grass.jpg"
+          },
+          {
+            "sourcePath": "src/app/public/textures/ground/dirt_color.jpg",
+            "localPath": "assets/ground-dirt.jpg"
+          },
+          {
+            "sourcePath": "src/app/public/textures/ground/dirt_normal.jpg",
+            "localPath": "assets/ground-normal.jpg"
+          }
+        ]
+      }
+    ],
+    "threejs-raymarched-space-effects/curved-ray-accretion-volume": [
+      {
+        "source": "interstellar-three",
+        "files": [
+          "src/three/scenes/11GargantuaSlingshotScene.js"
+        ],
+        "mechanisms": [
+          "128-step artistic inverse-square ray steering inside a bounded effect volume",
+          "source-compatible double ray advance per iteration",
+          "rotating radius-driven deep-noise disk coordinates",
+          "quadratic thin-disk band and three-point hot-to-amber color ramp",
+          "front-to-back alpha and color accumulation around an opaque black core",
+          "deterministic 5200-star equirectangular background sampled after integration"
+        ],
+        "boundary": "independent-distillation",
+        "divergences": [
+          "the reviewed TSL node graph is translated to explicit WebGL2 GLSL for a broadly inspectable gallery path",
+          "the sphere proxy is intersected analytically from a full-screen ray instead of relying on front/back proxy fragments",
+          "the source double-advance defect is intentionally preserved so visual parity remains auditable",
+          "the foreground spacecraft model is omitted to keep the inspection surface focused on the numerical renderer"
+        ],
+        "assets": [
+          {
+            "sourcePath": "public/textures/noise_deep.png",
+            "localPath": "assets/noise_deep.png"
+          }
+        ]
+      }
+    ],
+    "threejs-spectral-ocean/spectral-cascade-ocean": [
+      {
+        "source": "poseidon",
+        "files": [
+          "src/ocean/Ocean.js",
+          "src/ocean/OceanCascade.js",
+          "src/ocean/fft.js",
+          "src/ocean/spectrum.js",
+          "src/ocean/maps.js",
+          "src/ocean/oceanSurfaceMaterial.js",
+          "src/ocean/params.js",
+          "src/ocean/detailTexture.js",
+          "src/ocean/sky.js",
+          "src/ocean/debugView.js",
+          "src/main.js"
+        ],
+        "mechanisms": [
+          "disjoint 250 m, 17 m, and 5 m directional spectrum cascades",
+          "independently validated staged inverse FFT architecture",
+          "complex packing of horizontal displacement fields",
+          "choppy displacement with derivative-map normal reconstruction",
+          "horizontal-displacement Jacobian driving persistent whitecaps",
+          "shared analytic sky radiance for dome and reflection",
+          "fixed ocean camera, fog horizon, and dense displaced surface presentation"
+        ],
+        "boundary": "conceptual-only",
+        "divergences": [
+          "uses WebGL2 fragment render-target FFT stages because the repository gallery Chromium has no WebGPU adapter",
+          "uses 64 squared simulation grids for deterministic inspection instead of the reviewed 256 squared WebGPU grids",
+          "derivatives are assembled by spatial finite differences after transforming height and horizontal displacement instead of transforming every derivative spectrum",
+          "spray particles and live GUI controls are omitted from this focused ocean-system parity surface"
+        ]
+      }
+    ],
+    "threejs-procedural-vfx/reentry-plasma-and-sparks": [
+      {
+        "source": "stellar",
+        "files": [
+          "src/game/render/createReentryPlasma.ts"
+        ],
+        "mechanisms": [
+          "front plasma shell cloned from the authored ship hierarchy and inflated by 1.005",
+          "flow-facing heat mask with coarse and fine advected turbulence",
+          "Fresnel ion envelope shock filaments and explicit hot-to-cyan HDR hierarchy",
+          "capsule-profile core haze and asymmetric shear wakes with exact segment and expansion contracts"
+        ],
+        "boundary": "independent-distillation",
+        "divergences": [
+          "the inspection ship is a procedural authored hull rather than the production imported spacecraft asset",
+          "TSL node materials are translated to explicit WebGL2 GLSL",
+          "the wake is fixed to the hull support region because the inspection fall direction is constant"
+        ]
+      },
+      {
+        "source": "mecs-tower-defense-example",
+        "files": [
+          "src/materials/spark.ts",
+          "src/materials/debris.ts",
+          "src/materials/attributeLogic.ts",
+          "src/systems/renderInstancedAndSprites.ts"
+        ],
+        "mechanisms": [
+          "fixed 12000-spark attribute pool with start position velocity acceleration and spawn time",
+          "1.3-second analytic lifetime with rate-16 velocity decay and artistic acceleration integration",
+          "80-to-dark-red scene-relative HDR spark hierarchy",
+          "per-instance orange and removal-time debris state with geometry-space dissolve",
+          "dense instanced ownership represented by one fixed-capacity mesh and custom attributes"
+        ],
+        "boundary": "independent-distillation",
+        "divergences": [
+          "spark lifetimes cycle deterministically for continuous inspection instead of being spawned by gameplay entities",
+          "the debris pool keeps all inspection instances alive and cycles dissolve state rather than removing and respawning entities",
+          "the example uses WebGL2 shader attributes and CPU instance transforms instead of the production WebGPU node-material path"
+        ]
+      }
+    ],
+    "threejs-temporal-surfaces/touch-history-frost": [
+      {
+        "source": "frozen",
+        "files": [
+          "src/Frozen/index.tsx",
+          "src/Frozen/hooks/useSingleFBO.ts",
+          "src/Frozen/hooks/useDoubleFBO.ts",
+          "src/Frozen/materials/Blur.ts",
+          "src/Frozen/materials/Frost.ts",
+          "src/Frozen/materials/Output.ts",
+          "src/Frozen/materials/Pointer.ts",
+          "src/Frozen/materials/noise/FrostNoise.ts",
+          "src/Frozen/materials/noise/FrozenNoise.ts",
+          "src/Frozen/materials/noise/HighlightNoise.ts"
+        ],
+        "mechanisms": [
+          "full-resolution half-float read-write pointer history with visible and tilt-response channels",
+          "root scene followed by reduced-resolution vertical and horizontal blur",
+          "three static procedural structure targets generated outside the frame loop",
+          "frost composite that couples clear amount structure blur tint and highlights",
+          "two-scale structure-gradient refraction gated by frost alpha and pointer state",
+          "one-frame relationship where frost reads completed history before the next pointer state is written and swapped"
+        ],
+        "boundary": "conceptual-only",
+        "divergences": [
+          "the source imagery and normal-map assets are replaced by independently generated procedural scene and crystalline fields",
+          "per-frame pointer decay is corrected to an exponential frame-rate-independent response",
+          "the focused WebGL2 output derives two-scale normals from static structure gradients instead of bundled normal maps",
+          "static targets regenerate and both history targets clear on resize rather than inheriting ambiguous resize state"
+        ]
+      }
+    ],
+    "threejs-volumetric-clouds/weather-volume-clouds": [
+      {
+        "source": "three-geospatial",
+        "files": [
+          "packages/clouds/src/CloudLayers.ts",
+          "packages/clouds/src/DensityProfile.ts",
+          "packages/clouds/src/CloudsMaterial.ts",
+          "packages/clouds/src/CloudsPass.ts",
+          "packages/clouds/src/CloudsResolveMaterial.ts",
+          "packages/clouds/src/shaders/localWeather.frag",
+          "packages/clouds/src/shaders/cloudShape.frag",
+          "packages/clouds/src/shaders/cloudShapeDetail.frag",
+          "packages/clouds/src/shaders/clouds.frag",
+          "packages/clouds/src/shaders/clouds.glsl",
+          "packages/clouds/src/shaders/cloudsResolve.frag",
+          "packages/clouds/src/shaders/varianceClipping.glsl"
+        ],
+        "mechanisms": [
+          "separate low middle high and spare weather channels with per-layer height and density ownership",
+          "coverage remapping through height-shaped weather rather than final density multiplication",
+          "base shape followed by height-dependent detail topology",
+          "bounded low-to-high layer interval selection with an explicit skipped gap",
+          "front-to-back transmittance and short optical-depth sun march",
+          "reduced-resolution beauty rendering with variance-clipped persistent history"
+        ],
+        "boundary": "independent-distillation",
+        "divergences": [
+          "the focused gallery uses large-world horizontal layer intervals while retaining the packed weather profile shape detail and gap-skipping contracts",
+          "generated weather is a deterministic CPU data texture while shape and detail are evaluated procedurally during the focused WebGL2 march",
+          "the inspection march uses 160 primary and eight light samples instead of the production maximum of 500 and its full multiple-scattering octave stack",
+          "the gallery path uses 0.8-linear-resolution beauty and stationary variance-clipped history instead of quarter-linear-resolution Bayer reconstruction with velocity reprojection",
+          "cloud shadows are represented through the local directional optical-depth march rather than the separate structured-sampling cascaded shadow maps"
+        ]
+      }
+    ],
+    "threejs-water-optics/analytic-wave-optics": [
+      {
+        "source": "interstellar-three",
+        "files": [
+          "src/three/scenes/08MillersPlanetScene.js"
+        ],
+        "mechanisms": [
+          "five authored Gerstner-style components shared exactly by vertex displacement and analytic normal evaluation",
+          "four smaller moving sinusoidal normal bands over the displaced macro normal",
+          "analytic sky reflection with sun disc halo and surface glint",
+          "crest response from resolved normal slope and distance haze over the bounded mesh",
+          "CPU surface-height evaluation from the same wave parameter bundle"
+        ],
+        "boundary": "independent-distillation",
+        "divergences": [
+          "the TSL node material is translated to explicit WebGL2 GLSL for deterministic gallery inspection",
+          "the scene focuses on the ocean surface and omits the approaching tidal wall, astronaut, and narrative objects",
+          "screen-space scene-color refraction is added from the second traced water implementation while preserving the five-wave displacement contract"
+        ]
+      },
+      {
+        "source": "mycraft",
+        "files": [
+          "src/engine/render/water/WaterSurfaceMaterial.ts"
+        ],
+        "mechanisms": [
+          "screen-derivative attenuation for unresolved micro-wave bands",
+          "side-aware air-water Fresnel and heuristic screen-space refraction",
+          "fallback Beer-Lambert path length using four metres of estimated depth",
+          "crest-linked noisy foam and analytic reflection hierarchy"
+        ],
+        "boundary": "independent-distillation",
+        "divergences": [
+          "the inspection example displaces geometry using the five-wave bundle instead of retaining the normal-only surface",
+          "scene-color refraction renders a focused seabed and rock layer without scene-depth rejection",
+          "the six-band normal bundle is represented by three derivative-filtered micro bands over the shared displaced normal"
+        ]
+      }
+    ]
+  }
+}

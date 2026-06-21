@@ -56,8 +56,11 @@ if (
 if (!imagePipeline.includes("$threejs-bloom")) {
   throw new Error("Image-pipeline integration must route to atomic post skills.");
 }
-if (!materialGuidance.includes("supported node/material hooks")) {
-  throw new Error("Material guidance must preserve version-sensitive renderer hooks.");
+if (
+  !materialGuidance.includes("version-sensitive") ||
+  !/Inspect the\s+installed renderer/.test(materialGuidance)
+) {
+  throw new Error("Material guidance must require target-version inspection.");
 }
 
 console.log(

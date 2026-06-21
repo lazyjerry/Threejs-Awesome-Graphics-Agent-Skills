@@ -1,233 +1,218 @@
-# Procedural VFX system
+# Layered procedural VFX systems
 
-## 1. Event state
+Use this reference for ship-conforming reentry plasma, generated wakes, instanced analytic sparks, dissolving debris, dense-swap pools, and scene-relative HDR contribution.
 
-Represent each effect instance with stable data:
+## Contents
 
-```ts
-type EffectEvent = {
-  origin: THREE.Vector3
-  direction: THREE.Vector3
-  startTime: number
-  duration: number
-  seed: number
-  strength: number
-  radius: number
-}
-```
+- Reentry representation
+- Reentry shell shading
+- Wake construction
+- Instanced spark contract
+- Debris dissolve and pool ownership
+- HDR contribution
+- Observed limitations
+- Diagnostics
 
-In shader:
 
-```glsl
-float age = time - startTime;
-float life = saturate(age / duration);
-float alive = step(0.0, age) * step(life, 1.0);
-```
+## Reentry representation
 
-All layer timing should derive from `life`.
-
-## 2. Named envelope curves
-
-Useful reusable shapes:
-
-```glsl
-float impulse(float t, float attack, float decay) {
-  return smoothstep(0.0, attack, t)
-    * (1.0 - smoothstep(attack, decay, t));
-}
-
-float bell(float t) {
-  return 4.0 * t * (1.0 - t);
-}
-
-float tail(float t, float power) {
-  return pow(1.0 - t, power);
-}
-```
-
-Name curves by perceptual role:
+planet-space implementation does not model reentry as one particle emitter. It composes:
 
 ```text
-flashEnvelope
-shockwaveRadius
-sparkEmission
-plasmaTail
-smokeGrowth
-residueFade
+ship-shaped front shell
+  + expanding capsule core wake
+  + larger low-opacity haze wake
+  + two asymmetric side shear lobes
 ```
 
-## 3. Layer decomposition
+The shell is a clone of the actual ship mesh, scaled by `1.005`. This is the
+key silhouette decision: plasma follows authored hull topology instead of a
+generic sphere or cone.
 
-For an impact:
-
-- core flash: short, compact, high luminance;
-- expanding shell: silhouette and timing;
-- directional sparks: velocity/energy cue;
-- debris: scale and persistence;
-- smoke/dust: volume and environmental coupling;
-- ground residue: aftermath.
-
-For reentry plasma:
-
-- compressed leading sheath;
-- side ribbons advected around the body;
-- turbulent wake;
-- detached sparks;
-- heat/emission field on the body;
-- atmosphere-dependent intensity.
-
-Delete any layer that does not add a distinct cue.
-
-## 4. Initial distributions
-
-Avoid uniform random sphere placement by default.
-
-Directional cone:
+The wake origin is found from sampled ship vertices. For the current local fall
+direction, select the support point with the greatest dot product. Build an
+orthonormal wake frame by projecting local up away from the fall direction,
+falling back to local right when nearly parallel.
 
 ```text
-direction = normalize(eventDirection * forwardBias + tangentDiskSample * spread)
-speed = mix(minSpeed, maxSpeed, pow(random, speedExponent))
+wake forward = normalized fall direction
+wake up = projected local up
+wake right = cross(up, forward)
+wake origin = hull support point along fall direction
 ```
 
-Surface shell:
+## Reentry shell shading
+
+The shell mask uses actual flow-facing geometry:
 
 ```text
-position = origin + sampledDirection * radius * radialDistribution
+facing = saturate(dot(normalWorld, -fallDirectionWorld))
+facing mask = smoothstep(0.18, 0.96, facing)
 ```
 
-Ring:
+Two world-space noise bands move along fall direction:
 
 ```text
-position = origin + tangentX * cos(angle) * radius + tangentY * sin(angle) * radius
+coarse frequency = 3.6
+fine frequency = 11.2
+coarse/fine mix = 0.62 / 0.38
+fine filament exponent = 3.1
+flow speed basis = time * 5.4 + external flow * 0.08
 ```
 
-Stratify angle and radius where visible clumping would look accidental.
+The shell shader separates:
 
-## 5. Motion fields
+- core heat from flow-facing area;
+- Fresnel envelope around silhouette;
+- a shock band requiring high facing, rim response, and filaments.
 
-Compose named forces:
+Color hierarchy is explicit:
 
 ```text
-velocity =
-  initialVelocity
-  + gravity * age
-  + drag
-  + curlAdvection
-  + attraction/repulsion
-  + eventFlow
+hot core: orange -> near white
+ion envelope: magenta -> violet
+outer sheath: violet -> cyan
+shock: white -> blue
 ```
 
-For analytic particles:
+The final shell uses additive blending, no depth write, depth test on, double
+sided, and negative polygon offset. Treat the additive multiplier as part of
+the scene’s HDR calibration, not a portable physical unit.
 
-```glsl
-vec3 p = p0 + v0 * age + 0.5 * acceleration * age * age;
-```
+## Wake construction
 
-For richer GPU simulation, store position/velocity in ping-pong textures or storage buffers. Keep reset/spawn state separate from continuous integration.
-
-Use curl noise for advection, not as a direct position offset every frame. Direct offsets make particles vibrate instead of flow.
-
-## 6. Representation choice
-
-| Need | Representation |
-| --- | --- |
-| many tiny sparks | instanced quads/points with streak orientation |
-| thick trails | strip/ribbon with previous positions |
-| shockwave | mesh shell or projected ring |
-| plasma sheath | deformed surface shell |
-| smoke volume | billboards, slice volume, or raymarch |
-| residue | decal or temporal surface field |
-
-Use velocity-aligned streaks:
+Each wake is a generated capsule-profile tube. Along normalized length `t`:
 
 ```text
-screenLength = clamp(projectedSpeed * shutterScale, minLength, maxLength)
+z = -trailLength * t
+radial spread = 1 + t^1.24 * expansion
+axial spread = 1 + 0.1 * t
+profile turbulence = 1 + sin(theta * 3.3 + t * 8.7) * 0.1 * t
 ```
 
-Keep width energy-conserving enough that distant sparks do not become brighter simply because the streak grows.
-
-## 7. Trail construction
-
-Store a fixed-length circular history per trail. Generate a ribbon frame from:
+Dimensions relative to ship length:
 
 ```text
-tangent = normalize(next - previous)
-side = normalize(cross(viewDirection, tangent))
+profile length = 0.74
+profile radius = 0.068
+trail length = 1.55
+
+core: 52 radial x 26 longitudinal, expansion 1.9
+haze: 40 x 20, radius 1.2x, length 1.05x, opacity 0.28
+lobes: 28 x 14, half profile, length 0.88x, opacity 0.34
 ```
 
-Handle near-parallel view/tangent with a transported fallback side vector.
+Wake shading uses elliptical profile distance, a front gate, tail fade,
+coarse/fine longitudinal noise, Fresnel, and separate core/envelope/filament
+colors. The core and haze use different scales and speeds instead of one mesh
+with changed opacity.
 
-Taper width and opacity independently. A trail can retain a faint wide haze after its luminous core contracts.
+## Instanced spark contract
 
-## 8. Shading and emission
-
-Separate:
+pooled VFX system preallocates a sprite pool of `12000`. Every instance stores:
 
 ```text
-surfaceColor
-opacity/coverage
-HDR emission
-distortion
+startPosition vec3
+startVelocity vec3
+acceleration vec3
+spawnTimeSeconds float
 ```
 
-HDR emission should have calibrated ranges. Inspect:
-
-- pre-bloom luminance;
-- bloom threshold contribution;
-- tone-mapped result.
-
-Do not multiply emission by arbitrary values until bloom appears. Set exposure first, then choose effect luminance relative to scene lights.
-
-## 9. Soft particles and depth
-
-Fade intersections using linear depth difference:
-
-```glsl
-float separation = sceneLinearDepth - particleLinearDepth;
-float softFade = smoothstep(0.0, softnessDistance, separation);
-```
-
-Reject foreground depth and verify reversed-depth conventions. This removes hard billboard intersections without making the entire particle translucent.
-
-## 10. Distortion
-
-Render a distortion vector and confidence/mask into a separate target. Composite scene color with:
+Lifetime is `1.3 s`; velocity decay rate is `16`. Spark size falls linearly to
+zero:
 
 ```text
-uv' = uv + distortionVector * distortionScale * mask
+scale = max((1.3 - age) * 0.4 / 1.3, 0)
 ```
 
-Blur or limit the vector field. Raw high-frequency refraction aliases and leaks foreground/background boundaries.
+The fragment is a circular sprite with radius `0.4`. HDR color interpolates
+from `(1, 0.5, 0) * 80` toward dark red. Spawn adds random X/Z velocity in
+`[-2, 2]`.
 
-## 11. Pooling and budgets
+The pool is fixed-capacity and material attributes are per instance. No entity
+owns an individual mesh.
 
-Preallocate by representation:
+## Debris dissolve and pool ownership
+
+Debris spheres use:
 
 ```text
-max active events
-max particles per class
-max trail points
-max translucent pixels
-max simulation steps
+radius = 0.45
+lifetime = random 2 -> 4 seconds
+mass = 0.1
+friction = 0.4
+restitution = 0.8
+gravity scale = 1.2
 ```
 
-Recycle slots by generation ID. A stale GPU/CPU update must not mutate a reused effect instance.
+Per-instance material data:
 
-Prefer dropping secondary sparks over extending frame time. Preserve the flash and main silhouette layer.
+```text
+isOrange
+removalTimeSeconds
+```
 
-## 12. Debug contract
+Geometry-space noise creates a spatial dissolve against remaining lifetime.
+The material also adds a Fresnel-shaped color response, a directional fake-AO
+tint, and a low environment term of `0.05`.
+
+When an instance is removed, the render system swaps the last live instance
+into the vacant slot and copies:
+
+- the 4x4 instance matrix;
+- every custom attribute slice;
+- the entity-to-index mapping.
+
+This dense-swap invariant is the reusable pooling mechanism. Updating only
+`mesh.count` without copying custom attributes would attach old effect state to
+the moved instance.
+
+## HDR contribution
+
+The compact signals are intentionally bright before bloom:
+
+```text
+spark core multiplier: 80
+homing projectile multiplier: 30
+laser multiplier: 10
+```
+
+These values are evidence of relative hierarchy inside that scene, not
+universal exposure-independent constants. Preserve the relationship:
+
+```text
+spark flash > projectile > laser > ordinary surface
+```
+
+Validate all three in the raw HDR buffer and with bloom disabled.
+
+## Observed limitations
+
+- Spark position multiplies an already integrated decayed velocity by elapsed
+  time again. This is dimensionally inconsistent but visually deliberate.
+  Preserve it only when that trajectory is explicitly required.
+- Acceleration uses `a * t^2` rather than `0.5 * a * t^2`, also an artistic
+  choice.
+- Spark randomization uses `Math.random`, so captures are not deterministic.
+  Replace it with a seeded generator for regression work.
+- The reentry wake disables depth test. This avoids hull intersections but can
+  draw through unrelated geometry. Validate camera and occluder assumptions.
+- The shell and wakes are analytic procedural meshes, not fluid simulation.
+  Do not describe them as physically simulated plasma.
+
+## Diagnostics
 
 Expose:
 
 ```text
-event life
-layer IDs
-spawn density
-velocity
-curl field
-depth softening
-overdraw
-raw emission luminance
-bloom contribution
-active/pool counts
+fall direction and support point
+shell facing/core/envelope/shock masks
+coarse and fine wake noise
+wake profile distance and tail fade
+raw HDR emission by layer
+bloom contribution by layer
+spark age, velocity, and pool occupancy
+debris remaining time and dissolve threshold
+instance index/entity mapping
+overdraw and depth-test modes
 ```

@@ -1,211 +1,202 @@
-# Profile sweeps and mesh writers
+# Sculpted profiles and semantic mesh emission
 
-## 1. Semantic plan
+Use this reference for reusable profile sweeps, rail skins and caps, oriented branch rings, semantic mesh writers, material slots, and geometry-level diagnostics.
 
-Keep a plan above raw buffers:
+## Contents
 
-```ts
-type SweepPlan = {
-  path: THREE.Vector3[]
-  profile: Array<{ x: number; y: number; semantic: string }>
-  closedProfile: boolean
-  capStart: boolean
-  capEnd: boolean
-  materialForSegment: (semantic: string) => number
-  uvMetersPerTile: THREE.Vector2
-}
-```
+- selective gallery pipeline sculpted frame profile
+- Rail mesh emission
+- Semantic dimensions and material fit
+- Tree ring emission
+- production WebGPU pipeline mesh writer
+- Selection and LOD
+- Observed limitations
+- Diagnostics
 
-For architecture, add anchors such as `front`, `back`, `sill`, `reveal`, `corniceTop`. For vegetation, add branch level and longitudinal fraction.
 
-## 2. Parallel-transport frame
+## selective gallery pipeline sculpted frame profile
 
-Frenet frames can flip around low curvature or inflection points. Transport the previous normal with the tangent change:
-
-```js
-const tangent = next.clone().sub(previous).normalize()
-const axis = previousTangent.clone().cross(tangent)
-
-if (axis.lengthSq() > epsilon) {
-  axis.normalize()
-  const angle = Math.acos(
-    THREE.MathUtils.clamp(previousTangent.dot(tangent), -1, 1),
-  )
-  normal.applyAxisAngle(axis, angle)
-}
-
-const binormal = tangent.clone().cross(normal).normalize()
-normal.copy(binormal).cross(tangent).normalize()
-```
-
-Choose the initial normal from a preferred up vector projected perpendicular to the tangent. If nearly parallel, choose a fallback axis.
-
-For closed paths, measure accumulated twist and distribute the correction around all rings.
-
-## 3. Ring emission
-
-For path sample `i` and profile vertex `j`:
-
-```js
-position = center
-  + frame.normal * profile[j].x
-  + frame.binormal * profile[j].y
-```
-
-Duplicate the first profile vertex at the seam when UVs or normals require discontinuity.
-
-Index each quad consistently:
+The frame is not a beveled box. A normalized rail coordinate `t` drives a
+profile assembled from named lobes:
 
 ```text
-a = ring(i, j)
-b = ring(i + 1, j)
-c = ring(i + 1, j + 1)
-d = ring(i, j + 1)
-triangles: a,b,d and b,c,d
+crown:
+  0.355 * scale * sin(pi*t)^0.56
+
+inner bead:
+  0.105 * scale * exp(-((t - 0.085) / 0.033)^2)
+
+outer bead:
+  0.092 * scale * exp(-((t - 0.905) / 0.038)^2)
+
+inner groove:
+  -0.115 * scale * exp(-((t - 0.205) / 0.043)^2)
+
+outer groove:
+  -0.102 * scale * exp(-((t - 0.735) / 0.052)^2)
+
+shoulder:
+  0.045 * scale * exp(-((t - 0.42) / 0.15)^2)
+
+cove:
+  -0.035 * scale * exp(-((t - 0.61) / 0.095)^2)
 ```
 
-Verify winding in the chosen coordinate convention with a normal debug material.
+`scale = railWidth / 0.75`. The inner and outer ends are blended to controlled
+terminal depths, preventing a crown shape from meeting the artwork or wall
+with an accidental vertical edge.
 
-## 4. Hard edges
+The profile uses `92` samples. This is deliberate high curvature
+resolution for close hero framing, not a universal default.
 
-Split vertices when any of these differ:
+## Rail mesh emission
 
-- face normal discontinuity;
-- UV discontinuity;
-- material group;
-- tangent discontinuity;
-- semantic attribute that cannot interpolate.
+Each of four orientations has its own coordinate mapping. The profile travels
+across the rail width while `s` travels along the frame side. Top/bottom rails
+use `132` length segments; left/right use `156`.
 
-Do not call a global weld after emission unless the weld key includes all relevant attributes.
-
-## 5. Caps
-
-Caps usually need their own vertices:
-
-- planar normal;
-- planar UV mapping;
-- separate material slot;
-- hard edge against the side wall.
-
-Triangulate concave profiles with a validated polygon triangulator. A center fan only works for star-shaped profiles and can create skinny triangles.
-
-## 6. UVs from distance
-
-For a sweep:
+For every profile sample and length sample, emit:
 
 ```text
-u = cumulativePathDistance / metersPerTileU
-v = cumulativeProfileDistance / metersPerTileV
+top vertex at profile depth
+bottom vertex at fixed backing depth
+UV = (s, t)
 ```
 
-For branch bark, longitudinal texture scale should follow branch length while circumference uses actual radius. Do not normalize every branch to `[0,1]` if texture density must remain consistent.
-
-For profiles with semantic faces, allow separate UV axes and offsets per segment.
-
-## 7. Normal strategies
-
-Choose:
-
-- analytic profile normal transformed by frame;
-- face-weighted normals for hard-surface modules;
-- angle-weighted vertex normals for smooth irregular meshes;
-- canopy or volume normals for leaf cards;
-- custom bent normals for stylized lighting.
-
-`computeVertexNormals()` is a fallback, not a design decision. It cannot infer intended hard edges after vertices have been shared.
-
-## 8. Mesh writer
-
-A useful writer:
-
-```ts
-type Vertex = {
-  position: [number, number, number]
-  normal: [number, number, number]
-  uv: [number, number]
-  color?: [number, number, number, number]
-  semantic?: number
-}
-
-interface MeshWriter {
-  addVertex(vertex: Vertex): number
-  addTriangle(a: number, b: number, c: number, materialSlot: number): void
-  addQuad(a: Vertex, b: Vertex, c: Vertex, d: Vertex, materialSlot: number): void
-  build(): THREE.BufferGeometry[]
-}
-```
-
-Collect indices by material slot, then produce groups or separate geometries based on draw/update needs.
-
-Track:
+Then emit:
 
 ```text
-triangle count
-vertex count
-material groups
-module/branch count
-bounds
-attribute bytes
-degenerate triangles
-non-manifold edge count where relevant
+top skin
+bottom skin
+inner wall
+outer wall
+two end caps
 ```
 
-## 9. Merging versus instancing
-
-Merge when:
-
-- geometry is static;
-- materials are shared;
-- individual culling/interaction is unnecessary;
-- topology varies but final batching matters.
-
-Instance when:
-
-- topology is identical;
-- transforms or a small attribute set vary;
-- individual culling/LOD matters;
-- updates are frequent.
-
-Use multi-draw or indirect approaches only when the target backend and complexity justify them.
-
-## 10. LOD
-
-Create LOD from semantic simplification:
-
-- reduce radial/path subdivisions;
-- remove small profile notches;
-- replace leaf clusters with cards;
-- collapse façade ornaments into relief or normal detail;
-- preserve silhouette vertices longer than hidden interior detail.
-
-Generic decimation can destroy authored profile rhythm. Build lower-detail modules where identity depends on structure.
-
-## 11. Numerical robustness
-
-Guard:
-
-- zero-length path segments;
-- duplicate profile points;
-- parallel up/tangent vectors;
-- near-zero triangle area;
-- huge coordinates;
-- inconsistent closed-loop endpoint duplication;
-- NaN attributes.
-
-Run validation before constructing GPU buffers and report the semantic segment that failed.
-
-## 12. Debug views
-
-Provide:
+The index winding helper emits:
 
 ```text
-path and frames
-ring/profile IDs
-face normals
-vertex normals
-UV checker with real scale
-material groups
-hard-edge splits
-LOD comparison
-degenerate/non-manifold highlights
+a, b, c
+b, d, c
+```
+
+Normals are computed after all faces are assembled; a bounding sphere is also
+computed. Four rail meshes meet at miter-like endpoints because their length
+shrinks/expands as `t` moves from inner to outer edge.
+
+## Semantic dimensions and material fit
+
+The frame dimensions are derived:
+
+```text
+innerWidth = postWidth
+innerHeight = innerWidth / embedAspectRatio
+railWidthX = (outerWidth - innerWidth) / 2
+railWidthY = (outerHeight - innerHeight) / 2
+profileRailWidth = min(railWidthX, railWidthY)
+art card Z = rail offset + profileDepth(innerRimT)
+```
+
+This keeps artwork, mat, frame profile, and backing coupled. Avoid tuning their
+Z positions independently.
+
+The same file pairs the geometry with walnut, antique-gold, and ebony material
+bundles. Geometry is judged under grazing spotlights and shadow maps, so profile
+depth must create readable highlights without bloom.
+
+## Tree ring emission
+
+`branch-growth implementation` emits branches as oriented rings. Every branch section owns:
+
+```text
+center
+orientation
+radius
+longitudinal fraction
+branch level
+```
+
+Ring vertices use branch-local radial angle and an explicit seam. Bark UV
+length follows branch length and circumference instead of normalizing every
+branch to identical density.
+
+Child branches are generated from the growth hierarchy before geometry is
+batched. This separation makes it possible to lower radial segments by level
+without changing topology ownership.
+
+Leaf cards use canopy-oriented normals rather than only card-plane normals,
+showing that generated shading attributes can intentionally differ from
+geometric face normals.
+
+## production WebGPU pipeline mesh writer
+
+The architecture compiler accumulates vertices and indices by
+material slot. Modules emit semantic geometry into a shared writer rather than
+constructing one `Mesh` each.
+
+Preserve this contract:
+
+```text
+module plan
+  -> transformed semantic vertices
+  -> triangles tagged with material slot
+  -> grouped BufferGeometry
+```
+
+The writer also keeps module transforms and real dimensions outside raw buffer
+code. This allows façade, roof, cornice, and ornament generators to share
+emission without sharing design logic.
+
+## Selection and LOD
+
+Use:
+
+```text
+custom profile mesh
+  when silhouette and grazing response define identity
+
+oriented rings
+  when hierarchy and taper define identity
+
+semantic mesh writer
+  when many varied modules must batch by material
+
+instancing
+  only when topology is identical and variation is attribute/transform based
+```
+
+Derive LOD from the generator:
+
+- reduce profile samples while retaining crown and groove extrema;
+- reduce branch radial segments by branch level;
+- replace ornaments with relief only after silhouette contribution is small;
+- preserve UV density and material slots across levels.
+
+## Observed limitations
+
+- selective gallery pipeline computes smooth normals across all connected frame faces. If hard
+  backing edges become visible, duplicate vertices by smoothing group.
+- Its profile and segment counts are expensive for many frames. Cache geometry
+  by dimension set and add a lower-detail authored profile.
+- The four rails are separate meshes; a larger gallery may need material-based
+  merging after transforms are fixed.
+- Global `computeVertexNormals()` cannot infer semantic hard edges.
+- Generic mesh decimation may erase the narrow beads and grooves that create
+  the frame’s material response.
+
+## Diagnostics
+
+Expose:
+
+```text
+profile curve with named lobe contributions
+profile sample indices
+rail orientation and top/bottom skins
+face winding and normal direction
+UV checker
+frame/art/backing depth relationship
+tree branch rings and seams
+material groups from the mesh writer
+triangle, vertex, group, and draw counts
+LOD overlay at the design camera
 ```

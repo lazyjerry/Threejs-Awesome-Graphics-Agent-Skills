@@ -20,7 +20,7 @@ Treat an ocean as a sampled stochastic wave field with explicit frequency-space 
 9. Add sub-grid detail only below the resolved simulation bands.
 10. Expose spectrum, height, slopes, Jacobian, and foam-history diagnostics.
 
-Read [references/poseidon-spectral-ocean-extraction.md](references/poseidon-spectral-ocean-extraction.md) before implementing or auditing a spectral ocean.
+Read [references/spectral-cascade-ocean-system.md](references/spectral-cascade-ocean-system.md) before implementing or auditing a spectral ocean.
 
 Inspect the independently implemented [spectral cascade ocean example](examples/spectral-cascade-ocean/index.html) for the cascade, FFT, derivative, Jacobian, foam-history, and shading contracts. Its WebGL2 fragment-FFT backend is an explicit gallery-compatibility divergence; preserve the production WebGPU/TSL architecture described in the reference when the target supports it.
 

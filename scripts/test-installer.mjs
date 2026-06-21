@@ -6,7 +6,7 @@ import { promisify } from "node:util";
 
 const execFileAsync = promisify(execFile);
 const root = process.cwd();
-const cli = path.join(root, "bin", "threejs-gamedev-mega-skills.mjs");
+const cli = path.join(root, "bin", "threejs-awesome-graphics-agent-skills.mjs");
 const packageJson = JSON.parse(
   await readFile(path.join(root, "package.json"), "utf8"),
 );
@@ -17,7 +17,7 @@ const expectedSkills = (await readdir(path.join(root, "skills"), {
   .map((entry) => entry.name)
   .sort();
 const temporaryRoot = await mkdtemp(
-  path.join(os.tmpdir(), "threejs-gamedev-mega-skills-installer-"),
+  path.join(os.tmpdir(), "threejs-awesome-graphics-agent-skills-installer-"),
 );
 const customRoot = path.join(temporaryRoot, "custom-skills");
 const targetPaths = {
@@ -87,7 +87,7 @@ await stat(path.join(customRoot, "threejs-skill-router", "SKILL.md"));
 await stat(path.join(customRoot, "threejs-procedural-fields", "SKILL.md"));
 const manifest = JSON.parse(
   await readFile(
-    path.join(customRoot, ".threejs-gamedev-mega-skills.json"),
+    path.join(customRoot, ".threejs-awesome-graphics-agent-skills.json"),
     "utf8",
   ),
 );

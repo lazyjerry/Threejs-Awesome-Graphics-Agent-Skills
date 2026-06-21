@@ -1,6 +1,6 @@
 ---
 name: threejs-procedural-vfx
-description: Author procedural real-time VFX systems in Three.js. Use for plasma, sparks, embers, trails, shockwaves, energy fields, reentry effects, instanced particles, temporal envelopes, coherent noise advection, bloom-aware emission, and layered effects with explicit visual causality.
+description: Author production real-time VFX in Three.js. Use for ship-conforming reentry plasma, generated capsule wakes, instanced analytic sparks, timed dissolving debris, dense-swap effect pools, and explicit scene-relative HDR emission hierarchy.
 ---
 
 # Procedural VFX
@@ -10,17 +10,22 @@ Build effects from an event envelope, motion field, geometry representation, and
 ## Effect graph
 
 ```text
-event state
-  → normalized lifetime
-  → emission schedule
-  → initial distribution
-  → motion/advection field
-  → representation
+ship/event state
+  → effect-specific geometry or instance attributes
+  → flow-facing masks or analytic age
   → material response
-  → image-pipeline contribution
+  → pool/lifetime ownership
+  → HDR and bloom contribution
 ```
 
-Read [references/procedural-vfx-system.md](references/procedural-vfx-system.md).
+Read [references/procedural-vfx-system.md](references/procedural-vfx-system.md)
+for ship-conforming reentry shells, capsule wakes, dense instanced
+spark/debris pools, HDR hierarchy, and implementation limits.
+
+Inspect the runnable
+[reentry plasma and sparks example](examples/reentry-plasma-and-sparks/index.html)
+for shell masks, wake topology, analytic spark age, dissolve state, HDR
+contribution, and no-bloom comparison.
 
 ## Rules
 
@@ -31,3 +36,9 @@ Read [references/procedural-vfx-system.md](references/procedural-vfx-system.md).
 - Pool instances and trails; do not allocate per burst.
 - Expose spawn, simulation, overdraw, and luminance debug views.
 - Include a non-bloom baseline that remains legible.
+
+## Routing boundary
+
+Use `$threejs-temporal-surfaces` only for the screen-space
+frost/touch-history pipeline. Keep ship-space plasma, generated wakes, sparks,
+and pooled debris in this skill.

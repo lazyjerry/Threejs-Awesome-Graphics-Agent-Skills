@@ -17,7 +17,12 @@ Cloud quality comes from density organization, lighting, and temporal stabilityâ
 6. Reconstruct low-resolution output temporally.
 7. Project a separate low-cost cloud-shadow solution.
 
-Read [references/three-geospatial-cloud-extraction.md](references/three-geospatial-cloud-extraction.md) before implementing or auditing the cloud system.
+Read [references/weather-volume-and-reconstruction.md](references/weather-volume-and-reconstruction.md) before implementing or auditing the cloud system.
+
+Inspect the runnable
+[weather volume clouds example](examples/weather-volume-clouds/index.html) for
+weather-layer ownership, shell bounds, shape/detail topology, directional
+optical depth, low-resolution rendering, and history diagnostics.
 
 ## Required controls
 
@@ -37,3 +42,9 @@ Read [references/three-geospatial-cloud-extraction.md](references/three-geospati
 - temporal history is accepted across disocclusion;
 - shadows use the full beauty raymarch;
 - every cloud layer shares the same wind and density profile.
+
+## Routing boundary
+
+Use `$threejs-atmosphere-aerial-perspective` for molecular/aerosol scattering
+without weather density. This skill owns weather-shaped cloud volumes,
+reconstruction, cloud lighting, and cloud shadows.

@@ -1,141 +1,232 @@
-# Field stack recipes
+# Procedural field-stack recipes
 
-## 1. Build a field bundle, not a final color
+Use this reference to construct coherent field bundles for spherical terrain, altitude-filtered detail, terrain wetness, water optics, and structured stochastic placement.
 
-Keep named nodes or functions:
+## Contents
 
-```js
-const fields = {
-  macroHeight,
-  ridge,
-  cavity,
-  slope,
-  moisture,
-  temperature,
-  detail,
-}
-```
+- Stable coordinate ownership
+- planet-space implementation sphere fields
+- Altitude filtering
+- pooled VFX system terrain coupling
+- atlas-based renderer water field coupling
+- Structured stochastic placement
+- Cross-system implementation contract
+- Diagnostics
 
-Material channels should consume this bundle:
 
-```js
-const rock = smoothstep(0.28, 0.72, fields.slope.add(fields.ridge.mul(0.4)))
-const snow = smoothstep(0.58, 0.9, latitude.add(fields.macroHeight.mul(0.45)))
-const soil = float(1).sub(rock).mul(float(1).sub(snow))
+## Stable coordinate ownership
 
-material.colorNode = rockColor.mul(rock)
-  .add(soilColor.mul(soil))
-  .add(snowColor.mul(snow))
+The strongest common rule is that one stable coordinate domain owns related
+visual channels.
 
-material.roughnessNode = mix(soilRoughness, rockRoughness, rock)
-material.normalNode = proceduralNormal(fields.detail, detailStrength)
-```
-
-The exact TSL names are version-sensitive. Verify exports before copying syntax.
-
-## 2. Four-band frequency budget
-
-Use perceptual roles:
-
-| Band | Typical role | Geometry? |
-| --- | --- | --- |
-| macro | silhouette, continents, massing | yes |
-| meso | ridges, drainage, bark plates, façade zones | sometimes |
-| detail | material breakup, erosion, small cracks | normal/color |
-| micro | sparkle, pores, fibers | filtered normal/roughness |
-
-Keep adjacent bands at least roughly 3–8× apart. Frequencies packed too closely read as undifferentiated noise.
-
-## 3. Tangential domain warp on a sphere
-
-Radial warp stretches features in ways that look like broken UVs. Remove the radial component:
-
-```js
-function warpSphere(direction, warpVector, amount) {
-  const radial = direction.clone().multiplyScalar(warpVector.dot(direction))
-  const tangent = warpVector.clone().sub(radial)
-  return direction.clone().addScaledVector(tangent, amount).normalize()
-}
-```
-
-In a shader graph, use the same operation:
+planet-space implementation stores normalized undeformed sphere direction in a
+`surfaceDirection` attribute. Terrain shader fields sample:
 
 ```text
-tangentWarp = warp - direction * dot(warp, direction)
-warpedDirection = normalize(direction + tangentWarp * amount)
+terrainCoordinateKm = normalize(surfaceDirection) * radiusKm
 ```
 
-## 4. Broad region masks
+They do not sample the interpolated displaced position. This prevents noise
+stretching over steep relief and allows orbit/close-detail filtering in the
+same kilometer domain.
 
-Avoid a single narrow threshold on low-frequency noise. Combine broad signals:
+pooled VFX system terrain samples `positionWorld`, because wetness is tied to a world water
+height. atlas-based renderer water also samples world XZ so near tiles and far ocean quads
+share wave phase.
+
+Choose coordinates from the cause:
 
 ```text
-moisture = 0.65 * macroMoisture + 0.35 * detailMoisture
-aridity = (1 - moisture) * 0.8 + temperature * 0.2 - height * 0.15 + jitter * 0.12
-aridMask = smoothstep(0.34, 0.82, aridity)
+planet geology -> undeformed radial direction * physical radius
+water/wetness -> shared world plane
+tree growth -> branch-local longitudinal and radial coordinates
 ```
 
-This produces regions with internal variation instead of isolated circles.
+## planet-space implementation sphere fields
 
-## 5. Causal masks
-
-Use causes rather than decorative randomness:
-
-- exposed edge wear: convexity + world-up rejection + contact exclusion;
-- dirt: cavity + downward-facing + water-flow streaks;
-- wetness: water proximity + upward-facing + low cavity drainage;
-- snow: temperature + altitude + upward-facing + wind exposure;
-- foam: crest/curvature + shallow depth + wake field;
-- vegetation: moisture + temperature + slope + exclusion zones.
-
-If no causal field exists, add one rather than substituting noise.
-
-## 6. Procedural normal from a height field
-
-For a 2D parameterization:
-
-```glsl
-float h  = heightField(p);
-float hx = heightField(p + vec2(eps, 0.0));
-float hy = heightField(p + vec2(0.0, eps));
-vec3 n = normalize(vec3(h - hx, eps, h - hy));
-```
-
-For a spherical surface, sample two tangent directions around the sphere direction and transform the gradient into the surface frame. Keep `eps` proportional to the represented feature scale.
-
-Use analytic derivatives when the field already has a closed-form wave or profile. Finite differences multiply field evaluation cost.
-
-## 7. Distance filtering
-
-Compute high-frequency weight from projected scale or camera altitude:
+The planet material performs tangential warp:
 
 ```text
-nearWeight = 1 - smoothstep(nearEnd, midEnd, distance)
-farWeight  = smoothstep(midEnd, farStart, distance)
-midWeight  = clamp(1 - nearWeight - farWeight, 0, 1)
+warp = three seeded noise channels - 0.5
+tangentWarp = warp - radial * dot(warp, radial)
+warpAmplitudeKm = max(radiusKm * 0.012, 36)
+warped = normalize(terrainKm + tangentWarp * warpAmplitudeKm) * radiusKm
 ```
 
-Use:
-
-- macro at all distances;
-- meso at near and mid;
-- detail only near;
-- micro only when derivatives indicate it survives the pixel footprint.
-
-## 8. Required debug modes
-
-Expose at least:
+Its broad terrain synthesis uses separated bands:
 
 ```text
-0 final
-1 coordinates
-2 macro
-3 ridges
-4 cavity/slope
-5 categorical masks
-6 detail frequency
-7 final roughness
-8 final normal
+macro A frequency = 0.00034, weight 0.52
+macro B frequency = 0.00092, internal scale 0.52, weight 0.33
+ridge frequency = 0.0029, weight 0.25
+crater-like frequency = 0.0069, exponent 2.9
 ```
 
-Debug output is part of the implementation, not temporary scaffolding.
+The CPU geometry uses a different deterministic value-noise stack:
+
+```text
+continental: 5 octaves, lacunarity 2.03, gain 0.50
+highlands: 4 octaves, lacunarity 2.15, gain 0.55
+ridges: 4 octaves, lacunarity 2.08, gain 0.52
+crater-like: 3 octaves, pow(1 - noise, 3.2)
+```
+
+This mismatch is an observed defect, not a recommended pattern. The material
+mixes only `8%` actual geometry displacement into shader macro height. A new
+implementation should share one deterministic field or validate CPU/GPU parity
+at fixed sphere directions.
+
+Derived climate causes in this field stack:
+
+```text
+humidity =
+  0.65 * broadNoise(0.0022)
+  + 0.35 * detailNoise(0.0075)
+
+temperature =
+  (1 - abs(latitude)^1.35) * 0.85
+  + 0.15
+  - macroHeight * 0.32
+
+slope =
+  1 - abs(dot(localNormal, radialDirection))
+```
+
+Snow, arid, lush, and rock masks combine those fields with altitude, ridges,
+and a smaller jitter field. The important mechanism is causal reuse, not the
+specific color palette.
+
+## Altitude filtering
+
+planet-space implementation computes:
+
+```text
+cameraAltitude = max(distance(camera, center) - radius, 0)
+detailAltitude = min(cameraAltitude, externally supplied detail altitude)
+
+near = max(radius * 0.022, 6.5)
+mid  = max(radius * 0.11, 24)
+far  = max(radius * 0.50, 140)
+
+nearWeight = 1 - smoothstep(near, mid, detailAltitude)
+farWeight = smoothstep(mid, far, detailAltitude)
+midWeight = clamp(1 - nearWeight - farWeight, 0, 1)
+```
+
+These weights attenuate bump, coastline sharpness, wave detail, clearcoat, and
+micro material variation. The frequencies remain stable; contribution fades.
+
+## pooled VFX system terrain coupling
+
+The pooled VFX system terrain material uses three world-space noise bands:
+
+```text
+noise1: position * (0.2, 1, 0.2), amplitude 0.05, bias 0.2
+noise2: position * 9, amplitude 0.4, bias 0.5
+noise3: position * (14, 3, 14), amplitude 2, bias 0.5
+soilNoise = noise1 + noise2 + noise3
+```
+
+Surface identity derives from geometry orientation:
+
+```text
+grassness = smoothstep(0.01, 1, normalWorld.y^1.6)
+color = mix(soilColor, grassColor, grassness)
+```
+
+The same identity blends soil and grass roughness fields. World height adds a
+wetness response near the water level:
+
+```text
+wetness = smoothstep(-1, -7, positionWorld.y) * noise1 * 3.5
+roughness -= wetness
+```
+
+The reversed-looking edges are intentional GLSL `smoothstep` usage in the
+source but are undefined by the GLSL specification when `edge0 > edge1`.
+Rewrite as `1 - smoothstep(-7, -1, y)` for portable behavior.
+
+## atlas-based renderer water field coupling
+
+atlas-based renderer evaluates six directional wave bands in one function and returns:
+
+```text
+RGB = analytic normal from summed gradients
+A = crest metric derived from the same slopes and phases
+```
+
+Wavelengths:
+
+```text
+12, 6, 2.5, 5.25, 3.0, 1.5 world units
+```
+
+Amplitudes relative to the base:
+
+```text
+1.0, 0.55, 0.22, 0.12, 0.08, 0.05
+```
+
+The three smallest bands are attenuated from screen derivatives using their
+wavenumbers. Foam consumes the returned crest metric; it does not sample an
+unrelated scrolling mask.
+
+## Structured stochastic placement
+
+`branch-growth implementation` demonstrates a different kind of field: constrained discrete
+placement. Child branches use stratified longitudinal slots and independently
+permuted angular slots. Randomness selects within valid slots rather than
+choosing every position freely.
+
+That same mechanism applies to:
+
+```text
+branch emergence
+façade variants
+particle burst directions
+crater distribution
+cloud-cell placement
+```
+
+When a pattern must remain authored, stratify the domain before applying
+random jitter.
+
+## Cross-system implementation contract
+
+Before coding, record:
+
+```text
+coordinate domain
+physical/perceptual units
+primary fields
+derived causes
+consuming channels
+filtering rule
+CPU/GPU parity requirement
+seed ownership
+```
+
+Reject a field stack when:
+
+- color, roughness, and normal use unrelated structure;
+- geometry and shading claim the same feature but evaluate different functions;
+- a categorical mask is only a narrow noise threshold;
+- high-frequency terms survive after their projected footprint is subpixel;
+- world effects use object coordinates or planetary effects use flat world Y;
+- random placement has no strata, budget, or semantic constraints.
+
+## Diagnostics
+
+Expose:
+
+```text
+source coordinates
+tangential warp vector
+each frequency band
+actual geometry height versus shader height
+humidity, temperature, slope, and identity masks
+near/mid/far weights
+water normal and crest from the same evaluation
+wetness by world height
+seed and stratification cells
+```

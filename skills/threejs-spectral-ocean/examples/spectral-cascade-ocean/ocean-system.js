@@ -298,7 +298,6 @@ export class SpectralOceanSystem {
       (Math.PI * 2 / options.patchLengths[index]) *
       options.boundaryFactor;
     this.cascades = options.patchLengths.map((patchLength, index) => {
-      const scaleMultiplier = [1, 0.7, 0.34][index] ?? 1;
       return new SpectralCascade(renderer, {
         ...options,
         patchLength,
@@ -308,7 +307,7 @@ export class SpectralOceanSystem {
             ? 9999
             : handoff(index + 1),
         seed: options.seed + index * 1013,
-        amplitude: options.amplitude * scaleMultiplier,
+        amplitude: options.amplitude,
       });
     });
   }

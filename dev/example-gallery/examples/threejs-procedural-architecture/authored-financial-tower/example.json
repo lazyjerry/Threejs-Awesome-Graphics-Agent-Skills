@@ -1,0 +1,56 @@
+{
+  "title": "Authored Financial Tower",
+  "description": "An authored financial tower with exact dimensional settings and seeded setback tiers, semantic podium/shaft/crown/roof planning, reserved central glass and corner zones, a projected colonnade and trim hierarchy, material-slot instancing, and three light-space cached shadow levels with texel snapping, cross-fades, age, and update budgeting.",
+  "backend": "WebGL2 / semantic instancing and cached shadow maps",
+  "techniques": [
+    "settings-to-plan-to-mesh compilation",
+    "seeded dimensional setback massing",
+    "semantic facade modules and reserved zones",
+    "material-slot instanced compilation",
+    "light-space clipmap texel snapping",
+    "cached shadow update budget and cross-fade"
+  ],
+  "defaultViewport": {
+    "width": 1440,
+    "height": 900
+  },
+  "defaultDpr": 1,
+  "debugModes": [
+    {
+      "value": "final",
+      "label": "Final"
+    },
+    {
+      "value": "topology",
+      "label": "Tier topology"
+    },
+    {
+      "value": "placements",
+      "label": "Module placements"
+    },
+    {
+      "value": "material-slots",
+      "label": "Material slots"
+    },
+    {
+      "value": "shadow-levels",
+      "label": "Shadow clipmap levels"
+    },
+    {
+      "value": "texel-grid",
+      "label": "Light-space texel grid"
+    },
+    {
+      "value": "no-shadows",
+      "label": "No shadows"
+    }
+  ],
+  "controls": [
+    "orbit",
+    "pause",
+    "timeScale",
+    "dpr",
+    "debugMode",
+    "capture"
+  ]
+}

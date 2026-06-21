@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
-import { ashMedium } from "../skills/threejs-procedural-vegetation/examples/ez-tree-ash/ash-preset.js";
-import { compileAshTree } from "../skills/threejs-procedural-vegetation/examples/ez-tree-ash/tree-system.js";
+import { ashMedium } from "../skills/threejs-procedural-vegetation/examples/structured-ash-growth/ash-preset.js";
+import { compileAshTree } from "../skills/threejs-procedural-vegetation/examples/structured-ash-growth/tree-system.js";
 
 function assertVector(actual, expected, label, epsilon = 1e-5) {
   assert.equal(actual.length, expected.length, `${label}: dimension mismatch`);

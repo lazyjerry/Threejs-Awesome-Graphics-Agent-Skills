@@ -18,7 +18,12 @@ Build a planet as a coupled field system evaluated on a unit direction. The same
 7. Filter bands by represented mesh scale and camera altitude.
 8. Couple the material to atmosphere and lighting using the same planet transform.
 
-Read [references/planet-field-system.md](references/planet-field-system.md) for the target field contract. Read [references/stellar-planet-extraction.md](references/stellar-planet-extraction.md) when adapting the reviewed Stellar terrain, biome, gas-giant, material, altitude-LOD, or atmosphere-handoff mechanisms.
+Read [references/planet-field-and-atmosphere-systems.md](references/planet-field-and-atmosphere-systems.md) for terrain, biome, gas-giant, material, altitude-LOD, and atmosphere-handoff mechanisms, including a known CPU/GPU field-parity failure mode.
+
+Inspect the runnable
+[planet field and atmosphere](examples/planet-field-atmosphere/index.html)
+for undeformed sphere coordinates, shared CPU/GLSL terrain, coupled biome and
+material causes, derivative bump, and bounded atmosphere integration.
 
 ## Non-negotiable constraints
 
@@ -40,3 +45,9 @@ The body must remain intentional in:
 - close approach;
 - biome-mask and normal-only views;
 - at least three seeds without losing the chosen planetary identity.
+
+## Routing boundary
+
+Use `$threejs-procedural-fields` for a reusable field bundle without a complete
+body, and `$threejs-atmosphere-aerial-perspective` for scattering independent
+of planet generation. This skill owns the coupled planetary surface.
