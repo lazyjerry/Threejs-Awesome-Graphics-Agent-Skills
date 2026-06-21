@@ -6,6 +6,8 @@ It includes mesh design, lighting, PBR materials, textures, shaders, TSL/WebGPU,
 
 This is NOT a three.js API cheat sheet, it skips basic 3D production fundamentals (any decent LLM already has that internal knowledge), it also skips three.js API technicalities (just look up docs or use existing API oriented agent skills). This skill pack is meant for agent to produce stunning 3D scenes and graphics that transcend simple demos. It brings the sophistication of good graphics and eliminates cheap effort.
 
+I aim to continuously update this skill pack as more three.js projects with awesome graphics emerge. I hope this skill pack can help anyone build awesome scenes and games with out of the box sophisticated graphics.
+
 ## Operating model
 
 Load `$threejs-skill-router` for a broad visual task, then load only the atomic systems the work actually needs.
