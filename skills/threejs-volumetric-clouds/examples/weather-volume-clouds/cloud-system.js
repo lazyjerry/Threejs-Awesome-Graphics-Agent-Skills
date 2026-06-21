@@ -643,6 +643,14 @@ export function createCopyMaterial() {
         );
       }
 
+      float screenDither(vec2 coordinate) {
+        return fract(
+          52.9829189 * fract(
+            dot(coordinate, vec2(0.06711056, 0.00583715))
+          )
+        );
+      }
+
       void main() {
         vec3 resolved = texture(uTexture, vUv).rgb;
         vec3 color = toneMap(resolved);
@@ -660,6 +668,11 @@ export function createCopyMaterial() {
             rejected
           );
         }
+        color = clamp(
+          color + (screenDither(gl_FragCoord.xy) - 0.5) / 255.0,
+          0.0,
+          1.0
+        );
         outputColor = vec4(color, 1.0);
       }
     `,

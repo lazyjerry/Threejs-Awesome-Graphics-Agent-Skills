@@ -110,6 +110,7 @@ export default {
       THREE.UnsignedIntType,
     );
     const atmosphereTarget = new THREE.WebGLRenderTarget(1, 1, {
+      type: THREE.HalfFloatType,
       minFilter: THREE.LinearFilter,
       magFilter: THREE.LinearFilter,
       depthBuffer: false,

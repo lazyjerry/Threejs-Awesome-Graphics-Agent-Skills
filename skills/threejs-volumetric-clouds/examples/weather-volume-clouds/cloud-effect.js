@@ -42,6 +42,7 @@ export class WeatherVolumeCloudEffect {
 
   createTarget(width, height) {
     return new THREE.WebGLRenderTarget(width, height, {
+      type: THREE.HalfFloatType,
       minFilter: THREE.LinearFilter,
       magFilter: THREE.LinearFilter,
       depthBuffer: false,
