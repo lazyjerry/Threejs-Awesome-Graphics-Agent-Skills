@@ -35,10 +35,10 @@ export default {
   async setup({ THREE, renderer, scene, camera, controls }) {
     const [atmosphereTextures, cloudTextures] = await Promise.all([
       loadAtmosphereTextures(
-        "/dev/example-gallery/assets/geospatial/atmosphere",
+        "/skills/threejs-atmosphere-aerial-perspective/assets/lut-aerial-perspective",
       ),
       loadCloudTextures(
-        "/dev/example-gallery/assets/geospatial/clouds",
+        "/skills/threejs-volumetric-clouds/assets/weather-volume-clouds",
       ),
     ]);
     const sunDirection = new THREE.Vector3(-0.58, 0.66, -0.48).normalize();

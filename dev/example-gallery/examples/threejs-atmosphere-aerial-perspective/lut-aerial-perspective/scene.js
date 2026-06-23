@@ -31,7 +31,7 @@ export default {
 
   async setup({ THREE, renderer, scene, camera, controls }) {
     const atmosphereTextures = await loadAtmosphereTextures(
-      "/dev/example-gallery/assets/geospatial/atmosphere",
+      "/skills/threejs-atmosphere-aerial-perspective/assets/lut-aerial-perspective",
     );
     const sunDirection = new THREE.Vector3(-0.58, 0.66, -0.48).normalize();
 

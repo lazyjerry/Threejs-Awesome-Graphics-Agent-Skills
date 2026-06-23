@@ -19,16 +19,16 @@ export default {
       detailNormalTexture,
     ] = await Promise.all([
       loader.loadAsync(
-        "/dev/example-gallery/assets/frozen/winter_forest.jpeg",
+        "/dev/example-gallery/examples/threejs-temporal-surfaces/touch-history-frost/assets/winter_forest.jpeg",
       ),
       loader.loadAsync(
-        "/dev/example-gallery/assets/frozen/noise.webp",
+        "/skills/threejs-temporal-surfaces/assets/touch-history-frost/noise.webp",
       ),
       loader.loadAsync(
-        "/dev/example-gallery/assets/frozen/main-normal.webp",
+        "/skills/threejs-temporal-surfaces/assets/touch-history-frost/main-normal.webp",
       ),
       loader.loadAsync(
-        "/dev/example-gallery/assets/frozen/sub-normal.webp",
+        "/skills/threejs-temporal-surfaces/assets/touch-history-frost/sub-normal.webp",
       ),
     ]);
 

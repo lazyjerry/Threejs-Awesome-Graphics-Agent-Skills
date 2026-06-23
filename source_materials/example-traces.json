@@ -19,15 +19,15 @@
         "assets": [
           {
             "sourcePath": "public/assets/atmosphere/irradiance.bin",
-            "localPath": "dev/example-gallery/assets/geospatial/atmosphere/irradiance.bin"
+            "localPath": "skills/threejs-atmosphere-aerial-perspective/assets/lut-aerial-perspective/irradiance.bin"
           },
           {
             "sourcePath": "public/assets/atmosphere/scattering.bin",
-            "localPath": "dev/example-gallery/assets/geospatial/atmosphere/scattering.bin"
+            "localPath": "skills/threejs-atmosphere-aerial-perspective/assets/lut-aerial-perspective/scattering.bin"
           },
           {
             "sourcePath": "public/assets/atmosphere/transmittance.bin",
-            "localPath": "dev/example-gallery/assets/geospatial/atmosphere/transmittance.bin"
+            "localPath": "skills/threejs-atmosphere-aerial-perspective/assets/lut-aerial-perspective/transmittance.bin"
           }
         ],
         "boundary": "independent-distillation",
@@ -55,14 +55,14 @@
           "src/kit/shared/mesh-writer.ts",
           "src/kit/shared/module-api.ts",
           "src/kit/financial-core-kit.ts",
-      "src/scene/csm/cached-clipmap-shadow-node.ts",
-      "src/scene/csm/bounded-shadow-node.ts",
-      "src/scene/materials.ts",
-      "src/scene/daylight-lighting.ts",
-      "src/scene/daylight-sky.ts",
-      "src/scene/scene-environment.ts",
-      "src/app/building-canvas.tsx",
-      "src/app/ground-plane.tsx"
+          "src/scene/csm/cached-clipmap-shadow-node.ts",
+          "src/scene/csm/bounded-shadow-node.ts",
+          "src/scene/materials.ts",
+          "src/scene/daylight-lighting.ts",
+          "src/scene/daylight-sky.ts",
+          "src/scene/scene-environment.ts",
+          "src/app/building-canvas.tsx",
+          "src/app/ground-plane.tsx"
         ],
         "mechanisms": [
           "default seed 1042 financial-tower settings and exact 3.2 metre bay and 3.35 metre floor anchors",
@@ -70,26 +70,26 @@
           "reserved central glass shaft, corner piers, bay rhythms, projected colonnade, cornices, finials, and statue roof",
           "semantic material-slot compilation with reusable geometry and per-placement transforms",
           "three light-space square shadow levels with per-level texel snapping and scaled normal bias",
-      "dynamic near level, cached coarse levels, one-level update budget, containment cross-fade, and unshadowed outside weight"
-    ],
-    "assets": [
-      {
-        "sourcePath": "public/assets/financial-core/limestone-albedo.png",
-        "localPath": "assets/limestone-albedo.png"
-      },
-      {
-        "sourcePath": "public/assets/financial-core/limestone-normal.png",
-        "localPath": "assets/limestone-normal.png"
-      },
-      {
-        "sourcePath": "public/assets/financial-core/ornaments-albedo.png",
-        "localPath": "assets/ornaments-albedo.png"
-      },
-      {
-        "sourcePath": "public/assets/financial-core/ornaments-normal.png",
-        "localPath": "assets/ornaments-normal.png"
-      }
-    ],
+          "dynamic near level, cached coarse levels, one-level update budget, containment cross-fade, and unshadowed outside weight"
+        ],
+        "assets": [
+          {
+            "sourcePath": "public/assets/financial-core/limestone-albedo.png",
+            "localPath": "skills/threejs-procedural-architecture/assets/authored-financial-tower/limestone-albedo.png"
+          },
+          {
+            "sourcePath": "public/assets/financial-core/limestone-normal.png",
+            "localPath": "skills/threejs-procedural-architecture/assets/authored-financial-tower/limestone-normal.png"
+          },
+          {
+            "sourcePath": "public/assets/financial-core/ornaments-albedo.png",
+            "localPath": "skills/threejs-procedural-architecture/assets/authored-financial-tower/ornaments-albedo.png"
+          },
+          {
+            "sourcePath": "public/assets/financial-core/ornaments-normal.png",
+            "localPath": "skills/threejs-procedural-architecture/assets/authored-financial-tower/ornaments-normal.png"
+          }
+        ],
         "boundary": "independent-distillation",
         "divergences": [
           "the focused inspection compiler implements the reviewed default board-of-trade tower modules rather than all registered kit modules",
@@ -123,19 +123,19 @@
         "assets": [
           {
             "sourcePath": "src/assets/textures/aged-walnut-frame.webp",
-            "localPath": "assets/aged-walnut-frame.webp"
+            "localPath": "skills/threejs-procedural-geometry/assets/sculpted-gallery-frame/aged-walnut-frame.webp"
           },
           {
             "sourcePath": "src/assets/textures/antique-gold-frame.webp",
-            "localPath": "assets/antique-gold-frame.webp"
+            "localPath": "skills/threejs-procedural-geometry/assets/sculpted-gallery-frame/antique-gold-frame.webp"
           },
           {
             "sourcePath": "src/assets/textures/dark-ebony-frame.webp",
-            "localPath": "assets/dark-ebony-frame.webp"
+            "localPath": "skills/threejs-procedural-geometry/assets/sculpted-gallery-frame/dark-ebony-frame.webp"
           },
           {
             "sourcePath": "src/assets/textures/gallery-mat-board.webp",
-            "localPath": "assets/gallery-mat-board.webp"
+            "localPath": "skills/threejs-procedural-geometry/assets/sculpted-gallery-frame/gallery-mat-board.webp"
           },
           {
             "sourcePath": "src/assets/textures/gallery-plaster.webp",
@@ -214,19 +214,19 @@
         "assets": [
           {
             "sourcePath": "src/app/public/textures/leaves/ash.png",
-            "localPath": "assets/ash.png"
+            "localPath": "skills/threejs-procedural-vegetation/assets/structured-ash-growth/ash.png"
           },
           {
             "sourcePath": "src/app/public/textures/bark/Bark001_1K-JPG/Bark001_1K-JPG_Color.jpg",
-            "localPath": "assets/bark-color.jpg"
+            "localPath": "skills/threejs-procedural-vegetation/assets/structured-ash-growth/bark-color.jpg"
           },
           {
             "sourcePath": "src/app/public/textures/bark/Bark001_1K-JPG/Bark001_1K-JPG_NormalGL.jpg",
-            "localPath": "assets/bark-normal.jpg"
+            "localPath": "skills/threejs-procedural-vegetation/assets/structured-ash-growth/bark-normal.jpg"
           },
           {
             "sourcePath": "src/app/public/textures/bark/Bark001_1K-JPG/Bark001_1K-JPG_Roughness.jpg",
-            "localPath": "assets/bark-roughness.jpg"
+            "localPath": "skills/threejs-procedural-vegetation/assets/structured-ash-growth/bark-roughness.jpg"
           },
           {
             "sourcePath": "src/app/public/models/grass.glb",
@@ -295,7 +295,7 @@
         "assets": [
           {
             "sourcePath": "public/textures/noise_deep.png",
-            "localPath": "assets/noise_deep.png"
+            "localPath": "skills/threejs-raymarched-space-effects/assets/curved-ray-accretion-volume/noise_deep.png"
           }
         ]
       }
@@ -407,23 +407,23 @@
         "assets": [
           {
             "sourcePath": "public/assets/clouds/local_weather.png",
-            "localPath": "dev/example-gallery/assets/geospatial/clouds/local_weather.png"
+            "localPath": "skills/threejs-volumetric-clouds/assets/weather-volume-clouds/local_weather.png"
           },
           {
             "sourcePath": "public/assets/clouds/shape.bin",
-            "localPath": "dev/example-gallery/assets/geospatial/clouds/shape.bin"
+            "localPath": "skills/threejs-volumetric-clouds/assets/weather-volume-clouds/shape.bin"
           },
           {
             "sourcePath": "public/assets/clouds/shape_detail.bin",
-            "localPath": "dev/example-gallery/assets/geospatial/clouds/shape_detail.bin"
+            "localPath": "skills/threejs-volumetric-clouds/assets/weather-volume-clouds/shape_detail.bin"
           },
           {
             "sourcePath": "public/assets/clouds/turbulence.png",
-            "localPath": "dev/example-gallery/assets/geospatial/clouds/turbulence.png"
+            "localPath": "skills/threejs-volumetric-clouds/assets/weather-volume-clouds/turbulence.png"
           },
           {
             "sourcePath": "public/assets/core/stbn.bin",
-            "localPath": "dev/example-gallery/assets/geospatial/clouds/stbn.bin"
+            "localPath": "skills/threejs-volumetric-clouds/assets/weather-volume-clouds/stbn.bin"
           }
         ],
         "boundary": "independent-distillation",

@@ -29,16 +29,16 @@ const textureLoader = new THREE.TextureLoader();
 const [limestoneMap, limestoneNormal, ornamentMap, ornamentNormal] =
   await Promise.all([
     textureLoader.loadAsync(
-      "/dev/example-gallery/examples/threejs-procedural-architecture/authored-financial-tower/assets/limestone-albedo.png",
+      "/skills/threejs-procedural-architecture/assets/authored-financial-tower/limestone-albedo.png",
     ),
     textureLoader.loadAsync(
-      "/dev/example-gallery/examples/threejs-procedural-architecture/authored-financial-tower/assets/limestone-normal.png",
+      "/skills/threejs-procedural-architecture/assets/authored-financial-tower/limestone-normal.png",
     ),
     textureLoader.loadAsync(
-      "/dev/example-gallery/examples/threejs-procedural-architecture/authored-financial-tower/assets/ornaments-albedo.png",
+      "/skills/threejs-procedural-architecture/assets/authored-financial-tower/ornaments-albedo.png",
     ),
     textureLoader.loadAsync(
-      "/dev/example-gallery/examples/threejs-procedural-architecture/authored-financial-tower/assets/ornaments-normal.png",
+      "/skills/threejs-procedural-architecture/assets/authored-financial-tower/ornaments-normal.png",
     ),
   ]);
 for (const texture of [limestoneMap, ornamentMap]) {

@@ -379,9 +379,11 @@ for (const example of discoveredExamples) {
             errors.push(`${example.id}: invalid bundled asset path ${asset?.localPath}`);
             continue;
           }
-          const assetPath = asset.localPath.startsWith("dev/")
-            ? path.join(root, asset.localPath)
-            : path.join(exampleRoot, asset.localPath);
+          const assetPath =
+            asset.localPath.startsWith("dev/") ||
+              asset.localPath.startsWith("skills/")
+              ? path.join(root, asset.localPath)
+              : path.join(exampleRoot, asset.localPath);
           const bytes = await readFile(assetPath).catch(() => null);
           if (!bytes) {
             errors.push(`${example.id}: missing bundled asset ${asset.localPath}`);
