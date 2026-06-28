@@ -90,7 +90,9 @@ try {
     target.searchParams.set("galleryDpr", String(example.defaultDpr));
     target.searchParams.set("galleryDebugMode", debugMode);
 
-    await page.setViewportSize(example.defaultViewport);
+    await page.setViewportSize(
+      example.defaultViewport ?? { width: 1280, height: 720 },
+    );
     const runtimeErrors = [];
     const onPageError = (error) => runtimeErrors.push(error.message);
     const onConsole = (message) => {

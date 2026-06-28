@@ -212,6 +212,103 @@
         "src/gui.js": "2d0462fe57b945c5415afe595f7c64117d7ef4ee6c896211c72588cc0b66300e"
       }
     },
+    "fftocean": {
+      "repository": "https://github.com/gioeledallapozza/FFTOCEAN",
+      "revision": "0fe3a908a86118eab9930e17b0b29df7fcc05b65",
+      "license": "unobserved",
+      "localDirectory": "FFTOCEAN",
+      "files": {
+        "src/gpgpu/useOceanGPGPU.js": "0d8201563f495f4f9a91b9fe07fadb3124641ca8610d852b5194d53ea321a26c",
+        "src/materials/shaders/ocean/oceanFragment.glsl": "d802529d04609d32acb9ba7374c16d2b73ab2bdf31ab4be01ad695a9740cc4ab",
+        "src/materials/shaders/postprocessing/underwaterFragment.glsl": "6e4a297193dbed0ba738938f151b8e8a6e3971f33ef2690f4cdb950f7aab28c8",
+        "src/materials/shaders/seafloor/seafloorFragment.glsl": "d6676f4acd0dd158a9aa6e394ea0801e07b331aeb6c9ffbb5c826c630fe3fad9",
+        "src/geometry/lod/ClipmapGeometry.js": "b3de6c36885ed81a7bb6bb1bba76d20a7b4462ada2abc917f65de2acf76a1c1f"
+      }
+    },
+    "threejs-water": {
+      "repository": "https://github.com/jeantimex/threejs-water",
+      "revision": "d5c06864fe22ad31f500af7f21a46aad1c7d3e27",
+      "license": "MIT",
+      "localDirectory": "threejs-water",
+      "files": {
+        "src/Water.ts": "2b7d07074566fd2bf8509a1892e88f2d9d27894e1462c73b8d28847fb8645cd5",
+        "src/water/WaterDisplacement.ts": "c9042e7429aa02e6a34e19eb3e88223c92aa3ee1b50228acf95d77b17ec7f448",
+        "src/water/WaterOptics.ts": "11968018dd034d1865ea25d16383ed17885b742d5da0125f848e42602d41a13d",
+        "src/shaders/WaveSimulation.frag": "76db0b861eec74f07bd49b0f044294ad0f81b1f7f531468d6ce7a51498b8804d",
+        "src/shaders/WaterNormal.frag": "307909f87b2dd9a2052ae51338be7b854ad4529bb60e8b4d8f3971e303d223fa",
+        "src/shaders/WaterAbove.frag": "74af72051801f16bc724f8483b8d93cc725deb81b4b53cee444808fbaa132091",
+        "src/shaders/WaterBelow.frag": "1f9aaf6c056b13478c9718513ce9a7cb082d1d528fe0e46cc71ead6f6bf864fd",
+        "src/shaders/Caustics.frag": "e4a4345c87f78709dd34ae02366fc6e39ad697b241bc0af169e14bd798a88dce"
+      },
+      "assets": {
+        "public/tiles.jpg": "da7dbbe829553807fd72fc66514765d8af26b0c326b6664c4ac3be57271c2f69"
+      }
+    },
+    "ocean-threejs": {
+      "repository": "https://github.com/achrefelouafi/OceanThreejs",
+      "revision": "da18e9254a83a6e990c0077b5d752026f3d5c480",
+      "license": "MIT",
+      "localDirectory": "OceanThreejs",
+      "files": {
+        "src/Ocean/OceanMaterial.js": "62de22d2c044e1cdff55786edd810c88fc13dd0882b3ada9c14cacfe07a427e6",
+        "src/Ocean/Gerstner.js": "367d9f2f2ac5d0468931101db44b2a0e8f6e5a350db64c5c8dbcfbece11fce23",
+        "src/Ocean/Spectra.js": "b3aa7a742a0cbda531446bf5b348d87f5d2a379fccee5f62644988db04f418ae",
+        "src/Ocean/FFT.js": "dbed48715fa31b19e6263759a8db2876fdd502249dbf8e1048bd468cc5f27c5e",
+        "src/Ocean/OceanSimulation.js": "71387c9a77a6a84a3a2f44c85141b5d12258ab0e1091ec3e50f0ab440873267c",
+        "src/Shaders/water.vert.js": "478a37ba7fb842ff8e07a8c5ebe7576db18c8c7a73502401fe80f2e925bc789c",
+        "src/Shaders/water.frag.js": "835ac79b647c554cd3ec2ee3b74bc44e98f63ec5d66575cdf2854e78668b4cd2",
+        "src/config.js": "c0c3bc272c4cbecae81b6987452a74704b633fca0a182ee17a45c9a04c609e59"
+      },
+      "assets": {
+        "public/Ground098_1K-JPG_AmbientOcclusion.jpg": "d0317abdbbba34e406ffecdf1095952e3a6d50e7a4cfdc7ce736a717c053608b",
+        "public/Ground098_1K-JPG_Color.jpg": "94e7730596545633540c1d2c50c0d93fb8a4eb720b81da485bd5d986e1476b93",
+        "public/Ground098_1K-JPG_Displacement.jpg": "bea98f786b5a9e799c70b7f5baeeed37412c2decd719675775044cf2e51e6a8d",
+        "public/Ground098_1K-JPG_NormalDX.jpg": "b5d5e5ea4ce619974930f363c5e36b9d38f75713976880d563e6292d7c1f06a5",
+        "public/Ground098_1K-JPG_Roughness.jpg": "ce5e2acedf4b613369a39e7e54eb2b35543647e463b06bec59594fc59361ad85"
+      }
+    },
+    "stylized-scene": {
+      "repository": "https://github.com/dedekpo/stylized-scene",
+      "revision": "531c5721e3883412d0dde7db1a72732aa3ede155",
+      "license": "MIT",
+      "localDirectory": "stylized-scene",
+      "files": {
+        "src/materials/grass-material.ts": "31cc89fda4e3d37ab92fe5739e6be7ee1ffc95a801f706d72139a9b442c9d54e",
+        "src/materials/wind.ts": "b28904e6ebf092491b06a87a2a77df8509eee22a604f267911dfcc8b2ae2abbc",
+        "src/materials/normals.ts": "5dc2752e30d8c0f6f11dfbe1fc28aba964e87a3e9ceb9e0b9c8b96957c536e23",
+        "src/scene/grass.tsx": "f2834a4a4a155fa432461e7e05a8af863890c0e4f0faa09506c9d43831ef7618",
+        "src/materials/ground-material.ts": "ce48ce0f3270b63daa7220afef4d33c732df94d1e45ff8cf8cba7309195b6fe7",
+        "src/config/scene-config.ts": "acebbce08c441b574131b0b42e667fffa704d431fe2cee770c1dd201d15261dc"
+      },
+      "assets": {
+        "public/grass-blades-up.glb": "3c1798aa0526096d4cd05553b415a0e88c684eecb9e04f48b50bcb3b22bdb0d3",
+        "public/path.webp": "d2fb57d6afd811bf61aba268c37adba333c46231f39d228be490b10e77857e8a",
+        "public/perlin.webp": "0ba90d4cd8f618f6943b0bc9710ebdc3a90d7daaaf87e438e9cd2ebc9ad79964",
+        "public/grass_texture/grass_05_basecolor_1k.webp": "8ba89534bca6e1877498c8aa13ba72b488d64f842cac44693b241ba07d0ae93d",
+        "public/grass_texture/grass_05_normal_gl_1k.webp": "163ff7896fce535d802426093cc6a2e19f3db93ac4186af5b5c5ab6440389782",
+        "public/grass_texture/grass_05_roughness_1k.webp": "440bbef2185307eea36048c1ca0ea82d4c21a072f754fb1f658e7e2bd84b55ad",
+        "public/ground_texture/ground_07_4k/ground_07__ambientocclusion_1k.webp": "bd949917563b3c05274ed9a4c90e77f5a177f132f3d5c54aa922ed1ead552b6f",
+        "public/ground_texture/ground_07_4k/ground_07__basecolor_1k.webp": "2aea1f5109e3f6bc0eaafe6af4750c947328c70c7778eaa60e79dea9af4e8dc2",
+        "public/ground_texture/ground_07_4k/ground_07__height_1k.webp": "737b4483c92f4fecef0aea797bd2acc9df33e29c51826be342bc5cac60f7b3c6",
+        "public/ground_texture/ground_07_4k/ground_07__metallic_1k.webp": "71ad7f8f05672ec1002fb6d15a60ece4c303dc6d25765cae8cf42ef51cd8d1fb",
+        "public/ground_texture/ground_07_4k/ground_07__normal_gl_1k.webp": "6126e727b7ae63d42fef2c2dd0b3d05afe7b02845ad4114ac3a4c17842359027",
+        "public/ground_texture/ground_07_4k/ground_07__roughness_1k.webp": "1c0321b5f5676e5c54ceb02e10daad36a2b5df5c2a5bf5a437bbb33bbc6f4739",
+        "public/leaves-alpha-map.png": "80f9181c356caa0ea5bf0053e90b393f79001dab2e062475dae18dc2ff80e8ea",
+        "public/skybox/sky_88_2k.png": "159f8bd3c421e0d41d1ab16944b404af087dda976d75724a719c320697c92799",
+        "public/tree-leaves-mesh.glb": "166c6ca7583ebd0672128fae17c5848cfed55ff626bb1fe801a5992477f1b1f7",
+        "public/tree-tronk-transformed.glb": "dff1522fc7df5abfd541b2ef0efb1c03a604ba6a97a8a9d82e63da947823088b"
+      }
+    },
+    "very-hot-planet-codepen": {
+      "repository": "https://codepen.io/sabosugi/pen/RNKpmQj",
+      "revision": "339f879d3c56eda4238b009c318ca9b89e9eb3fc",
+      "license": "unobserved",
+      "localDirectory": "codepen-RNKpmQj",
+      "files": {
+        "script.js": "339f879d3c56eda4238b009c318ca9b89e9eb3fcb64eb82be8fa41e692f733b3",
+        "metadata.json": "95b0dccb09c866128d5aa177a7bbb870d0dcc582b7c324f4fff8a59b953284f6"
+      }
+    },
     "stellar": {
       "repository": "https://github.com/scottstts/Stellar",
       "revision": "ad8062b54ec86312d7c028d46727796eb802c9b2",

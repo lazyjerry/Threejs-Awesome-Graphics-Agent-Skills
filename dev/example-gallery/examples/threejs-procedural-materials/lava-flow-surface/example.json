@@ -1,0 +1,40 @@
+{
+  "title": "Lava Flow Surface",
+  "description": "A raymarched hot terrain material with one advected height field driving ridge shape, normals, lava/rock identity, volumetric glow, ember occlusion, fog, vignette, and film grain.",
+  "backend": "WebGL2 / GLSL raymarched material",
+  "techniques": [
+    "advected fBm terrain distance field",
+    "finite-difference normals from the same height field",
+    "height and ridge coupled lava-rock material identity",
+    "near-surface emissive glow accumulation",
+    "ray-occluded ember particles",
+    "fog, vignette, and film grain in the material"
+  ],
+  "defaultViewport": "responsive",
+  "defaultDpr": 1,
+  "debugModes": [
+    {
+      "value": "final",
+      "label": "Final"
+    },
+    {
+      "value": "height",
+      "label": "Height"
+    },
+    {
+      "value": "normals",
+      "label": "Normals"
+    },
+    {
+      "value": "emission",
+      "label": "Emission"
+    }
+  ],
+  "controls": [
+    "pause",
+    "timeScale",
+    "dpr",
+    "debugMode",
+    "capture"
+  ]
+}

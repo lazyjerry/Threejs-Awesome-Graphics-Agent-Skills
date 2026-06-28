@@ -34,7 +34,8 @@
       "evidence": [
         "threejs-procedural-geometry/sculpted-gallery-frame",
         "threejs-procedural-planets/procedural-planet-surface",
-        "threejs-water-optics/analytic-wave-optics"
+        "threejs-water-optics/analytic-wave-optics",
+        "threejs-procedural-materials/lava-flow-surface"
       ],
       "rationale": "Material identity must be demonstrated under real geometry and lighting, including coupled procedural channels."
     },
@@ -50,7 +51,8 @@
     "threejs-procedural-vegetation": {
       "classification": "example-required",
       "evidence": [
-        "threejs-procedural-vegetation/structured-ash-growth"
+        "threejs-procedural-vegetation/structured-ash-growth",
+        "threejs-procedural-vegetation/stylized-meadow-grass"
       ],
       "rationale": "Growth hierarchy, branch topology, foliage normals, and rooted wind require runnable source-matched evidence."
     },
@@ -71,14 +73,17 @@
     "threejs-spectral-ocean": {
       "classification": "example-required",
       "evidence": [
-        "threejs-spectral-ocean/spectral-cascade-ocean"
+        "threejs-spectral-ocean/spectral-cascade-ocean",
+        "threejs-spectral-ocean/hybrid-clear-water-ocean",
+        "threejs-spectral-ocean/stylized-above-below-ocean"
       ],
-      "rationale": "Spectral synthesis, staged FFTs, derivatives, and persistent foam are implementation-critical."
+      "rationale": "Spectral synthesis, staged FFTs, derivatives, persistent foam, hybrid refraction, and above/below underwater optics are implementation-critical."
     },
     "threejs-water-optics": {
       "classification": "example-required",
       "evidence": [
-        "threejs-water-optics/analytic-wave-optics"
+        "threejs-water-optics/analytic-wave-optics",
+        "threejs-water-optics/interactive-pool-volume"
       ],
       "rationale": "Shared wave displacement/normals and reflection/refraction/absorption coupling require runnable shader evidence."
     },

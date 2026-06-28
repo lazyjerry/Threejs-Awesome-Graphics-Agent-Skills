@@ -473,6 +473,234 @@
           "the six-band normal bundle is represented by three derivative-filtered micro bands over the shared displaced normal"
         ]
       }
+    ],
+    "threejs-procedural-materials/lava-flow-surface": [
+      {
+        "source": "very-hot-planet-codepen",
+        "files": [
+          "script.js",
+          "metadata.json"
+        ],
+        "mechanisms": [
+          "fullscreen raymarched terrain whose distance field is a time-advected procedural height map",
+          "finite-difference normals sampled from the same map used by the ray marcher",
+          "height-based lava-rock material identity instead of independent color noise",
+          "near-surface emissive accumulation during the march",
+          "hash-seeded screen-space ember loop with lifetime fade, upward acceleration, turbulent drift, and ray-proximity glow",
+          "distance fog, vignette, gamma, and film-grain finishing inside the material"
+        ],
+        "boundary": "conceptual-only",
+        "divergences": [
+          "the source pen has no explicit license, so the skill implementation is a fresh shader with the same reviewed mechanism classes rather than copied code",
+          "uniform names, hash constants, terrain domain, material thresholds, and shading coefficients are authored for this pack",
+          "the gallery owns only the fullscreen host camera and renderer wiring"
+        ]
+      }
+    ],
+    "threejs-procedural-vegetation/stylized-meadow-grass": [
+      {
+        "source": "stylized-scene",
+        "files": [
+          "src/materials/grass-material.ts",
+          "src/materials/wind.ts",
+          "src/materials/normals.ts",
+          "src/scene/grass.tsx",
+          "src/materials/ground-material.ts",
+          "src/config/scene-config.ts"
+        ],
+        "mechanisms": [
+          "authored multi-blade cluster geometry supplied as an effect asset with procedural blade fallback for generated scenes",
+          "per-instance world-origin and facing attributes so gusts sample the blade's field position and counter-rotate into local space",
+          "circular-arc cantilever bend with gust fronts, turbulence wobble, chop, and tip flutter",
+          "rooted grass blades with source default uniform scale and height variation from a stable field",
+          "root-to-tip color gradients mixed by static clump and macro variation",
+          "thin-blade back translucency and grazing Fresnel rim terms",
+          "path mask and Perlin inputs used by the effect field, with ground color projection available when the host scene supplies an albedo map"
+        ],
+        "assets": [
+          {
+            "sourcePath": "public/grass-blades-up.glb",
+            "localPath": "skills/threejs-procedural-vegetation/assets/stylized-meadow-grass/grass-blades-up.glb"
+          },
+          {
+            "sourcePath": "public/path.webp",
+            "localPath": "skills/threejs-procedural-vegetation/assets/stylized-meadow-grass/path.webp"
+          },
+          {
+            "sourcePath": "public/perlin.webp",
+            "localPath": "skills/threejs-procedural-vegetation/assets/stylized-meadow-grass/perlin.webp"
+          },
+          {
+            "sourcePath": "public/grass_texture/grass_05_basecolor_1k.webp",
+            "localPath": "dev/example-gallery/examples/threejs-procedural-vegetation/stylized-meadow-grass/assets/grass_texture/grass_05_basecolor_1k.webp"
+          },
+          {
+            "sourcePath": "public/grass_texture/grass_05_normal_gl_1k.webp",
+            "localPath": "dev/example-gallery/examples/threejs-procedural-vegetation/stylized-meadow-grass/assets/grass_texture/grass_05_normal_gl_1k.webp"
+          },
+          {
+            "sourcePath": "public/grass_texture/grass_05_roughness_1k.webp",
+            "localPath": "dev/example-gallery/examples/threejs-procedural-vegetation/stylized-meadow-grass/assets/grass_texture/grass_05_roughness_1k.webp"
+          },
+          {
+            "sourcePath": "public/ground_texture/ground_07_4k/ground_07__ambientocclusion_1k.webp",
+            "localPath": "dev/example-gallery/examples/threejs-procedural-vegetation/stylized-meadow-grass/assets/ground_texture/ground_07_4k/ground_07__ambientocclusion_1k.webp"
+          },
+          {
+            "sourcePath": "public/ground_texture/ground_07_4k/ground_07__basecolor_1k.webp",
+            "localPath": "dev/example-gallery/examples/threejs-procedural-vegetation/stylized-meadow-grass/assets/ground_texture/ground_07_4k/ground_07__basecolor_1k.webp"
+          },
+          {
+            "sourcePath": "public/ground_texture/ground_07_4k/ground_07__height_1k.webp",
+            "localPath": "dev/example-gallery/examples/threejs-procedural-vegetation/stylized-meadow-grass/assets/ground_texture/ground_07_4k/ground_07__height_1k.webp"
+          },
+          {
+            "sourcePath": "public/ground_texture/ground_07_4k/ground_07__metallic_1k.webp",
+            "localPath": "dev/example-gallery/examples/threejs-procedural-vegetation/stylized-meadow-grass/assets/ground_texture/ground_07_4k/ground_07__metallic_1k.webp"
+          },
+          {
+            "sourcePath": "public/ground_texture/ground_07_4k/ground_07__normal_gl_1k.webp",
+            "localPath": "dev/example-gallery/examples/threejs-procedural-vegetation/stylized-meadow-grass/assets/ground_texture/ground_07_4k/ground_07__normal_gl_1k.webp"
+          },
+          {
+            "sourcePath": "public/ground_texture/ground_07_4k/ground_07__roughness_1k.webp",
+            "localPath": "dev/example-gallery/examples/threejs-procedural-vegetation/stylized-meadow-grass/assets/ground_texture/ground_07_4k/ground_07__roughness_1k.webp"
+          },
+          {
+            "sourcePath": "public/leaves-alpha-map.png",
+            "localPath": "dev/example-gallery/examples/threejs-procedural-vegetation/stylized-meadow-grass/assets/leaves-alpha-map.png"
+          },
+          {
+            "sourcePath": "public/skybox/sky_88_2k.png",
+            "localPath": "dev/example-gallery/examples/threejs-procedural-vegetation/stylized-meadow-grass/assets/skybox/sky_88_2k.png"
+          },
+          {
+            "sourcePath": "public/tree-leaves-mesh.glb",
+            "localPath": "dev/example-gallery/examples/threejs-procedural-vegetation/stylized-meadow-grass/assets/tree-leaves-mesh.glb"
+          },
+          {
+            "sourcePath": "public/tree-tronk-transformed.glb",
+            "localPath": "dev/example-gallery/examples/threejs-procedural-vegetation/stylized-meadow-grass/assets/tree-tronk-transformed.glb"
+          }
+        ],
+        "boundary": "independent-distillation",
+        "divergences": [
+          "the source WebGPU TSL graph is translated to explicit WebGL GLSL so the current gallery runtime can validate it consistently",
+          "the distributed skill includes the authored blade cluster plus path and noise masks because they directly define the grass effect",
+          "trees, sky, ground-surface dressing, and camera framing live only in the dev gallery scene"
+        ]
+      }
+    ],
+    "threejs-water-optics/interactive-pool-volume": [
+      {
+        "source": "threejs-water",
+        "files": [
+          "src/Water.ts",
+          "src/water/WaterDisplacement.ts",
+          "src/water/WaterOptics.ts",
+          "src/shaders/WaveSimulation.frag",
+          "src/shaders/WaterNormal.frag",
+          "src/shaders/WaterAbove.frag",
+          "src/shaders/WaterBelow.frag",
+          "src/shaders/Caustics.frag"
+        ],
+        "mechanisms": [
+          "RGBA ping-pong simulation state with height, velocity, and packed normal components",
+          "finite-difference wave-equation propagation with damping",
+          "local drop pass and moving sphere displacement pass before propagation",
+          "normal update pass derived from the same height texture",
+          "surface shader with scene-color refraction, side-aware Fresnel, absorption, and sky reflection",
+          "water-normal driven caustic receiver kept separate from the decorative pool shell"
+        ],
+        "assets": [
+          {
+            "sourcePath": "public/tiles.jpg",
+            "localPath": "dev/example-gallery/examples/threejs-water-optics/interactive-pool-volume/assets/tiles.jpg"
+          }
+        ],
+        "boundary": "independent-distillation",
+        "divergences": [
+          "the implementation is written as reusable Three.js modules instead of importing the reference app classes",
+          "the gallery scene uses one draggable sphere, dev-owned reference tile texture, and standard orbit controls rather than the full reference UI, mesh menu, and physics controls",
+          "complex mesh and box displacement strategies are documented by the trace but omitted from the focused runnable example"
+        ]
+      }
+    ],
+    "threejs-spectral-ocean/hybrid-clear-water-ocean": [
+      {
+        "source": "ocean-threejs",
+        "files": [
+          "src/Ocean/OceanMaterial.js",
+          "src/Ocean/Gerstner.js",
+          "src/Ocean/Spectra.js",
+          "src/Ocean/FFT.js",
+          "src/Ocean/OceanSimulation.js",
+          "src/Shaders/water.vert.js",
+          "src/Shaders/water.frag.js",
+          "src/config.js"
+        ],
+        "mechanisms": [
+          "deterministic directional spectra and three FFT displacement bands",
+          "long authored Gerstner swell layered over FFT displacement",
+          "FFT derivative and Gerstner analytic normal fusion",
+          "shared analytic sky radiance for visible sky and water reflection",
+          "screen-space seafloor refraction, Beer-Lambert extinction, crest scatter, GGX sun highlights, and foam diagnostics",
+          "animated sand-bed caustic material with optional host-supplied color, normal, roughness, displacement, and AO maps"
+        ],
+        "assets": [
+          {
+            "sourcePath": "public/Ground098_1K-JPG_AmbientOcclusion.jpg",
+            "localPath": "dev/example-gallery/examples/threejs-spectral-ocean/hybrid-clear-water-ocean/assets/sand/Ground098_1K-JPG_AmbientOcclusion.jpg"
+          },
+          {
+            "sourcePath": "public/Ground098_1K-JPG_Color.jpg",
+            "localPath": "dev/example-gallery/examples/threejs-spectral-ocean/hybrid-clear-water-ocean/assets/sand/Ground098_1K-JPG_Color.jpg"
+          },
+          {
+            "sourcePath": "public/Ground098_1K-JPG_Displacement.jpg",
+            "localPath": "dev/example-gallery/examples/threejs-spectral-ocean/hybrid-clear-water-ocean/assets/sand/Ground098_1K-JPG_Displacement.jpg"
+          },
+          {
+            "sourcePath": "public/Ground098_1K-JPG_NormalDX.jpg",
+            "localPath": "dev/example-gallery/examples/threejs-spectral-ocean/hybrid-clear-water-ocean/assets/sand/Ground098_1K-JPG_NormalDX.jpg"
+          },
+          {
+            "sourcePath": "public/Ground098_1K-JPG_Roughness.jpg",
+            "localPath": "dev/example-gallery/examples/threejs-spectral-ocean/hybrid-clear-water-ocean/assets/sand/Ground098_1K-JPG_Roughness.jpg"
+          }
+        ],
+        "boundary": "independent-distillation",
+        "divergences": [
+          "the existing spectral-cascade backend is reused instead of duplicating the reviewed FFT implementation",
+          "the material is reduced to the clear-water/ocean variant needed for this pack's inspection gallery",
+          "the dev scene owns the seafloor mesh, sand texture inputs, and render-target prepass used to inspect refraction"
+        ]
+      }
+    ],
+    "threejs-spectral-ocean/stylized-above-below-ocean": [
+      {
+        "source": "fftocean",
+        "files": [
+          "src/gpgpu/useOceanGPGPU.js",
+          "src/materials/shaders/ocean/oceanFragment.glsl",
+          "src/materials/shaders/postprocessing/underwaterFragment.glsl",
+          "src/materials/shaders/seafloor/seafloorFragment.glsl",
+          "src/geometry/lod/ClipmapGeometry.js"
+        ],
+        "mechanisms": [
+          "stylized height-gradient water body color and horizon fog",
+          "front/back side normal handling for above and below surface viewing",
+          "depth-colored seafloor refraction and Beer-Lambert absorption",
+          "sun-path glinting, crest scatter, and Jacobian/noise foam",
+          "viewer-scaled ocean geometry and underwater visibility as coupled parts of the ocean system"
+        ],
+        "boundary": "conceptual-only",
+        "divergences": [
+          "no source code or assets are copied because no repository license was observed",
+          "the focused example keeps a regular high-resolution inspection plane instead of the reviewed clipmap geometry",
+          "the underwater post-process is independently implemented as a gallery render-target composite with depth-aware Beer-Lambert fog"
+        ]
+      }
     ]
   }
 }

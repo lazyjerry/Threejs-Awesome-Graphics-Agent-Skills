@@ -59,6 +59,7 @@ function normalizeDebugModes(value) {
 }
 
 function normalizeViewport(value) {
+  if (value === "responsive") return null;
   if (
     value &&
     Number.isFinite(value.width) &&

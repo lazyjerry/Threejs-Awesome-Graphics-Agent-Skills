@@ -70,6 +70,11 @@ Repositories were cloned shallowly under this directory for inspection.
 | [vibe-stack/procedural-bank](https://github.com/vibe-stack/procedural-bank) | `0034e80a61f02b88dbe13a385bdab734a365b82d` | MIT | independent implementation plus attributed MIT stone textures |
 | [takuma-hmng8/frozen](https://github.com/takuma-hmng8/frozen) | `15a98a5104951a0bd734eb23ab21b7f79741ab09` | no root license observed | conceptual analysis only |
 | [owenyuwono/poseidon](https://github.com/owenyuwono/poseidon) | `caddf773c7e2b7c9b00ad232d21cca4f364d5272` | no root license or package license observed | conceptual analysis only; no code copied |
+| [gioeledallapozza/FFTOCEAN](https://github.com/gioeledallapozza/FFTOCEAN) | `0fe3a908a86118eab9930e17b0b29df7fcc05b65` | no root license or package license observed | conceptual analysis only; no code or assets copied |
+| [jeantimex/threejs-water](https://github.com/jeantimex/threejs-water) | `d5c06864fe22ad31f500af7f21a46aad1c7d3e27` | MIT | independent implementation; dev-only pool tile texture copied for visual inspection |
+| [achrefelouafi/OceanThreejs](https://github.com/achrefelouafi/OceanThreejs) | `da18e9254a83a6e990c0077b5d752026f3d5c480` | MIT | independent implementation; dev-only sand texture inputs copied for visual inspection |
+| [dedekpo/stylized-scene](https://github.com/dedekpo/stylized-scene) | `531c5721e3883412d0dde7db1a72732aa3ede155` | MIT | independent implementation plus attributed effect-owned grass blade/path/noise assets; scene dressing remains dev-only |
+| [sabosugi/Very Hot Planet CodePen](https://codepen.io/sabosugi/pen/RNKpmQj) | `339f879d3c56eda4238b009c318ca9b89e9eb3fc` content-derived capture id from editor init-data on 2026-06-27 | no explicit license observed in pen data | conceptual analysis only; no code copied |
 
 ### `ez-tree`
 
@@ -264,6 +269,154 @@ they do not define the spectral skill's quality bound.
 
 No source code was copied because a repository license was not observed. Poseidon's README credits `gasgiant/FFT-Ocean` under MIT for adapted spectrum/FFT techniques; that credit does not establish a license for Poseidon's own repository.
 
+### `FFTOCEAN`
+
+Reviewed:
+
+- WebGL2/R3F FFT ocean pipeline using a Phillips initial spectrum, butterfly
+  texture, MRT time-evolution targets for height, choppy displacement, slopes,
+  and an approximate Jacobian;
+- clipmap ocean geometry with viewer snapping and LOD morphing;
+- stylized water shading with height-gradient body color, environment
+  reflection, sun-path specular, SSS-like crest glow, Jacobian/noise foam,
+  distance normal fade, horizon fog, and depth alpha from captured seafloor
+  depth;
+- camera-under-water post effect that compares camera height against the
+  current displacement texture and applies Beer-Lambert fog through scene depth;
+- seafloor tint and dual sampled animated caustics.
+
+Accepted consumption:
+
+- `$threejs-spectral-ocean`
+- `$threejs-water-optics`
+- `$threejs-atmosphere-aerial-perspective`
+- `$threejs-image-pipeline`
+
+This source is strongest as conceptual evidence for a stylized above/below
+ocean example and underwater/seafloor optical pass. The accepted example keeps
+the independently written stylized FFT surface, water-tinted seafloor caustics,
+and underwater Beer-Lambert composite inside `$threejs-spectral-ocean`. No
+source code or assets are copied because no repository license was observed.
+
+### `threejs-water`
+
+Reviewed:
+
+- bounded 2D heightfield water simulation with ping-pong render targets storing
+  height, velocity, and normals;
+- GPU disturbance strategies for drops, moving spheres, moving boxes, and
+  compound sphere approximations for complex shapes;
+- object physics integration using gravity, buoyancy, and density;
+- separate above-water and below-water surface shaders with reflection,
+  refraction, Fresnel, ray-object intersections, and sky/object render targets;
+- differential-area caustics with object occlusion and shadow texture support;
+- customizable box and rounded-box pool volumes with SDF/ray intersections.
+
+Candidate consumption:
+
+- `$threejs-water-optics`
+- `$threejs-procedural-vfx`
+- `$threejs-image-pipeline`
+
+The key retained mechanism is bounded interactive water: simulation state,
+object displacement, caustic generation, and volume-aware rendering are one
+coupled system rather than a cosmetic transparent surface.
+
+The accepted example keeps the reusable water simulation and volume/optics
+implementation inside `$threejs-water-optics`. The reference tile image is
+copied only under `dev/example-gallery/` because it is decorative pool dressing,
+not an effect input.
+
+### `OceanThreejs`
+
+Reviewed:
+
+- WebGL2 Tessendorf FFT with CPU-built deterministic spectra, butterfly
+  texture, ping-pong passes, and packed displacement/derivative outputs;
+- switchable Phillips, Pierson-Moskowitz, and JONSWAP spectra with directional
+  spreading and significant-wave-height normalization;
+- hybrid displacement combining three FFT sampling cascades with long directional
+  Gerstner swell;
+- GGX/Fresnel environment reflection, screen-space seabed refraction,
+  Beer-Lambert extinction, SSS-like crest scatter, glints, procedural sky
+  coupling, horizon edge fade, ACES grading, and Jacobian/curvature foam;
+- explicit quality presets for FFT size, mesh resolution, and ocean extent.
+
+Candidate consumption:
+
+- `$threejs-spectral-ocean`
+- `$threejs-water-optics`
+- `$threejs-image-pipeline`
+- `$threejs-exposure-color-grading`
+
+This source overlaps strongly with the existing spectral-ocean example, but its
+hybrid FFT-plus-Gerstner styling and full shading stack are useful as an
+additional example variant rather than a new skill.
+
+The accepted example keeps the hybrid clear-water material, side-aware
+above/below surface behavior, sand-bed caustic material, and map-driven host
+inputs inside `$threejs-spectral-ocean`. The copied sand texture set is owned by
+the dev gallery so visual inspection can match the reference seabed without
+making those decorative maps part of the skill asset contract.
+
+### `stylized-scene`
+
+Reviewed:
+
+- WebGPU/TSL instanced grass using per-instance world origin and facing
+  attributes so gusts sample field position and bend coherently after instance
+  rotation;
+- circular-arc cantilever bending driven by directional gust waves, organic
+  noise jitter, turbulence, chop, tip flutter, and seeded desynchronization;
+- grass color from root-tip gradients, patch and macro variation, ground-color
+  projection, height variation, translucency, Fresnel rim, and double-sided
+  normal fixes;
+- tree leaf cards reusing the same wind node with per-bush origins, yaw bases,
+  cluster phase, canopy lean, and camera-facing normals;
+- ground material blending grass/dirt with a path mask, noise breakup, height
+  bias, normal/roughness blending, and path depression.
+
+Candidate consumption:
+
+- `$threejs-procedural-vegetation`
+- `$threejs-procedural-materials`
+- `$webgpu-threejs-tsl`
+
+The key retained mechanism is a reusable TSL wind/material field for stylized
+grass and leaf cards. Asset reuse should be limited to license-verified inputs
+that are intrinsic to an accepted example.
+
+The accepted example stores `grass-blades-up.glb`, `path.webp`, and
+`perlin.webp` under the skill because they directly define blade geometry and
+the authored grass/path field. Ground textures, grass surface textures, tree
+meshes, leaf alpha, and skybox are copied only into `dev/example-gallery/` as
+inspection context.
+
+### `Very Hot Planet` CodePen
+
+Reviewed:
+
+- fullscreen raymarched terrain shader with 2D value-noise/fBm heightfield,
+  time-advected flow, sine/cosine domain distortion, and pulsed amplitude;
+- finite-difference normals from the same SDF map used by the raymarcher;
+- height-based lava/rock material split, emissive lava gradient, volumetric glow
+  accumulated during raymarch steps, distance fog, vignette, gamma, and film
+  noise;
+- analytic screen-space spark loop with hash-derived positions, nonlinear
+  upward motion, turbulent drift, ray proximity glow, and lifetime fade;
+- lil-gui controls for deformation, procedural generation, color, and sparks.
+
+Candidate consumption:
+
+- `$threejs-procedural-materials`
+- `$threejs-procedural-fields`
+- `$threejs-procedural-vfx`
+- no standalone lava skill for this intake; the accepted reusable surface is a
+  procedural-materials example.
+
+The pen has no explicit license in the captured metadata, so it should inform
+mechanism analysis only. Do not copy shader code into distributed skills.
+
 ## Focused technical references
 
 These references support mathematical or rendering claims that are not specific to one inspected project:
@@ -292,13 +445,13 @@ These sources are paraphrased. Official documentation remains the authority for 
 | `$threejs-camera-direction` | Stellar camera rig/runtime systems; Interstellar scene cameras, pointer look, floating-origin shots, and scene lifecycle |
 | `$threejs-procedural-animation` | Interstellar launch, staging, spin docking, and debris; Stellar frame-rate-independent response and quaternion control |
 | `$threejs-procedural-fields` | Stellar, MyCraft, `ez-tree`, `mecs-tower-defense-example` |
-| `$threejs-procedural-materials` | MyCraft, Stellar, `mecs-tower-defense-example`, PBR references |
+| `$threejs-procedural-materials` | MyCraft, Stellar, `mecs-tower-defense-example`, `Very Hot Planet` CodePen, PBR references |
 | `$threejs-procedural-geometry` | ArtInLife, `ez-tree`, `procedural-bank` |
-| `$threejs-procedural-vegetation` | `ez-tree` |
+| `$threejs-procedural-vegetation` | `ez-tree`, `stylized-scene` |
 | `$threejs-procedural-architecture` | `procedural-bank` |
 | `$threejs-procedural-planets` | Stellar |
-| `$threejs-spectral-ocean` | `poseidon` as primary conceptual evidence; directional-spectrum and FFT literature |
-| `$threejs-water-optics` | MyCraft and Interstellar.three.js analytic/optical comparisons; GPU Gems |
+| `$threejs-spectral-ocean` | `poseidon` as primary conceptual evidence; `OceanThreejs`, `FFTOCEAN`; directional-spectrum and FFT literature |
+| `$threejs-water-optics` | MyCraft and Interstellar.three.js analytic/optical comparisons; `threejs-water`, `FFTOCEAN`; GPU Gems |
 | `$threejs-atmosphere-aerial-perspective` | `jeantimex/geospatial`, Stellar, `three-geospatial`, atmosphere references |
 | `$threejs-volumetric-clouds` | `jeantimex/geospatial`, `three-geospatial` |
 | `$threejs-raymarched-space-effects` | interstellarThreeJS |

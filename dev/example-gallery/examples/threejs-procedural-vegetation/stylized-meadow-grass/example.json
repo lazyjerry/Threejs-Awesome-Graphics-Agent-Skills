@@ -1,0 +1,45 @@
+{
+  "title": "Stylized Meadow Grass",
+  "description": "A stylized grass field with instanced authored blade clusters, image-driven path masking, per-instance origin and facing attributes, circular-arc rooted wind, travelling gusts, tip flutter, static clump color patches, macro brightness variation, translucency, and rim light.",
+  "backend": "WebGL2 / GLSL instanced vegetation",
+  "techniques": [
+    "authored GLB blade-cluster geometry",
+    "per-instance origin and facing attributes",
+    "circular-arc cantilever wind deformation",
+    "travelling gust and tip flutter fields",
+    "world-space clump and macro color variation",
+    "image-sampled rooted blade masks around an inspection path"
+  ],
+  "defaultViewport": "responsive",
+  "defaultDpr": 1,
+  "debugModes": [
+    {
+      "value": "final",
+      "label": "Final"
+    },
+    {
+      "value": "height",
+      "label": "Blade height"
+    },
+    {
+      "value": "patches",
+      "label": "Color patches"
+    },
+    {
+      "value": "wind",
+      "label": "Wind field"
+    },
+    {
+      "value": "normals",
+      "label": "Normals"
+    }
+  ],
+  "controls": [
+    "orbit",
+    "pause",
+    "timeScale",
+    "dpr",
+    "debugMode",
+    "capture"
+  ]
+}

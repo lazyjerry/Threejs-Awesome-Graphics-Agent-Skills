@@ -1,6 +1,6 @@
 ---
 name: threejs-water-optics
-description: Build production analytic water in Three.js. Use for shared multi-wave displacement and normals, derivative-filtered normal bands, analytic sky reflection, side-aware Fresnel, heuristic screen refraction, fallback Beer-Lambert path length, and crest foam.
+description: Build production analytic and bounded water in Three.js. Use for shared multi-wave displacement and normals, bounded heightfield pool simulation, object-driven ripples, caustics, derivative-filtered normal bands, analytic sky reflection, side-aware Fresnel, heuristic screen refraction, fallback Beer-Lambert path length, and crest foam.
 ---
 
 # Water Optics
@@ -30,6 +30,12 @@ Read the
 shared displacement/normals, derivative filtering, reflection, screen-space
 refraction, absorption, Fresnel, and crest-linked foam diagnostics.
 
+Read the
+[interactive pool volume implementation](examples/interactive-pool-volume/water-volume-system.js)
+for bounded RGBA height/velocity/normal simulation, local drops, moving-sphere
+displacement suitable for draggable objects, scene-color refraction, and
+water-normal caustic projection.
+
 ## Failure conditions
 
 - normal texture motion does not agree with displaced crests;
@@ -44,4 +50,5 @@ refraction, absorption, Fresnel, and crest-linked foam diagnostics.
 
 Use `$threejs-spectral-ocean` for stochastic directional spectra, FFT
 cascades, Jacobian breaking, and persistent ocean foam. This skill owns
-authored analytic waves and bounded-water optics.
+authored analytic waves, bounded heightfield simulation, and bounded-water
+optics.

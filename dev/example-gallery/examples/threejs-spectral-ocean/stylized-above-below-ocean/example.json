@@ -1,0 +1,54 @@
+{
+  "title": "Stylized Above/Below Ocean",
+  "description": "A stylized ocean with FFT displacement, choppy wave normals, height-colored water, stylized sun specular paths, foam from Jacobian history, a tinted seafloor with soft caustics, and an underwater Beer-Lambert composite.",
+  "backend": "WebGL2 fragment FFT plus GLSL surface, seafloor, and underwater composite",
+  "techniques": [
+    "three FFT displacement and derivative bands",
+    "choppy spectral wave displacement",
+    "height-driven deep and shallow water color",
+    "stylized sun path specular and subsurface scatter",
+    "Jacobian-history foam with advected breakup",
+    "water-tinted seafloor with soft caustics",
+    "depth-aware underwater Beer-Lambert fog"
+  ],
+  "defaultViewport": "responsive",
+  "defaultDpr": 1,
+  "debugModes": [
+    {
+      "value": "final",
+      "label": "Final"
+    },
+    {
+      "value": "above-surface",
+      "label": "Above surface"
+    },
+    {
+      "value": "underwater",
+      "label": "Underwater"
+    },
+    {
+      "value": "cascade-bands",
+      "label": "Cascade bands"
+    },
+    {
+      "value": "normals",
+      "label": "Normals"
+    },
+    {
+      "value": "foam",
+      "label": "Foam"
+    },
+    {
+      "value": "depth-fog",
+      "label": "Depth fog"
+    }
+  ],
+  "controls": [
+    "orbit",
+    "pause",
+    "timeScale",
+    "dpr",
+    "debugMode",
+    "capture"
+  ]
+}

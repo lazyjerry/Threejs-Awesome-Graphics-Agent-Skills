@@ -1,6 +1,6 @@
 ---
 name: threejs-spectral-ocean
-description: Build large procedural oceans in Three.js from directional wave spectra. Use for WebGPU/TSL FFT oceans, multi-cascade wavelength bands, choppy displacement, spectral derivatives, Jacobian whitecaps, temporal foam, analytic sky reflection, crest scatter, and GPU validation.
+description: Build large procedural oceans in Three.js from directional wave spectra. Use for WebGPU/TSL FFT oceans, multi-cascade wavelength bands, hybrid FFT plus Gerstner clear-water oceans, stylized above/below surface ocean optics, choppy displacement, spectral derivatives, Jacobian whitecaps, temporal foam, analytic sky reflection, underwater absorption, crest scatter, and GPU validation.
 ---
 
 # Spectral Ocean
@@ -28,6 +28,20 @@ FFT, derivative, Jacobian, foam-history, and shading contracts. Its WebGL2
 fragment-FFT backend is an explicit compatibility tier; preserve the
 production WebGPU/TSL architecture described in the reference when the target
 supports it.
+
+Read the
+[hybrid clear-water ocean material](examples/hybrid-clear-water-ocean/hybrid-ocean-material.js)
+when the target needs FFT displacement with authored long swell, clear shallow
+refraction, animated sand-bed caustics, Beer-Lambert color, shared sky
+reflection, side-aware above/below surface normals, GGX sun highlights, and
+foam diagnostics.
+
+Read the
+[stylized above/below ocean material](examples/stylized-above-below-ocean/stylized-ocean-material.js)
+when the target needs a stylized FFT ocean that can be inspected from both
+above and below the surface: height-gradient water color, sun-path glints,
+crest scatter, Jacobian foam, water-tinted seafloor caustics, and an
+underwater Beer-Lambert composite driven by scene depth.
 
 ## Non-negotiable gates
 
