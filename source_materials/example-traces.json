@@ -30,7 +30,7 @@
             "localPath": "skills/threejs-atmosphere-aerial-perspective/assets/lut-aerial-perspective/transmittance.bin"
           }
         ],
-        "boundary": "independent-distillation",
+        "boundary": "reference-extraction",
         "divergences": [
           "the effect is implemented directly with Three.js render targets and GLSL3 instead of importing the reference packages",
           "the focused scene uses a local tangent-frame ground plane rather than a full WGS84 scene graph",
@@ -90,7 +90,7 @@
             "localPath": "skills/threejs-procedural-architecture/assets/authored-financial-tower/ornaments-normal.png"
           }
         ],
-        "boundary": "independent-distillation",
+        "boundary": "reference-extraction",
         "divergences": [
           "the focused inspection compiler implements the reviewed default board-of-trade tower modules rather than all registered kit modules",
           "material slots compile to instanced primitive batches instead of one indexed BufferGeometry per slot",
@@ -113,7 +113,7 @@
           "warm picture spotlights with static high-resolution VSM shadows",
           "selective bloom by temporary non-contributor material substitution"
         ],
-        "boundary": "independent-distillation",
+        "boundary": "reference-extraction",
         "divergences": [
           "the inspection scene presents three frames on one wall instead of virtualizing a long scrolling hallway",
           "painting shadow maps use the reviewed mobile 2048 resolution instead of the desktop 4096 resolution to keep the gallery inspection surface bounded",
@@ -168,7 +168,7 @@
           "altitude, latitude, humidity, slope, coast, snow, aridity, lushness, rock, and water coupling",
           "screen-derivative procedural bump and normal-variance roughness filtering"
         ],
-        "boundary": "independent-distillation",
+        "boundary": "reference-extraction",
         "divergences": [
           "the inspection mesh uses 228 by 114 segments, matching the reviewed terrestrial far LOD rather than its 380-segment near LOD",
           "geometry and shader terrain evaluate the same value-noise field to remove the reviewed source's documented CPU/TSL parity debt",
@@ -205,7 +205,7 @@
           "shared simplex field for grass rejection and ground blending",
           "daylight fog meadow with grass, flowers, rocks, and background forest"
         ],
-        "boundary": "independent-distillation",
+        "boundary": "reference-extraction",
         "divergences": [
           "background forest reuses the reviewed Ash geometry instead of generating 100 mixed presets",
           "random placement is seeded so gallery captures are deterministic",
@@ -285,7 +285,7 @@
           "front-to-back alpha and color accumulation around an opaque black core",
           "deterministic 5200-star equirectangular background sampled after integration"
         ],
-        "boundary": "independent-distillation",
+        "boundary": "reference-extraction",
         "divergences": [
           "the reviewed TSL node graph is translated to explicit WebGL2 GLSL for a broadly inspectable gallery path",
           "the sphere proxy is intersected analytically from a full-screen ray instead of relying on front/back proxy fragments",
@@ -325,7 +325,7 @@
           "shared analytic sky radiance for dome and reflection",
           "fixed ocean camera, fog horizon, and dense displaced surface presentation"
         ],
-        "boundary": "conceptual-only",
+        "boundary": "reference-extraction",
         "divergences": [
           "uses WebGL2 fragment render-target FFT stages because the repository gallery Chromium has no WebGPU adapter",
           "uses 64 squared simulation grids for deterministic inspection instead of the reviewed 256 squared WebGPU grids",
@@ -346,7 +346,7 @@
           "Fresnel-supported closed-surface coverage that remains visible from every angle",
           "head-to-tail thermal color progression with additive emission hierarchy"
         ],
-        "boundary": "independent-distillation",
+        "boundary": "reference-extraction",
         "divergences": [
           "the focused effect contains only the wake-shell implementation and no supporting spacecraft asset",
           "the source node-material logic is translated to explicit WebGL2 GLSL",
@@ -377,9 +377,9 @@
           "two-scale structure-gradient refraction gated by frost alpha and pointer state",
           "one-frame relationship where frost reads completed history before the next pointer state is written and swapped"
         ],
-        "boundary": "conceptual-only",
+        "boundary": "reviewed-reference",
         "divergences": [
-          "the source imagery and normal-map assets are replaced by independently generated procedural scene and crystalline fields",
+          "the source imagery and normal-map assets are replaced by generated procedural scene and crystalline fields",
           "per-frame pointer decay is corrected to an exponential frame-rate-independent response",
           "the focused WebGL2 output derives two-scale normals from static structure gradients instead of bundled normal maps",
           "static targets regenerate and both history targets clear on resize rather than inheriting ambiguous resize state"
@@ -426,7 +426,7 @@
             "localPath": "skills/threejs-volumetric-clouds/assets/weather-volume-clouds/stbn.bin"
           }
         ],
-        "boundary": "independent-distillation",
+        "boundary": "reference-extraction",
         "divergences": [
           "the effect is implemented directly with Three.js GLSL3 and render targets instead of importing the reference packages",
           "the inspection march uses 320 primary and five light samples instead of the production maximum of 500 and its full multiple-scattering octave stack",
@@ -448,7 +448,7 @@
           "crest response from resolved normal slope and distance haze over the bounded mesh",
           "CPU surface-height evaluation from the same wave parameter bundle"
         ],
-        "boundary": "independent-distillation",
+        "boundary": "reference-extraction",
         "divergences": [
           "the TSL node material is translated to explicit WebGL2 GLSL for deterministic gallery inspection",
           "the scene focuses on the ocean surface and omits the approaching tidal wall, astronaut, and narrative objects",
@@ -466,7 +466,7 @@
           "fallback Beer-Lambert path length using four metres of estimated depth",
           "crest-linked noisy foam and analytic reflection hierarchy"
         ],
-        "boundary": "independent-distillation",
+        "boundary": "reference-extraction",
         "divergences": [
           "the inspection example displaces geometry using the five-wave bundle instead of retaining the normal-only surface",
           "scene-color refraction renders a focused seabed and rock layer without scene-depth rejection",
@@ -489,10 +489,10 @@
           "hash-seeded screen-space ember loop with lifetime fade, upward acceleration, turbulent drift, and ray-proximity glow",
           "distance fog, vignette, gamma, and film-grain finishing inside the material"
         ],
-        "boundary": "conceptual-only",
+        "boundary": "reviewed-reference",
         "divergences": [
-          "the source pen has no explicit license, so the skill implementation is a fresh shader with the same reviewed mechanism classes rather than copied code",
-          "uniform names, hash constants, terrain domain, material thresholds, and shading coefficients are authored for this pack",
+          "the source pen is treated as MIT by project rule and its raymarch, material split, glow, ember, fog, vignette, gamma, and grain mechanisms are copied/adapted into the skill example",
+          "uniform names and host runtime boundaries are adjusted for this pack",
           "the gallery owns only the fullscreen host camera and renderer wiring"
         ]
       }
@@ -583,7 +583,7 @@
             "localPath": "dev/example-gallery/examples/threejs-procedural-vegetation/stylized-meadow-grass/assets/tree-tronk-transformed.glb"
           }
         ],
-        "boundary": "independent-distillation",
+        "boundary": "reference-extraction",
         "divergences": [
           "the source WebGPU TSL graph is translated to explicit WebGL GLSL so the current gallery runtime can validate it consistently",
           "the distributed skill includes the authored blade cluster plus path and noise masks because they directly define the grass effect",
@@ -618,9 +618,9 @@
             "localPath": "dev/example-gallery/examples/threejs-water-optics/interactive-pool-volume/assets/tiles.jpg"
           }
         ],
-        "boundary": "independent-distillation",
+        "boundary": "reference-extraction",
         "divergences": [
-          "the implementation is written as reusable Three.js modules instead of importing the reference app classes",
+          "the reference app class responsibilities are copied/adapted into reusable Three.js modules",
           "the gallery scene uses one draggable sphere, dev-owned reference tile texture, and standard orbit controls rather than the full reference UI, mesh menu, and physics controls",
           "complex mesh and box displacement strategies are documented by the trace but omitted from the focused runnable example"
         ]
@@ -669,10 +669,10 @@
             "localPath": "dev/example-gallery/examples/threejs-spectral-ocean/hybrid-clear-water-ocean/assets/sand/Ground098_1K-JPG_Roughness.jpg"
           }
         ],
-        "boundary": "independent-distillation",
+        "boundary": "reference-extraction",
         "divergences": [
-          "the existing spectral-cascade backend is reused instead of duplicating the reviewed FFT implementation",
-          "the material is reduced to the clear-water/ocean variant needed for this pack's inspection gallery",
+          "the reviewed FFT spectrum defaults are energy-matched onto the pack's existing spectral-cascade backend",
+          "the water material, sky, foam, refraction, Gerstner swell, and grading paths are copied/adapted into the clear-water ocean variant needed for this pack's inspection gallery",
           "the dev scene owns the seafloor mesh, sand texture inputs, and render-target prepass used to inspect refraction"
         ]
       }
@@ -694,11 +694,10 @@
           "sun-path glinting, crest scatter, and Jacobian/noise foam",
           "viewer-scaled ocean geometry and underwater visibility as coupled parts of the ocean system"
         ],
-        "boundary": "conceptual-only",
+        "boundary": "reference-extraction",
         "divergences": [
-          "no source code or assets are copied because no repository license was observed",
           "the focused example keeps a regular high-resolution inspection plane instead of the reviewed clipmap geometry",
-          "the underwater post-process is independently implemented as a gallery render-target composite with depth-aware Beer-Lambert fog"
+          "the underwater pass is adapted into the gallery render-target composite while preserving the reference depth-aware Beer-Lambert fog and seafloor caustics"
         ]
       }
     ]

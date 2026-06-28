@@ -334,7 +334,7 @@
     "stellar": {
       "repository": "https://github.com/scottstts/Stellar",
       "revision": "ad8062b54ec86312d7c028d46727796eb802c9b2",
-      "license": "author-supplied",
+      "license": "MIT by project rule",
       "files": {
         "src/game/runtime/solar/bodyMaterial.ts": "c411325b615953fe71700bd2d10d6d18b995c84807e7bad83b7cdf2fcbd103cf",
         "src/game/runtime/solar/atmosphere.ts": "161a66c2e0495a4bff6920973d4a6265e340f6be1a7fe1160d102897f3527877",
@@ -357,7 +357,7 @@
     "mycraft": {
       "repository": "https://github.com/scottstts/MyCraft",
       "revision": "7fdb3cee3d7d99b42ee47dd659b90a4f6a658074",
-      "license": "author-supplied",
+      "license": "MIT by project rule",
       "files": {
         "src/engine/render/BlockMaterial.ts": "c7d91070d6597c5ffd8ae7de90e2703208901a0b64898d1ffe3ee9ef976509af",
         "src/engine/render/water/WaterSurfaceMaterial.ts": "4b43fbe040b3899fe75c80bd52d4d5c9a606ec995cfe7103b57d4897880e08dc"
@@ -366,7 +366,7 @@
     "interstellar-three": {
       "repository": "https://github.com/scottstts/Interstellar.three.js",
       "revision": "0c9c4635f9e0cbcb1598a2af8914c3086f8629a3",
-      "license": "author-supplied",
+      "license": "MIT by project rule",
       "files": {
         "src/three/controls/PointerLookControls.js": "dec1e5dca1982f433fe86f1e730c572c976d9111595053b479c7beddfd2f19ab",
         "src/three/SceneManager.js": "a94371dcd3f7f3803b773d17ae6c11398ee97431174279e51d7a467b4dc531c9",
@@ -386,7 +386,7 @@
     "mysite-react": {
       "repository": "https://github.com/scottstts/mysite_React",
       "revision": "98bb4ad75561aaf7263dbc6c92e2d66268f69f43",
-      "license": "author-supplied",
+      "license": "MIT by project rule",
       "files": {
         "src/features/art-in-life/ArtInLifeGallery.tsx": "b65bc745d1d2177803edf58aa4d0e61cfa05cfedb33fb66cebadcee2bbc664e9"
       },

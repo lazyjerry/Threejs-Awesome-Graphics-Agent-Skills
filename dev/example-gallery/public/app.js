@@ -24,13 +24,15 @@ const elements = {
   frameSize: document.querySelector("#frame-size"),
 };
 
+const DEFAULT_GALLERY_DPR = 1.5;
+
 const state = {
   examples: [],
   filtered: [],
   selectedId: null,
   mode: "single",
   paused: false,
-  dpr: 1,
+  dpr: DEFAULT_GALLERY_DPR,
   timeScale: 1,
   debugMode: "final",
   viewport: "responsive",
@@ -153,26 +155,38 @@ function renderOverview() {
   for (const example of state.filtered) {
     const article = document.createElement("article");
     article.className = "overview-card";
+    article.tabIndex = 0;
+    article.setAttribute("role", "button");
+    article.setAttribute("aria-label", `Inspect ${example.title}`);
+    const inspectExample = () => {
+      state.mode = "single";
+      selectExample(example.id);
+    };
+    article.addEventListener("click", inspectExample);
+    article.addEventListener("keydown", (event) => {
+      if (event.key === "Enter" || event.code === "Space") {
+        event.preventDefault();
+        inspectExample();
+      }
+    });
     const frame = document.createElement("iframe");
     frame.className = "overview-frame";
     frame.title = example.title;
     frame.loading = "lazy";
+    frame.tabIndex = -1;
+    frame.setAttribute("aria-hidden", "true");
     const url = new URL(example.entry, window.location.origin);
     url.searchParams.set("galleryPaused", "1");
-    url.searchParams.set("galleryDpr", "0.75");
+    url.searchParams.set("galleryDpr", String(DEFAULT_GALLERY_DPR));
     url.searchParams.set("galleryDebugMode", "final");
     frame.src = url.href;
 
     const footer = document.createElement("footer");
     const title = document.createElement("strong");
     title.textContent = example.title;
-    const inspect = document.createElement("button");
-    inspect.type = "button";
+    const inspect = document.createElement("span");
+    inspect.className = "inspect-label";
     inspect.textContent = "Inspect";
-    inspect.addEventListener("click", () => {
-      state.mode = "single";
-      selectExample(example.id);
-    });
     footer.append(title, inspect);
     article.append(frame, footer);
     elements.overview.append(article);
@@ -195,7 +209,7 @@ function selectExample(id, { reload = true } = {}) {
   if (!example) return;
 
   state.mode = "single";
-  state.dpr = example.defaultDpr;
+  state.dpr = Math.max(DEFAULT_GALLERY_DPR, example.defaultDpr);
   state.viewport = "responsive";
   state.debugMode = example.debugModes[0]?.value ?? "final";
 

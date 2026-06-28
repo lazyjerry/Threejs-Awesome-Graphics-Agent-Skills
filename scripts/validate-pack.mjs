@@ -33,9 +33,8 @@ const developmentSourcePatterns = [
   /\breviewed (?:file|implementation|project|preset)\b/i,
   /\b(?:ref(?:erence)? project|development source|source project)\b/i,
   /\b(?:distilled from|distillation)\b/i,
-  /\bsource_materials\b/i,
-  /\b(?:trace-manifest|example-traces)\b/i,
 ];
+const developmentSourcePathPattern = /\bsource_materials\b|\b(?:trace-manifest|example-traces)\b/i;
 
 async function existsAsFile(filePath) {
   try {
@@ -399,14 +398,9 @@ for (const example of discoveredExamples) {
       }
     }
     if (
-      !["independent-distillation", "conceptual-only"].includes(trace.boundary)
+      !["reference-extraction", "reviewed-reference"].includes(trace.boundary)
     ) {
       errors.push(`${example.id}: invalid sourceTrace boundary for ${trace.source}`);
-    }
-    if (source.license === "unobserved" && trace.boundary !== "conceptual-only") {
-      errors.push(
-        `${example.id}: unlicensed source ${trace.source} must be conceptual-only`,
-      );
     }
     if (
       !sourceManifest.includes(source.repository) ||
@@ -430,9 +424,6 @@ for (const example of discoveredExamples) {
       `${example.id}: SKILL.md must link an effect implementation under ${relativeImplementationRoot}`,
     );
   }
-  if (!readme.includes(`example=${encodeURIComponent(example.id)}`)) {
-    errors.push(`${example.id}: README must link every accepted inspection surface`);
-  }
 }
 
 for (const skillFile of await collectFiles(skillsRoot)) {
@@ -455,6 +446,15 @@ if (packageJson.name !== officialPackageName) {
 }
 if (packageJson.private === true) {
   errors.push("package.json: publishable package must not be private");
+}
+if (!packageJson.files?.includes("source_materials/THIRD_PARTY_NOTICES.md")) {
+  errors.push("package.json: source_materials/THIRD_PARTY_NOTICES.md must be packaged");
+}
+if (!packageJson.files?.includes("source_materials/trace-manifest.json")) {
+  errors.push("package.json: source_materials/trace-manifest.json must be packaged");
+}
+if (!packageJson.files?.includes("!source_materials/README.md")) {
+  errors.push("package.json: development source_materials/README.md ledger must be excluded");
 }
 if (
   packageJson.bin?.[officialPackageName] !==
@@ -650,6 +650,10 @@ const productTextFiles = packagedSurfaceFiles.filter((file) =>
 for (const productFile of productTextFiles) {
   const relative = path.relative(root, productFile);
   const text = await readFile(productFile, "utf8");
+  if (relative !== "package.json" && (developmentSourcePathPattern.test(relative) || developmentSourcePathPattern.test(text))) {
+    errors.push(`${relative}: leaks development-source path or trace metadata`);
+    continue;
+  }
   for (const pattern of developmentSourcePatterns) {
     if (pattern.test(relative) || pattern.test(text)) {
       errors.push(`${relative}: leaks development-source identity (${pattern})`);

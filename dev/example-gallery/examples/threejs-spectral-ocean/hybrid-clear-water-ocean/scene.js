@@ -26,8 +26,9 @@ export default {
   initialTime: 14,
   renderer: {
     options: { antialias: true },
-    toneMapping: 0,
-    exposure: 1.05,
+    outputColorSpace: THREE.LinearSRGBColorSpace,
+    toneMapping: THREE.NoToneMapping,
+    exposure: 1,
     clearColor: 0x9fc6dc,
   },
   camera: {
@@ -53,7 +54,6 @@ export default {
     }
 
     const sunDirection = new THREE.Vector3(0.506, 0.616, 0.604).normalize();
-    scene.fog = new THREE.FogExp2(0xbcd7e8, 0.0016);
     const skyMaterial = createHybridOceanSkyMaterial({ sunDirection });
     const sky = new THREE.Mesh(new THREE.SphereGeometry(9000, 48, 24), skyMaterial);
     scene.add(sky);
@@ -79,7 +79,7 @@ export default {
       roughnessMap: sandRoughness,
       aoMap: sandAo,
       sunDirection,
-      causticIntensity: 0.38,
+      causticIntensity: 0.7,
     });
     const oceanSize = 1200;
     const sand = new THREE.Mesh(
@@ -92,17 +92,17 @@ export default {
 
     const options = {
       resolution: 256,
-      patchLengths: [220, 34, 9],
+      patchLengths: [220, 59.4, 15.84],
       boundaryFactor: 6,
       gravity: 9.81,
       depth: 120,
-      choppiness: 1.08,
-      foamRecovery: 0.42,
-      amplitude: 0.62,
+      choppiness: 1.05,
+      foamRecovery: 0.55,
+      amplitude: 0.34,
       seed: 490173,
       sunDirection,
       local: {
-        scale: 0.82,
+        scale: 0.30,
         windSpeed: 14,
         directionDegrees: 43,
         fetchMeters: 80000,
@@ -112,7 +112,7 @@ export default {
         shortWaveFade: 0.018,
       },
       swell: {
-        scale: 0.55,
+        scale: 0.18,
         windSpeed: 3,
         directionDegrees: 20,
         fetchMeters: 280000,
@@ -124,25 +124,20 @@ export default {
     };
     const ocean = new SpectralOceanSystem(renderer, options);
     const sceneTarget = new THREE.WebGLRenderTarget(1, 1, {
+      type: THREE.HalfFloatType,
       minFilter: THREE.LinearFilter,
       magFilter: THREE.LinearFilter,
       depthBuffer: true,
+      stencilBuffer: false,
     });
     const oceanMaterial = createHybridOceanMaterial(ocean.cascades, {
       patchLengths: options.patchLengths,
       sceneColor: sceneTarget.texture,
       sunDirection,
-      swell: buildHybridSwell({
-        primaryDirectionDegrees: 20,
-        secondaryDirectionDegrees: 110,
-        primaryStrength: 0.36,
-        secondaryStrength: 0.18,
-        waveSpeed: 1,
-        waveAmplitude: 0.78,
-        steepness: 0.72,
-      }),
+      swell: buildHybridSwell(),
     });
     oceanMaterial.uniforms.uSandLevel.value = sand.position.y;
+    oceanMaterial.uniforms.uOceanExtent.value = oceanSize;
 
     const geometry = new THREE.PlaneGeometry(oceanSize, oceanSize, 512, 512);
     geometry.rotateX(-Math.PI / 2);
@@ -162,8 +157,9 @@ export default {
           hybridOceanDebugModes.get(mode) ?? 0;
       },
       update({ elapsed, delta }) {
-        const snappedX = Math.round(camera.position.x / 8) * 8;
-        const snappedZ = Math.round(camera.position.z / 8) * 8;
+        const cell = oceanSize / 512;
+        const snappedX = Math.round(camera.position.x / cell) * cell;
+        const snappedZ = Math.round(camera.position.z / cell) * cell;
         water.position.x = snappedX;
         water.position.z = snappedZ;
         sand.position.x = snappedX;

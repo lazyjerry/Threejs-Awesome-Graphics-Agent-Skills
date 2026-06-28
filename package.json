@@ -31,7 +31,9 @@
     "bin/",
     "skills/",
     "LICENSE",
-    "THIRD_PARTY_NOTICES.md",
+    "source_materials/THIRD_PARTY_NOTICES.md",
+    "source_materials/trace-manifest.json",
+    "!source_materials/README.md",
     "README.md"
   ],
   "engines": {
@@ -42,7 +44,7 @@
   },
   "scripts": {
     "validate": "node scripts/validate-pack.mjs",
-    "test": "npm run validate && npm run test:routing && npm run test:references && npm run test:installer && npm run test:gallery",
+    "test": "npm run validate && npm run test:routing && npm run test:references && npm run test:installer && npm run test:assets && npm run test:gallery",
     "dev:examples": "node dev/example-gallery/server.mjs --open",
     "dev:examples:no-open": "node dev/example-gallery/server.mjs",
     "dev:examples:fixture": "node dev/example-gallery/server.mjs --open --include-fixtures",
@@ -50,6 +52,7 @@
     "test:references": "node scripts/test-reference-examples.mjs",
     "test:routing": "node scripts/test-agent-routing.mjs",
     "test:installer": "node scripts/test-installer.mjs",
+    "test:assets": "node scripts/test-example-asset-origins.mjs",
     "test:gallery": "node scripts/test-example-gallery.mjs",
     "check:freshness": "node scripts/check-three-freshness.mjs",
     "test:all": "npm test && npm run check:freshness",

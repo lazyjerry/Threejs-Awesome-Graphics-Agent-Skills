@@ -1,6 +1,6 @@
 # Third-Party Notices
 
-This package includes or adapts MIT-compatible Three.js reference material and
+This package includes or adapts MIT Three.js reference material and
 assets used by distributed skills. Source revisions and file hashes are recorded
 in `source_materials/trace-manifest.json`.
 
@@ -22,7 +22,7 @@ in `source_materials/trace-manifest.json`.
 ## gioeledallapozza/FFTOCEAN
 
 - Source: https://github.com/gioeledallapozza/FFTOCEAN
-- License: MIT-compatible author-supplied reference material
+- License: MIT by project rule
 - Used in: `skills/threejs-spectral-ocean/examples/stylized-above-below-ocean/`
 - Includes adapted stylized ocean, foam, seafloor caustic, sky, and underwater
   Beer-Lambert shader mechanisms.

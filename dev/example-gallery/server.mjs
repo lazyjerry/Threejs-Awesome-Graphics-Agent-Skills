@@ -157,7 +157,6 @@ export function createExampleGalleryServer({ includeFixtures = false } = {}) {
         "/skills/",
         "/dev/example-gallery/",
         "/node_modules/",
-        "/source_materials/",
       ];
       if (includeFixtures) {
         allowedProjectPrefixes.push("/dev/example-gallery/fixtures/");

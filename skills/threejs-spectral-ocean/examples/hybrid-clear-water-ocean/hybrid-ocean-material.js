@@ -10,6 +10,7 @@ export const hybridOceanDebugModes = new Map([
 ]);
 
 const MAX_GERSTNER = 6;
+const linColor = (hex) => new THREE.Color(hex).convertSRGBToLinear();
 
 export function buildHybridSwell({
   primaryDirectionDegrees = 20,
@@ -51,9 +52,9 @@ export function buildHybridSwell({
 
 const skyFunction = `
   float skyHash(vec2 p) {
-    vec3 p3 = fract(vec3(p.xyx) * vec3(0.1031, 0.1030, 0.0973));
-    p3 += dot(p3, p3.yzx + 33.33);
-    return fract((p3.x + p3.y) * p3.z);
+    p = fract(p * vec2(123.34, 456.21));
+    p += dot(p, p + 45.32);
+    return fract(p.x * p.y);
   }
 
   float skyNoise(vec2 p) {
@@ -80,29 +81,91 @@ const skyFunction = `
 
   float cloudMask(vec3 direction, float time) {
     if (direction.y <= 0.015) return 0.0;
-    vec2 uv = direction.xz / max(direction.y, 0.08);
-    float d = skyFbm(uv * 0.45 + time * 0.006) * 0.7 +
-      skyFbm(uv * 1.4 - time * 0.01) * 0.3;
-    return smoothstep(0.48, 0.72, d) * smoothstep(0.0, 0.35, direction.y);
+    vec2 uv = direction.xz / direction.y;
+    uv = uv * 0.45 + time * 0.006;
+    float d = skyFbm(uv) * 0.7 +
+      skyFbm(uv * 3.1 - time * 0.01) * 0.3;
+    float cover = mix(0.62, 0.34, 0.5);
+    return smoothstep(cover, cover + 0.22, d) * smoothstep(0.0, 0.32, direction.y);
   }
 
   vec3 hybridSkyRadiance(vec3 direction, vec3 sunDirection, float time) {
     float up = clamp(direction.y, -1.0, 1.0);
-    vec3 horizon = vec3(0.70, 0.86, 0.92);
-    vec3 zenith = vec3(0.18, 0.50, 0.78);
-    vec3 below = vec3(0.05, 0.20, 0.27);
+    vec3 horizon = vec3(0.624, 0.791, 0.897);
+    vec3 zenith = vec3(0.07, 0.30, 0.66);
+    vec3 below = mix(horizon, vec3(0.003, 0.036, 0.078), 0.65);
     vec3 color = up >= 0.0
-      ? mix(horizon, zenith, pow(up, 0.55))
-      : mix(horizon, below, clamp(-up * 2.5, 0.0, 1.0));
+      ? mix(horizon, zenith, pow(up, 0.48))
+      : mix(horizon, below, clamp(-up * 3.5, 0.0, 1.0));
     float cloud = cloudMask(normalize(direction), time);
-    vec3 cloudLit = mix(vec3(0.72, 0.78, 0.82), vec3(1.0, 0.98, 0.9),
-      0.35 + 0.65 * max(dot(direction, sunDirection), 0.0));
-    color = mix(color, cloudLit, cloud * 0.72);
     float sun = max(dot(normalize(direction), sunDirection), 0.0);
+    vec3 cloudLit = mix(vec3(0.72, 0.78, 0.86), vec3(1.05, 1.02, 0.97),
+      0.6 + 0.4 * sun);
+    color = mix(color, cloudLit, cloud * 0.9);
     color += vec3(1.0, 0.86, 0.62) *
-      (pow(sun, 900.0) * 8.0 + pow(sun, 16.0) * 0.28) *
-      (1.0 - cloud * 0.55);
+      (smoothstep(0.9995, 0.99986, sun) * 8.0 + pow(sun, 220.0) * 0.5 + pow(sun, 16.0) * 0.18) *
+      (1.0 - cloud * 0.7);
     return color;
+  }
+`;
+
+const gradingFunction = `
+  vec3 aces(vec3 x) {
+    const float a = 2.51;
+    const float b = 0.03;
+    const float c = 2.43;
+    const float d = 0.59;
+    const float e = 0.14;
+    return clamp((x * (a * x + b)) / (x * (c * x + d) + e), 0.0, 1.0);
+  }
+
+  vec3 saturate3(vec3 color, float saturation) {
+    float luma = dot(color, vec3(0.2126, 0.7152, 0.0722));
+    return mix(vec3(luma), color, saturation);
+  }
+`;
+
+const foamFunction = `
+  float foamHash(vec2 p) {
+    p = fract(p * vec2(123.34, 456.21));
+    p += dot(p, p + 45.32);
+    return fract(p.x * p.y);
+  }
+
+  float foamNoise(vec2 p) {
+    vec2 i = floor(p);
+    vec2 f = fract(p);
+    f = f * f * (3.0 - 2.0 * f);
+    return mix(
+      mix(foamHash(i), foamHash(i + vec2(1.0, 0.0)), f.x),
+      mix(foamHash(i + vec2(0.0, 1.0)), foamHash(i + vec2(1.0, 1.0)), f.x),
+      f.y
+    );
+  }
+
+  float foamFbm(vec2 p) {
+    float v = 0.0;
+    float amp = 0.5;
+    for (int i = 0; i < 4; i++) {
+      v += amp * foamNoise(p);
+      p *= 2.07;
+      amp *= 0.5;
+    }
+    return v;
+  }
+
+  float computeHybridFoam(float jacobian, float curvature, vec2 worldXZ, float time) {
+    float fold = smoothstep(0.34, 0.08, jacobian);
+    fold = mix(fold, 1.0, 0.25 * fold);
+    float crest = 0.18 * smoothstep(0.72, 1.2, curvature);
+    float mask = clamp(fold + crest, 0.0, 1.0);
+    vec2 fp = worldXZ * 2.4 * 0.05;
+    float n = foamFbm(fp + time * 0.35 * vec2(0.3, -0.2));
+    n = mix(n, foamFbm(fp * 2.3 - time * 0.35 * 0.5), 0.5);
+    float foam = mask * mix(0.6, 1.0, n);
+    foam = max(foam, mask * 0.25 * smoothstep(0.2, 0.8, n));
+    foam = pow(clamp(foam, 0.0, 1.0), 2.2) * 0.55;
+    return clamp(foam, 0.0, 1.0);
   }
 `;
 
@@ -128,6 +191,22 @@ export function createHybridOceanMaterial(cascades, {
     uGerstnerDir: { value: swell.directions },
     uGerstnerParams: { value: swell.params },
     uModelOffset: { value: new THREE.Vector2() },
+    uCascadeWeight: { value: new THREE.Vector3(1.0, 0.55, 0.28) },
+    uOceanExtent: { value: 1200 },
+    uHorizonBlend: { value: 0.32 },
+    uFogColor: { value: linColor(0xbcd7e8) },
+    uFogDensity: { value: 0.0016 },
+    uFogStrength: { value: 1 },
+    uDeepColor: { value: linColor(0x0a3550) },
+    uSurfaceColor: { value: linColor(0x1aa7c0) },
+    uScatterColor: { value: linColor(0x1d9ab0) },
+    uExtinction: { value: new THREE.Vector3(0.32, 0.085, 0.06) },
+    uSunColor: { value: linColor(0xfff6ec) },
+    uSunIntensity: { value: 4 },
+    uExposure: { value: 1.05 },
+    uSaturation: { value: 1.1 },
+    uContrast: { value: 1.04 },
+    uBrightness: { value: 1.0 },
     uDebugMode: { value: 0 },
   };
 
@@ -145,6 +224,7 @@ export function createHybridOceanMaterial(cascades, {
       uniform vec2 uGerstnerDir[${MAX_GERSTNER}];
       uniform vec4 uGerstnerParams[${MAX_GERSTNER}];
       uniform vec2 uModelOffset;
+      uniform vec3 uCascadeWeight;
 
       varying vec2 vOceanXZ;
       varying vec3 vWorldPosition;
@@ -160,7 +240,10 @@ export function createHybridOceanMaterial(cascades, {
         vec4 d0 = sampleDisplacement(displacement0, vOceanXZ, patchLengths.x);
         vec4 d1 = sampleDisplacement(displacement1, vOceanXZ, patchLengths.y);
         vec4 d2 = sampleDisplacement(displacement2, vOceanXZ, patchLengths.z);
-        vec3 fftDisplacement = d0.xyz + d1.xyz * 0.62 + d2.xyz * 0.36;
+        vec3 fftDisplacement =
+          d0.xyz * uCascadeWeight.x +
+          d1.xyz * uCascadeWeight.y +
+          d2.xyz * uCascadeWeight.z;
         vFftHeight = fftDisplacement.y;
 
         vec3 swellDisplacement = vec3(0.0);
@@ -201,6 +284,22 @@ export function createHybridOceanMaterial(cascades, {
       uniform float uTime;
       uniform vec3 uSunDirection;
       uniform float uSandLevel;
+      uniform vec3 uCascadeWeight;
+      uniform float uOceanExtent;
+      uniform float uHorizonBlend;
+      uniform vec3 uFogColor;
+      uniform float uFogDensity;
+      uniform float uFogStrength;
+      uniform vec3 uDeepColor;
+      uniform vec3 uSurfaceColor;
+      uniform vec3 uScatterColor;
+      uniform vec3 uExtinction;
+      uniform vec3 uSunColor;
+      uniform float uSunIntensity;
+      uniform float uExposure;
+      uniform float uSaturation;
+      uniform float uContrast;
+      uniform float uBrightness;
       uniform int uDebugMode;
 
       varying vec2 vOceanXZ;
@@ -209,6 +308,8 @@ export function createHybridOceanMaterial(cascades, {
       varying float vFftHeight;
 
       ${skyFunction}
+      ${gradingFunction}
+      ${foamFunction}
 
       float hash21(vec2 p) {
         vec3 p3 = fract(vec3(p.xyx) * vec3(0.1031, 0.1030, 0.0973));
@@ -263,7 +364,10 @@ export function createHybridOceanMaterial(cascades, {
         vec4 der0 = sampleDerivatives(derivatives0, vOceanXZ, patchLengths.x);
         vec4 der1 = sampleDerivatives(derivatives1, vOceanXZ, patchLengths.y);
         vec4 der2 = sampleDerivatives(derivatives2, vOceanXZ, patchLengths.z);
-        vec4 derivative = der0 + der1 * 0.62 + der2 * 0.36;
+        vec4 derivative =
+          der0 * uCascadeWeight.x +
+          der1 * uCascadeWeight.y +
+          der2 * uCascadeWeight.z;
         vec3 fftNormal = normalize(vec3(
           -derivative.x / max(0.18, 1.0 + derivative.z),
           1.0,
@@ -289,14 +393,11 @@ export function createHybridOceanMaterial(cascades, {
         vec4 disp0 = sampleDisplacement(displacement0, vOceanXZ, patchLengths.x);
         vec4 disp1 = sampleDisplacement(displacement1, vOceanXZ, patchLengths.y);
         vec4 disp2 = sampleDisplacement(displacement2, vOceanXZ, patchLengths.z);
-        float foamHistory =
-          clamp((0.42 - min(disp0.a, disp1.a)) * 2.6, 0.0, 1.0) +
-          clamp((0.25 - disp2.a) * 1.1, 0.0, 1.0);
-        float slopeFoam = smoothstep(0.55, 1.25, length(derivative.xy) * 2.2);
-        float foamNoise = fbm(vOceanXZ * 0.82 + vec2(uTime * 0.025, -uTime * 0.016));
-        float foam = clamp((foamHistory + slopeFoam * 0.32) *
-          smoothstep(0.38, 0.72, foamNoise), 0.0, 1.0);
-        foam *= 0.32;
+        float jacobian =
+          (1.0 + derivative.z) *
+          (1.0 + derivative.w);
+        float curvature = clamp(length(derivative.xy) * 0.6 + (1.0 - jacobian), 0.0, 1.0);
+        float foam = computeHybridFoam(jacobian, curvature, vOceanXZ, uTime);
 
         if (uDebugMode == 1) {
           vec3 bands = vec3(abs(disp0.y), abs(disp1.y) * 2.0, abs(disp2.y) * 3.2);
@@ -325,7 +426,7 @@ export function createHybridOceanMaterial(cascades, {
         vec3 reflected = reflect(-viewDirection, normal);
         vec3 reflection = hybridSkyRadiance(normalize(reflected), lightDirection, uTime);
         vec2 screenUv = gl_FragCoord.xy / uResolution;
-        vec2 refractOffset = normal.xz * (0.018 + 0.035 * (1.0 - fresnel));
+        vec2 refractOffset = normal.xz * 0.18 * 0.08 * 0.55;
         vec3 sceneRefraction = texture2D(
           uSceneColor,
           clamp(screenUv + refractOffset, vec2(0.002), vec2(0.998))
@@ -334,40 +435,57 @@ export function createHybridOceanMaterial(cascades, {
         vec3 refracted = refract(-viewDirection, normal, 1.0 / 1.333);
         float depth = max(vWorldPosition.y - uSandLevel, 0.0);
         float pathLen = depth / max(0.07, abs(refracted.y));
-        vec3 extinction = vec3(0.028, 0.010, 0.006);
+        vec3 extinction = uExtinction;
         vec3 transmittance = exp(-extinction * pathLen);
-        vec3 shallow = vec3(0.02, 0.72, 0.76);
-        vec3 deep = vec3(0.004, 0.12, 0.26);
-        vec3 waterBody = mix(
-          deep,
-          shallow,
-          clamp(transmittance.g * 0.88 + 0.12, 0.0, 1.0)
-        );
-        vec3 tintedRefraction = sceneRefraction * vec3(0.08, 0.92, 1.18);
-        vec3 body = waterBody * 0.28 + tintedRefraction * transmittance * 1.46;
+        vec3 inscatter = mix(uScatterColor, uDeepColor, clamp(pathLen / 28.0, 0.0, 1.0));
+        vec3 refraction = sceneRefraction * transmittance +
+          inscatter * (1.0 - transmittance);
+        float crest = clamp(vFftHeight * 0.5 + 0.5, 0.0, 1.0);
+        float wrapScatter = max(dot(normal, lightDirection) * 0.5 + 0.5, 0.0);
+        refraction += uScatterColor * pow(crest, 3.0) * wrapScatter * 0.12;
         float forwardScatter =
           pow(max(dot(viewDirection, -lightDirection), 0.0), 4.0) *
           smoothstep(-0.15, 0.75, vFftHeight);
-        body += vec3(0.03, 0.44, 0.32) * forwardScatter * (1.0 - fresnel);
+        refraction += uScatterColor * forwardScatter * (1.0 - fresnel);
 
-        float roughness = 0.075;
+        float roughness = 0.035;
         float spec =
           ggxD(noH, roughness) *
           smith(noV, noL, roughness) *
           (f0 + (1.0 - f0) * pow(1.0 - voH, 5.0)) *
           noL;
-        vec3 color = mix(body, reflection, fresnel * 0.54) +
-          vec3(1.0, 0.92, 0.68) * spec * 0.18;
-        color = mix(color, vec3(0.92, 0.98, 1.0), foam * 0.56);
+        vec3 color = mix(refraction, reflection, fresnel) +
+          uSunColor * spec * uSunIntensity * 1.2;
+        color += refraction * noL * 0.05 * uSunColor;
+        float glint = pow(max(dot(reflected, lightDirection), 0.0), 350.0);
+        float sparkleMask = smoothstep(0.55, 0.95, skyFbm(vOceanXZ * 2.5 + uTime * 0.5));
+        color += uSunColor * glint * sparkleMask * uSunIntensity * 2.5 * 1.2;
 
-        float distanceToCamera = distance(cameraPosition, vWorldPosition);
-        float haze = 1.0 - exp(-distanceToCamera * 0.0014);
-        vec3 hazeColor = vec3(0.70, 0.84, 0.90);
-        color = mix(color, hazeColor, clamp(haze, 0.0, 0.28));
-        float luma = dot(color, vec3(0.2126, 0.7152, 0.0722));
-        color = mix(vec3(luma), color, 1.28);
-        color = (color - 0.5) * 1.18 + 0.5;
-        color *= 0.92;
+        float distanceToCamera = length(cameraPosition.xz - vWorldPosition.xz);
+        float fog = 1.0 - exp(-pow(uFogDensity * distanceToCamera, 2.0));
+        fog = clamp(fog * uFogStrength, 0.0, 1.0);
+        color = mix(color, uFogColor, fog);
+
+        float halfExtent = uOceanExtent * 0.5;
+        float hazeStart = halfExtent * mix(0.85, 0.30, clamp(uHorizonBlend, 0.0, 1.0));
+        float edge = smoothstep(hazeStart, halfExtent * 0.99, distanceToCamera);
+        vec3 skyColor = hybridSkyRadiance(
+          normalize(vec3(-viewDirection.x, 0.06, -viewDirection.z)),
+          lightDirection,
+          uTime
+        );
+        color = mix(color, mix(skyColor, uFogColor, 0.6), edge);
+
+        vec3 foamColor = vec3(1.15) * mix(vec3(0.9, 0.95, 1.0), uSunColor, 0.15);
+        foamColor *= 0.5 + 0.5 * noL + 0.12 * uSunIntensity;
+        color = mix(color, foamColor, foam * 0.55);
+
+        color *= uExposure;
+        color = aces(color);
+        color = saturate3(color, uSaturation);
+        color = (color - 0.5) * uContrast + 0.5;
+        color *= uBrightness;
+        color = pow(clamp(color, 0.0, 1.0), vec3(1.0 / 2.2));
 
         if (uDebugMode == 4) {
           color = sceneRefraction;
@@ -376,8 +494,6 @@ export function createHybridOceanMaterial(cascades, {
         }
 
         gl_FragColor = vec4(color, 1.0);
-        #include <tonemapping_fragment>
-        #include <colorspace_fragment>
       }
     `,
   });
@@ -392,6 +508,8 @@ export function createHybridOceanSkyMaterial({
     uniforms: {
       uTime: { value: 0 },
       uSunDirection: { value: sunDirection },
+      uFogColor: { value: linColor(0xbcd7e8) },
+      uExposure: { value: 1.05 },
     },
     vertexShader: `
       varying vec3 vDirection;
@@ -404,13 +522,19 @@ export function createHybridOceanSkyMaterial({
       precision highp float;
       uniform float uTime;
       uniform vec3 uSunDirection;
+      uniform vec3 uFogColor;
+      uniform float uExposure;
       varying vec3 vDirection;
       ${skyFunction}
+      ${gradingFunction}
       void main() {
         vec3 color = hybridSkyRadiance(normalize(vDirection), normalize(uSunDirection), uTime);
+        float horizonFog = pow(1.0 - clamp(abs(normalize(vDirection).y), 0.0, 1.0), 6.0);
+        color = mix(color, uFogColor, horizonFog * 0.6);
+        color *= uExposure;
+        color = aces(color);
+        color = pow(color, vec3(1.0 / 2.2));
         gl_FragColor = vec4(color, 1.0);
-        #include <tonemapping_fragment>
-        #include <colorspace_fragment>
       }
     `,
   });
@@ -428,7 +552,7 @@ export function createClearWaterSandMaterial({
   causticScale = 0.35,
   causticSpeed = 0.6,
   sunDirection = new THREE.Vector3(-0.42, 0.62, 0.66).normalize(),
-  sunColor = new THREE.Color(0xfff6ec),
+  sunColor = linColor(0xfff6ec),
 } = {}) {
   return new THREE.ShaderMaterial({
     uniforms: {

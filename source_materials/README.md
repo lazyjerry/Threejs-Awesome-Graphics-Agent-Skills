@@ -6,10 +6,10 @@ code. A reference checkout may install its own locked dependencies and run
 inside its directory for code and visual verification. Reference packages are
 never added to this project's dependencies or distributed with the package.
 
-The pack is an independent distillation of mechanisms and workflows. Reference
-code and assets may be copied into distributed skills only when the source is
-accepted as MIT-compatible for this project and its exact source revision, hash,
-local path, and attribution are recorded.
+The pack is a reference-extraction library of mechanisms and workflows.
+Reference code and assets may be copied or adapted into distributed skills when
+the source is treated as MIT for this project and its exact source revision,
+hash, local path, and attribution are recorded.
 
 Version-sensitive API syntax must be verified against the target project and official Three.js documentation. The research snapshot on June 19–20, 2026 observed `three@0.184.0`. This is evidence, not a package-wide minimum. Three.js `PostProcessing` was deprecated in r183 after being renamed to `RenderPipeline`; current implementations must verify the installed API.
 
@@ -30,9 +30,9 @@ Generic setup, API inventories, and introductory tutorials are not skill content
 
 These projects were supplied by the author as reference implementations. The
 table records their Git remotes and reviewed revisions rather than local
-checkout paths. Source code is independently distilled; explicitly traced
-author-supplied texture assets may be bundled when an accepted example needs
-the original material or shader input.
+checkout paths. Source mechanisms and assets are copied or adapted into reusable
+skill resources when an accepted example needs the original material or shader
+input.
 
 | Project | Reviewed revision | Reviewed areas | Mechanisms distilled into |
 | --- | --- | --- | --- |
@@ -61,19 +61,19 @@ Repositories were cloned shallowly under this directory for inspection.
 
 | Source | Reviewed revision | License observed | Distribution boundary |
 | --- | --- | --- | --- |
-| [dgreenheck/ez-tree](https://github.com/dgreenheck/ez-tree) | `48dc193515135cff2b33515c47f0a8703b977e63` | MIT | independent implementation plus explicitly attributed MIT/CC0 demo assets |
-| [takram-design-engineering/three-geospatial](https://github.com/takram-design-engineering/three-geospatial) | `b012ad06d858fc035d88aacfd73f092f93c994e4` | MIT | independent prose/pseudocode only |
-| [jeantimex/geospatial](https://github.com/jeantimex/geospatial) | `d166316ad38f9a21f6d7a3293b808bc7f920283e` | MIT | independent implementation plus dev-only LUT, weather, volume, turbulence, and blue-noise assets |
-| [perplexdotgg/mecs-tower-defense-example](https://codeberg.org/perplexdotgg/mecs-tower-defense-example) | `d7b4e8815fcee18d97e9a12c00f900294773ad1c` | MIT code; CC0 assets | independent prose/pseudocode only; no assets copied |
-| [YasirAwan4831/holographic-shader-visualizer-three.Js](https://github.com/YasirAwan4831/holographic-shader-visualizer-three.Js) | `34810a6e09d0d640d06a2e83c5abab749baf04d5` | MIT by project rule | conceptual analysis only |
-| [vibe-stack/procedural-bank](https://github.com/vibe-stack/procedural-bank) | `0034e80a61f02b88dbe13a385bdab734a365b82d` | MIT | independent implementation plus attributed MIT stone textures |
-| [takuma-hmng8/frozen](https://github.com/takuma-hmng8/frozen) | `15a98a5104951a0bd734eb23ab21b7f79741ab09` | MIT by project rule | conceptual analysis only |
-| [owenyuwono/poseidon](https://github.com/owenyuwono/poseidon) | `caddf773c7e2b7c9b00ad232d21cca4f364d5272` | MIT by project rule | conceptual analysis only; no code copied |
-| [gioeledallapozza/FFTOCEAN](https://github.com/gioeledallapozza/FFTOCEAN) | `0fe3a908a86118eab9930e17b0b29df7fcc05b65` | MIT-compatible author-supplied reference | copied/adapted stylized ocean shader mechanisms plus foam and sand assets for `$threejs-spectral-ocean` |
+| [dgreenheck/ez-tree](https://github.com/dgreenheck/ez-tree) | `48dc193515135cff2b33515c47f0a8703b977e63` | MIT | copied/adapted growth and vegetation mechanisms plus explicitly attributed MIT/CC0 demo assets |
+| [takram-design-engineering/three-geospatial](https://github.com/takram-design-engineering/three-geospatial) | `b012ad06d858fc035d88aacfd73f092f93c994e4` | MIT | copied/adapted atmosphere and cloud contracts where accepted |
+| [jeantimex/geospatial](https://github.com/jeantimex/geospatial) | `d166316ad38f9a21f6d7a3293b808bc7f920283e` | MIT | copied/adapted atmosphere and cloud mechanisms plus dev-only LUT, weather, volume, turbulence, and blue-noise assets |
+| [perplexdotgg/mecs-tower-defense-example](https://codeberg.org/perplexdotgg/mecs-tower-defense-example) | `d7b4e8815fcee18d97e9a12c00f900294773ad1c` | MIT code; CC0 assets | copied/adapted ECS, VFX, and material mechanisms where accepted; no assets copied |
+| [YasirAwan4831/holographic-shader-visualizer-three.Js](https://github.com/YasirAwan4831/holographic-shader-visualizer-three.Js) | `34810a6e09d0d640d06a2e83c5abab749baf04d5` | MIT by project rule | reviewed negative evidence; no accepted distributed example |
+| [vibe-stack/procedural-bank](https://github.com/vibe-stack/procedural-bank) | `0034e80a61f02b88dbe13a385bdab734a365b82d` | MIT | copied/adapted building, shadow, and material mechanisms plus attributed MIT stone textures |
+| [takuma-hmng8/frozen](https://github.com/takuma-hmng8/frozen) | `15a98a5104951a0bd734eb23ab21b7f79741ab09` | MIT by project rule | copied/adapted temporal-surface mechanisms where accepted |
+| [owenyuwono/poseidon](https://github.com/owenyuwono/poseidon) | `caddf773c7e2b7c9b00ad232d21cca4f364d5272` | MIT by project rule | copied/adapted spectral-ocean mechanisms where accepted |
+| [gioeledallapozza/FFTOCEAN](https://github.com/gioeledallapozza/FFTOCEAN) | `0fe3a908a86118eab9930e17b0b29df7fcc05b65` | MIT by project rule | copied/adapted stylized ocean shader mechanisms plus foam and sand assets for `$threejs-spectral-ocean` |
 | [jeantimex/threejs-water](https://github.com/jeantimex/threejs-water) | `d5c06864fe22ad31f500af7f21a46aad1c7d3e27` | MIT | copied/adapted water simulation, pool caustics, pool/water/sphere shader mechanisms, and pool tile/cubemap assets for `$threejs-water-optics` |
-| [achrefelouafi/OceanThreejs](https://github.com/achrefelouafi/OceanThreejs) | `da18e9254a83a6e990c0077b5d752026f3d5c480` | MIT | independent implementation; dev-only sand texture inputs copied for visual inspection |
-| [dedekpo/stylized-scene](https://github.com/dedekpo/stylized-scene) | `531c5721e3883412d0dde7db1a72732aa3ede155` | MIT | independent implementation plus attributed effect-owned grass blade/path/noise assets; scene dressing remains dev-only |
-| [sabosugi/Very Hot Planet CodePen](https://codepen.io/sabosugi/pen/RNKpmQj) | `339f879d3c56eda4238b009c318ca9b89e9eb3fc` content-derived capture id from editor init-data on 2026-06-27 | MIT by project rule | procedural-materials example accepted without copied code |
+| [achrefelouafi/OceanThreejs](https://github.com/achrefelouafi/OceanThreejs) | `da18e9254a83a6e990c0077b5d752026f3d5c480` | MIT | copied/adapted hybrid clear-water ocean mechanisms; dev-only sand texture inputs copied for visual inspection |
+| [dedekpo/stylized-scene](https://github.com/dedekpo/stylized-scene) | `531c5721e3883412d0dde7db1a72732aa3ede155` | MIT | copied/adapted grass shader, blade, wind, path-mask, and noise mechanisms plus attributed effect-owned assets; scene dressing remains dev-only |
+| [sabosugi/Very Hot Planet CodePen](https://codepen.io/sabosugi/pen/RNKpmQj) | `339f879d3c56eda4238b009c318ca9b89e9eb3fc` content-derived capture id from editor init-data on 2026-06-27 | MIT by project rule | copied/adapted procedural lava material mechanisms |
 
 ### `ez-tree`
 
@@ -218,8 +218,6 @@ The repository remains documented as reviewed negative evidence. The previous
 transition skill was removed rather than publishing guidance invented beyond
 this source.
 
-No source code was copied because a repository license was not observed.
-
 ### `frozen`
 
 Reviewed conceptually:
@@ -236,8 +234,6 @@ Consumed by:
 
 - `$threejs-temporal-surfaces`
 - `$threejs-image-pipeline`
-
-No source code was copied because a repository license was not observed.
 
 ### `poseidon`
 
@@ -262,11 +258,10 @@ Consumed by:
 - `$threejs-procedural-vfx`
 - `$threejs-visual-validation`
 
-Poseidon defines the spectral-ocean skill's upper mechanism target. MyCraft
-and Interstellar remain useful for the separate analytic/bounded-water skill;
-they do not define the spectral skill's quality bound.
-
-No source code was copied because a repository license was not observed. Poseidon's README credits `gasgiant/FFT-Ocean` under MIT for adapted spectrum/FFT techniques; that credit does not establish a license for Poseidon's own repository.
+Poseidon's spectral mechanisms remain copied/adapted into the spectral-ocean
+coverage with trace hashes. MyCraft and Interstellar remain useful for the
+separate analytic/bounded-water skill; they do not define the spectral skill's
+quality bound.
 
 ### `FFTOCEAN`
 
@@ -414,10 +409,9 @@ Candidate consumption:
 - no standalone lava skill for this intake; the accepted reusable surface is a
   procedural-materials example.
 
-The pen is treated as MIT by project rule. The current distributed lava example
-was accepted without copying shader code; if future visual matching requires
-direct source reuse, copy it with trace-manifest hashes instead of re-inventing
-the mechanism.
+The pen is treated as MIT by project rule. The lava example copies/adapts the
+reviewed raymarch, material split, glow, ember, fog, vignette, gamma, and grain
+mechanisms into the procedural-materials example.
 
 ## Focused technical references
 

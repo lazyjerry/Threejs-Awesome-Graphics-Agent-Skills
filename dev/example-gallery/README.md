@@ -51,7 +51,8 @@ Development provenance belongs in
 keyed by the discovered `<skill>/<example>` ID. Source IDs must exist in
 [`source_materials/trace-manifest.json`](../../source_materials/trace-manifest.json).
 Every listed file and copied asset is validated against the reviewed trace.
-Unlicensed sources must use the `conceptual-only` boundary. Development
+Trace boundaries use `reference-extraction` for accepted implementation sources
+and `reviewed-reference` for supporting or negative evidence. Development
 `example.json` files must not contain repository identities, revisions, or
 source paths.
 
