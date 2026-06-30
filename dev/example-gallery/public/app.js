@@ -25,6 +25,9 @@ const elements = {
 };
 
 const DEFAULT_GALLERY_DPR = 1.5;
+const OVERVIEW_PREVIEW_ROOT_MARGIN = "360px";
+
+let overviewPreviewObserver = null;
 
 const state = {
   examples: [],
@@ -115,6 +118,12 @@ function updateDebugModes(example) {
   elements.debugMode.value = state.debugMode;
 }
 
+function clearOverview() {
+  overviewPreviewObserver?.disconnect();
+  overviewPreviewObserver = null;
+  elements.overview.replaceChildren();
+}
+
 function renderList() {
   elements.list.replaceChildren();
   const groups = new Map();
@@ -151,7 +160,27 @@ function renderList() {
 }
 
 function renderOverview() {
-  elements.overview.replaceChildren();
+  clearOverview();
+  overviewPreviewObserver = "IntersectionObserver" in window
+    ? new IntersectionObserver(
+        (entries) => {
+          for (const entry of entries) {
+            if (!entry.isIntersecting) continue;
+            const frame = entry.target;
+            if (frame instanceof HTMLIFrameElement && frame.dataset.src) {
+              frame.src = frame.dataset.src;
+              delete frame.dataset.src;
+            }
+            overviewPreviewObserver?.unobserve(frame);
+          }
+        },
+        {
+          root: elements.overview,
+          rootMargin: OVERVIEW_PREVIEW_ROOT_MARGIN,
+        },
+      )
+    : null;
+
   for (const example of state.filtered) {
     const article = document.createElement("article");
     article.className = "overview-card";
@@ -179,7 +208,12 @@ function renderOverview() {
     url.searchParams.set("galleryPaused", "1");
     url.searchParams.set("galleryDpr", String(DEFAULT_GALLERY_DPR));
     url.searchParams.set("galleryDebugMode", "final");
-    frame.src = url.href;
+    if (overviewPreviewObserver) {
+      frame.dataset.src = url.href;
+      overviewPreviewObserver.observe(frame);
+    } else {
+      frame.src = url.href;
+    }
 
     const footer = document.createElement("footer");
     const title = document.createElement("strong");
@@ -201,6 +235,7 @@ function renderMode() {
   elements.toggleView.textContent =
     state.mode === "single" ? "Overview" : "Single view";
   if (state.mode === "overview") renderOverview();
+  else clearOverview();
 }
 
 function selectExample(id, { reload = true } = {}) {

@@ -2,7 +2,7 @@
   "name": "threejs-awesome-graphics-agent-skills",
   "version": "0.2.0",
   "description": "Expert agent skills for creating exceptional Three.js graphics.",
-  "license": "MIT",
+  "license": "MIT AND GPL-3.0-only",
   "author": "Scott",
   "keywords": [
     "agent-skills",
@@ -31,6 +31,7 @@
     "bin/",
     "skills/",
     "LICENSE",
+    "source_materials/GPL-3.0.txt",
     "source_materials/THIRD_PARTY_NOTICES.md",
     "source_materials/trace-manifest.json",
     "!source_materials/README.md",

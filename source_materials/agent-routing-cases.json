@@ -110,6 +110,15 @@
       ]
     },
     {
+      "request": "Build falling snow that accumulates on the ground and object tops with shared wind and mask diagnostics.",
+      "routes": [
+        {
+          "skill": "threejs-precipitation-surfaces",
+          "signals": ["falling snow", "snow accumulation", "model snow caps", "shared weather envelopes"]
+        }
+      ]
+    },
+    {
       "request": "Render a black hole with curved-ray integration, an accretion disk, and a lensed star field.",
       "routes": [
         {
@@ -238,15 +247,19 @@
     },
     {
       "skill": "threejs-water-optics",
-      "mustMention": ["$threejs-spectral-ocean"]
+      "mustMention": ["$threejs-spectral-ocean", "$threejs-precipitation-surfaces"]
     },
     {
       "skill": "threejs-procedural-vfx",
-      "mustMention": ["$threejs-temporal-surfaces"]
+      "mustMention": ["$threejs-temporal-surfaces", "$threejs-precipitation-surfaces"]
     },
     {
       "skill": "threejs-temporal-surfaces",
-      "mustMention": ["$threejs-procedural-vfx"]
+      "mustMention": ["$threejs-procedural-vfx", "$threejs-precipitation-surfaces"]
+    },
+    {
+      "skill": "threejs-precipitation-surfaces",
+      "mustMention": ["$threejs-water-optics", "$threejs-procedural-vfx", "$threejs-temporal-surfaces"]
     },
     {
       "skill": "threejs-screen-space-ambient-occlusion",

@@ -1,0 +1,44 @@
+{
+  "title": "GPU Computed Grass",
+  "description": "A dense realistic grass field with WebGL2 multiple-render-target blade data, Voronoi clump structure, terrain-conforming Bezier blades, distance LOD and culling, wind-facing yaw, travelling sway, clump-normal lighting, translucency, and distance blending.",
+  "backend": "WebGL2 / GLSL MRT instanced vegetation",
+  "techniques": [
+    "single-pass MRT blade parameter compute",
+    "Voronoi clump direction and presence fields",
+    "terrain-aligned Bezier blade deformation",
+    "distance LOD vertex folding and stochastic culling",
+    "clump-normal lighting and backlit grass translucency"
+  ],
+  "defaultViewport": "responsive",
+  "defaultDpr": 1,
+  "debugModes": [
+    {
+      "value": "final",
+      "label": "Final"
+    },
+    {
+      "value": "bladeParams",
+      "label": "Blade parameters"
+    },
+    {
+      "value": "clumps",
+      "label": "Clumps"
+    },
+    {
+      "value": "wind",
+      "label": "Wind and cull"
+    },
+    {
+      "value": "normals",
+      "label": "Lighting normals"
+    }
+  ],
+  "controls": [
+    "orbit",
+    "pause",
+    "timeScale",
+    "dpr",
+    "debugMode",
+    "capture"
+  ]
+}

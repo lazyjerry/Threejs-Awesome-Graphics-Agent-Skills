@@ -399,6 +399,76 @@
         "src/assets/textures/gallery-plaster-bump.webp": "1b31fc72ea1b98b70e0ed5bad4f1a81bf14c44210029cac517c60e1e7724adb0",
         "src/assets/textures/gallery-floor.webp": "d334222a578e566f4d16b39a360144bb930fa88196e2ed476879eec4cf11ed33"
       }
+    },
+    "r3f-procedural-grass": {
+      "repository": "https://github.com/momentchan/r3f-procedural-grass",
+      "revision": "e441d2bd4eacaa0c913a8b64dfeb69bd0314a7b5",
+      "license": "MIT; packages/r3f-gist has no observed license and is treated as MIT by project rule",
+      "localDirectory": "r3f-procedural-grass",
+      "files": {
+        "src/components/Grass.tsx": "4ab6c7e0ea0bf5af705adaefac9f8b3fbeb8014e69ae8207c1bbe1fc7857512d",
+        "src/components/Terrain.tsx": "53d51e1799b057e8891037370228d5f4884ad0c56d0de6b19b8a7c6a96399624",
+        "src/components/grass/constants.ts": "998099eae8b5e53936fbad2bc59abdf2f80c6e783e445a7c61fc92b19395d50f",
+        "src/components/grass/hooks/useGrassCompute.ts": "281bb00ea02ac846f1d982c2240749a8948cf1f7ed3ce9e3ed4e041ebf60ee86",
+        "src/components/grass/utils.ts": "42a48ab06dc75f0c92439c1ee1a8f162a3bb8e0c7a3fba9ad19de555b7c058eb",
+        "src/components/grass/shaders/grassComputeShader.glsl": "5ac6ce45a1808903dec966ba98ef2a804ec10f5240330ba2b3d8f7351d9792cb",
+        "src/components/grass/shaders/grassVertex.glsl": "877bf2342025e0b57ae90bc00df1686dea48f95ddd45577192db5ae472c21e6f",
+        "src/components/grass/shaders/grassFragment.glsl": "317b041709d5f96894ddf4eaba9ebaf60048f9512375197ee597aa5049f405c2",
+        "src/components/terrain/TerrainMath.ts": "f203cdaacf01c74039d3410dc0e686883566ce4f151a05503bb295ec7ecf297a",
+        "packages/r3f-gist/shaders/cginc/math/utility.glsl": "ccba68a4f116710b463cdfe45897666beac26e0a5766d8afb2c359ec262515ae",
+        "packages/r3f-gist/shaders/cginc/noise/simplexNoise.glsl": "451220af0333a4762a4078dd74c81403f77b0be1de0a651b4e5362519ba9fd78",
+        "packages/r3f-gist/shaders/cginc/noise/fractal.glsl": "e3f269ac0c18442b0d9a2271cc649a286d57523b89139e8aaea386af3108fc88"
+      }
+    },
+    "snow-system-threejs": {
+      "repository": "https://github.com/achrefelouafi/SnowSystemThreeJS",
+      "revision": "c7a3bfbd10c93f8d7b032c322c99b38326edeb80",
+      "license": "MIT",
+      "localDirectory": "SnowSystemThreeJS",
+      "files": {
+        "src/snow.js": "4dcd19af96f109d9b2e2e3cbab55047e4515cbdde6755804f6d4b2c79c20371b",
+        "src/main.js": "535d65c21c16890769d376c6b88b6771ba88744a128fe93079317e2bf347bb4b",
+        "src/model.js": "214dc41c6d7519ebe4623dada6780156a2263b3656f9fd22cc913054711d81f4",
+        "src/lake.js": "3c8bcc5d09e89456401e79c723a1b7ab8bc256e0a060c628c3b5c211db775d25",
+        "src/postfx.js": "92cae3bc8c5bf9db5c06bba6a95efd8457ec365eadcda460df5702c62f0163d4"
+      },
+      "assets": {
+        "public/Material_1/Asphalt025C_1K-JPG_AmbientOcclusion.jpg": "da9aca76687ef664f97fb346a12f8b687877e8b479f3c9f33ca989d256f7e7e8",
+        "public/Material_1/Asphalt025C_1K-JPG_Color.jpg": "4bd3098142bfc267a30e4075bd7444585c7ef9c4783e6ba42bfc281c27f17dd0",
+        "public/Material_1/Asphalt025C_1K-JPG_Displacement.jpg": "16fcda0f854dbcff69c41093aa3a284b00eb2828603f2cc1c12883f27d73ab07",
+        "public/Material_1/Asphalt025C_1K-JPG_NormalGL.jpg": "5020ad70524e1eafb2fb0de89c07e86790ff79df6270f155a593ee4668dda6bf",
+        "public/Material_1/Asphalt025C_1K-JPG_Roughness.jpg": "85d6ecad03eca9e592a7fc417acaf75ed3e3c76ba74d72976cc84e6b4c9d263a"
+      }
+    },
+    "demo-2023-rain-puddle": {
+      "repository": "https://github.com/Faraz-Portfolio/demo-2023-rain-puddle",
+      "revision": "257066b63d08b227df8f982377e60f91752ddc81",
+      "license": "GPL-3.0",
+      "localDirectory": "demo-2023-rain-puddle",
+      "files": {
+        "src/Floor/PuddleMaterial.tsx": "5d20bd2694ff0cd2314b0568ee129ea7f261d77ce80acfa67d99847e45ef0d73",
+        "src/Rain/Drops.tsx": "70272520b321a4fba4980357c43b599fa3d181d737a702c0f0a966761e9ce103",
+        "src/Rain/Splashes/index.tsx": "ea31b08a74c62ec343aed8ae4d3821e1d79576725e03d08be3d48935e6409190",
+        "src/Rain/Splashes/useSplashPositions.ts": "47c374ba9594469cebd68b59a230110d3f08ee3c57efb5bc2613e38732c3a089",
+        "src/Rain/Thunder.tsx": "45e60a6dd6ac473d8c4bd65e20e729df04fe9b773a6a230f8a80ef58d189532d",
+        "src/Rain/index.tsx": "fb786d13391bf0e228ba35daef08ce1dbbf53be9459414979951532e9603adc0",
+        "src/useMakeRain.ts": "6fd236bc35438b1f6df4a50a0c4651ef40488f9c01906bd108edff80ab8414f1",
+        "src/App.tsx": "2405070a97114122a368756213ce50a7fe5b64fbac3b00e33534d7fe58c6f0dc",
+        "src/Floor/index.tsx": "1e855a660a33e28e30ab421898651c7efb029da13ad65b551362485f49c430af",
+        "src/Floor/Trash.tsx": "0c9e7dd87162ceef408a757ce783ae5f6dd8430447f90fac534a41588b919f75"
+      },
+      "assets": {
+        "public/Splash.png": "6ab5f6e97fe3c63553df00dac786ab86874399a05de0369b47b78aa1b10da5e6",
+        "public/road/aerial_asphalt_01_ao_2k.jpg": "fb9da6e73cbfca310032ee113389be2f084c4d28cd688f663952e4747d5532d0",
+        "public/road/aerial_asphalt_01_diff_2k.jpg": "a85ce28b8e6ed90acb0234832969b27f5b73fe055a0d5b94f34fc2943d319fb5",
+        "public/road/aerial_asphalt_01_nor_gl_2k.jpg": "cb7e5b75ff47ad672ab820f71b77566419b612e52e7791c5ed90a7fa27b71807",
+        "public/road/aerial_asphalt_01_rough_2k.jpg": "20fdcdc9fc2a3efef83fd8a3453d2bc0a8543ee3ebb2badf148e4c142704eeff",
+        "public/decals/trash/shmpulh_4K_AO.jpg": "cabe4392fdc51ca06ba2dafe6c56e08a90a945e531c3a8efecad4ffb52988bff",
+        "public/decals/trash/shmpulh_4K_Albedo.jpg": "94a1490b1d489c8cd2b22a5170f32ab38bee6737c7b72851a63e7afc429f5f55",
+        "public/decals/trash/shmpulh_4K_Normal.jpg": "6d9330942e80c64221dbbc291fc445f026983623d01e49d8cd551bb498596a97",
+        "public/decals/trash/shmpulh_4K_Opacity.jpg": "56a256f8a606b5c5f3a0a972082c7e6acfb4fa60c56f40c2b06ff6c17e7932bd",
+        "public/decals/trash/shmpulh_4K_Roughness.jpg": "2a91b3a2f8b44e402acb3f7615564de317a70c456269d4f2b57267514f47d05c"
+      }
     }
   }
 }

@@ -34,11 +34,12 @@ Every graphics system is expected to expose:
 | `threejs-procedural-fields` | Shared scalar/vector fields, frequency bands, domain warping, causal masks, procedural normals. |
 | `threejs-procedural-materials` | Atlas filtering, specular AA, planetary materials, terrain wetness, lava/emissive surfaces, frame PBR, per-instance dissolve. |
 | `threejs-procedural-geometry` | Sculpted frame rails, branch rings, semantic mesh writers, UV density, material groups. |
-| `threejs-procedural-vegetation` | Growth hierarchies, stylized grass, branch-ring geometry, stratified children, foliage normals, rooted wind. |
+| `threejs-procedural-vegetation` | Growth hierarchies, stylized and GPU-computed grass, branch-ring geometry, stratified children, foliage normals, rooted wind. |
 | `threejs-procedural-architecture` | Massing and façade grammars, exposed-edge analysis, modules, material-slot compilation. |
 | `threejs-procedural-planets` | Spherical terrain, ridges, craters, biomes, procedural normals, altitude filtering. |
 | `threejs-spectral-ocean` | Validated FFT synthesis, hybrid FFT/Gerstner water, stylized above/below ocean optics, spectral cascades, choppy derivatives, Jacobian foam, ocean shading. |
 | `threejs-water-optics` | Shared analytic waves/normals, bounded pool heightfields, object ripples, caustics, refraction, absorption, reflection. |
+| `threejs-precipitation-surfaces` | Falling snow and rain coupled to accumulation, snow caps, wet puddles, ripple normals, splashes, and shared weather envelopes. |
 | `threejs-atmosphere-aerial-perspective` | Shared Rayleigh/Mie atmosphere, sky, shell/post handoff, depth-based scattering. |
 | `threejs-volumetric-clouds` | Weather-shaped density, bounded raymarching, cloud lighting, history, cloud shadows. |
 | `threejs-raymarched-space-effects` | Curved-ray integration, black holes, accretion disks, wormholes, bounded quality. |
