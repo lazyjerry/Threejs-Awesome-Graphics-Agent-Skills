@@ -1,0 +1,45 @@
+{
+  "title": "Procedural Financial Tower",
+  "description": "A procedural financial tower with exact seed 1042 settings, semantic podium shaft crown bridge and roof planning, reserved central glass and corner zones, projected colonnade and trim modules, vertex-colored material-slot geometry compilation, WebGPU node materials, and three light-space cached shadow levels with texel snapping, cross-fades, age, and update budgeting.",
+  "backend": "WebGPU / TSL node materials and cached clipmap shadows",
+  "techniques": [
+    "settings-to-plan-to-mesh compilation",
+    "seeded dimensional setback massing",
+    "semantic facade modules and reserved zones",
+    "material-slot geometry compilation",
+    "WebGPU vertex-color node materials",
+    "light-space clipmap texel snapping",
+    "cached shadow update budget and cross-fade"
+  ],
+  "defaultViewport": {
+    "width": 1440,
+    "height": 900
+  },
+  "defaultDpr": 1,
+  "debugModes": [
+    {
+      "value": "final",
+      "label": "Final"
+    },
+    {
+      "value": "topology",
+      "label": "Tier topology"
+    },
+    {
+      "value": "facade-ids",
+      "label": "Facade ids"
+    },
+    {
+      "value": "no-shadows",
+      "label": "No shadows"
+    }
+  ],
+  "controls": [
+    "orbit",
+    "pause",
+    "timeScale",
+    "dpr",
+    "debugMode",
+    "capture"
+  ]
+}

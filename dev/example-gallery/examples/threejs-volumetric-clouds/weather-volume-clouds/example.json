@@ -1,15 +1,15 @@
 {
   "title": "Weather Volume Clouds",
-  "description": "A large-world bounded cloud raymarch with authored low, middle, and high weather channels, 3D base and detail volumes, turbulence distortion, profile-shaped density, directional self-shadowing, atmospheric composition, and temporal reconstruction.",
-  "backend": "WebGL2 / GLSL3 volumetric reconstruction",
+  "description": "A large-world volumetric cloud composition using the package CloudsEffect, CloudsPass, ShadowPass, cascaded cloud shadow maps, local weather, 128-cubed shape and 32-cubed detail volumes, turbulence, STBN jitter, NormalPass deferred lighting, AerialPerspectiveEffect atmosphere composition, lens flare, AGX tone mapping, and dithering.",
+  "backend": "WebGL2 / package CloudsEffect and postprocessing",
   "techniques": [
-    "authored multi-layer weather-channel density",
-    "bounded layer interval selection",
+    "package CloudLayers weather-channel density",
+    "bounded layer interval selection and cascaded cloud shadows",
     "128-cubed base shape and 32-cubed detail erosion",
     "curl-texture turbulence displacement",
-    "front-to-back energy-conserving integration",
-    "directional optical-depth march",
-    "low-resolution temporal reconstruction"
+    "front-to-back volumetric integration",
+    "NormalPass deferred atmosphere lighting",
+    "low-resolution temporal upscale"
   ],
   "defaultViewport": {
     "width": 1440,
@@ -18,13 +18,11 @@
   "defaultDpr": 1,
   "debugModes": [
     { "value": "final", "label": "Final" },
-    { "value": "weather", "label": "Weather channels" },
-    { "value": "base-shape", "label": "Base shape" },
-    { "value": "detail", "label": "Detail modifier" },
-    { "value": "density", "label": "Layer density" },
-    { "value": "transmittance", "label": "Transmittance" },
-    { "value": "lighting", "label": "Lighting" },
-    { "value": "history", "label": "History rejection" }
+    { "value": "atmosphere-only", "label": "Atmosphere only" },
+    { "value": "clouds-only", "label": "Clouds only" },
+    { "value": "no-detail", "label": "No detail volume" },
+    { "value": "no-turbulence", "label": "No turbulence" },
+    { "value": "native-resolution", "label": "Native resolution" }
   ],
   "controls": [
     "orbit",

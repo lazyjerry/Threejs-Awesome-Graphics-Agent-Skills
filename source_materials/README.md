@@ -3,8 +3,10 @@
 This directory contains research inputs for Three.js Awesome Graphics Agent
 Skills. Downloaded repositories are ignored by Git and inspected as untrusted
 code. A reference checkout may install its own locked dependencies and run
-inside its directory for code and visual verification. Reference packages are
-never added to this project's dependencies or distributed with the package.
+inside its directory for code and visual verification. When an accepted example
+needs package implementation internals, the readable source files are copied or
+translated in source form and traced here; generated package build output is not
+used as skill implementation material.
 
 The pack is a reference-extraction library of mechanisms and workflows.
 Reference code and assets may be copied or adapted into distributed skills when
@@ -142,10 +144,13 @@ Consumed by:
 - `$threejs-atmosphere-aerial-perspective`
 - `$threejs-volumetric-clouds`
 
-The exact MIT assets used for visual inspection are copied only under
-`dev/example-gallery/`. The distributed skills accept textures as inputs and
-contain no supporting assets, scenes, runtime, package imports, or dependency
-on the reference project.
+The exact MIT LUT, weather, volume, turbulence, and blue-noise assets needed by
+the accepted atmosphere and cloud examples are copied under the corresponding
+skill asset folders. The distributed skill examples copy the app-resolved
+package `src/` implementation files for the atmosphere, cloud, geospatial
+helper, and geospatial effect classes used by the standalone scenes; the shared
+gallery host only supplies the canvas, TypeScript source serving, resize loop,
+controls, and capture surface.
 
 ### `procedural-bank`
 

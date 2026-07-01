@@ -1,209 +1,310 @@
 import {
-  createAtmosphereAerialPerspectiveMaterial,
-  updateAtmosphereCamera,
-} from "/skills/threejs-atmosphere-aerial-perspective/examples/lut-aerial-perspective/atmosphere-effect.js";
-import { WeatherVolumeCloudEffect } from
-  "/skills/threejs-volumetric-clouds/examples/weather-volume-clouds/cloud-effect.js";
-import {
-  disposeTextures,
-  loadAtmosphereTextures,
-  loadCloudTextures,
-} from "/dev/example-gallery/support/texture-loaders.js";
+  AerialPerspectiveEffect,
+  CLOUD_SHAPE_DETAIL_TEXTURE_SIZE,
+  CLOUD_SHAPE_TEXTURE_SIZE,
+  CloudsEffect,
+  DitheringEffect,
+  EffectComposer,
+  EffectPass,
+  Ellipsoid,
+  Geodetic,
+  LensFlareEffect,
+  NormalPass,
+  PrecomputedTexturesLoader,
+  RenderPass,
+  STBNLoader,
+  ToneMappingEffect,
+  ToneMappingMode,
+  createData3DTextureLoaderClass,
+  getSunDirectionECEF,
+  parseUint8Array,
+  radians,
+} from "/skills/threejs-volumetric-clouds/examples/weather-volume-clouds/cloud-effect.js";
+
+const date = new Date("2000-06-01T10:00:00Z");
+const geodetic = new Geodetic(0, radians(67), 500);
+const position = geodetic.toECEF();
+const up = Ellipsoid.WGS84.getSurfaceNormal(position);
 
 export default {
-  initialTime: 17.2,
   renderer: {
-    options: { antialias: false },
+    options: {
+      antialias: false,
+      depth: false,
+      logarithmicDepthBuffer: false,
+    },
     toneMapping: 0,
-    exposure: 1,
+    exposure: 10,
     clearColor: 0x000000,
   },
   camera: {
     fov: 75,
-    near: 0.01,
-    far: 1000,
-    // Higher above the cloud layer, still pitched downward by about 15°.
-    // pitch = atan((1.35 - 0.12) / 4.6) ≈ 15°
-    position: [0, 1.35, 4.6],
+    near: 10,
+    far: 1e6,
   },
   controls: {
-    target: [0, 0.12, 0],
-    minDistance: 0.7,
-    maxDistance: 8,
-    maxPolarAngle: Math.PI * 0.58,
+    minDistance: 1e3,
+    maxDistance: 2.5e5,
     enablePan: true,
   },
 
   async setup({ THREE, renderer, scene, camera, controls }) {
-    const [atmosphereTextures, cloudTextures] = await Promise.all([
-      loadAtmosphereTextures(
-        "/skills/threejs-atmosphere-aerial-perspective/assets/lut-aerial-perspective",
-      ),
-      loadCloudTextures(
-        "/skills/threejs-volumetric-clouds/assets/weather-volume-clouds",
-      ),
-    ]);
-    const sunDirection = new THREE.Vector3(-0.58, 0.66, -0.48).normalize();
-    const groundY = 0;
-    const minCameraGroundClearance = 0.04;
-
-    function clampCameraAboveGround() {
-      camera.updateMatrixWorld(true);
-
-      if (controls?.target && controls.target.y < groundY) {
-        const lift = groundY - controls.target.y;
-        controls.target.y += lift;
-        camera.position.y += lift;
-      }
-
-      if (camera.position.y < groundY + minCameraGroundClearance) {
-        const lift = groundY + minCameraGroundClearance - camera.position.y;
-        camera.position.y += lift;
-        if (controls?.target) {
-          controls.target.y += lift;
-        }
-      }
-
-      camera.updateMatrixWorld(true);
-    }
+    camera.position.copy(position);
+    camera.up.copy(up);
+    camera.updateProjectionMatrix();
 
     if (controls) {
-      controls.enablePan = true;
-      controls.maxPolarAngle = Math.min(
-        controls.maxPolarAngle ?? Math.PI,
-        Math.PI * 0.58,
-      );
-      controls.addEventListener?.("change", clampCameraAboveGround);
+      controls.enableDamping = true;
+      controls.minDistance = 1e3;
+      controls.maxDistance = 2.5e5;
+      controls.target.copy(position);
+      controls.update();
     }
 
-    const ground = new THREE.Mesh(
-      new THREE.PlaneGeometry(1200, 1200),
-      new THREE.MeshBasicMaterial({ color: 0x0b1322 }),
+    renderer.toneMapping = THREE.NoToneMapping;
+    renderer.toneMappingExposure = 10;
+
+    const group = new THREE.Group();
+    Ellipsoid.WGS84.getEastNorthUpFrame(position).decompose(
+      group.position,
+      group.quaternion,
+      group.scale,
     );
-    ground.rotation.x = -Math.PI / 2;
-    scene.add(ground);
+    scene.add(group);
 
-    const sun = new THREE.DirectionalLight(0xffe3bd, 0.9);
-    sun.position.copy(sunDirection).multiplyScalar(20);
-    sun.target.position.set(0, 0.28, 0);
-    scene.add(sun, sun.target);
-    scene.add(new THREE.HemisphereLight(0xcadfff, 0x172030, 0.32));
+    const torusKnotGeometry = new THREE.TorusKnotGeometry(200, 60, 256, 64);
+    torusKnotGeometry.computeVertexNormals();
+    const torusKnot = new THREE.Mesh(
+      torusKnotGeometry,
+      new THREE.MeshBasicMaterial({ color: "white" }),
+    );
+    group.add(torusKnot);
 
-    const sceneTarget = new THREE.WebGLRenderTarget(1, 1, {
-      type: THREE.HalfFloatType,
-      minFilter: THREE.LinearFilter,
-      magFilter: THREE.LinearFilter,
-      depthBuffer: true,
+    const aerialPerspective = new AerialPerspectiveEffect(camera);
+    aerialPerspective.sky = true;
+    aerialPerspective.sunIrradiance = true;
+    aerialPerspective.skyIrradiance = true;
+
+    const normalPass = new NormalPass(scene, camera);
+    aerialPerspective.normalBuffer = normalPass.texture;
+
+    const clouds = new CloudsEffect(camera);
+    clouds.coverage = 0.4;
+    clouds.localWeatherVelocity.set(0.001, 0);
+
+    clouds.events.addEventListener("change", (event) => {
+      if (event.property === "atmosphereOverlay") {
+        aerialPerspective.overlay = clouds.atmosphereOverlay;
+      } else if (event.property === "atmosphereShadow") {
+        aerialPerspective.shadow = clouds.atmosphereShadow;
+      } else if (event.property === "atmosphereShadowLength") {
+        aerialPerspective.shadowLength = clouds.atmosphereShadowLength;
+      }
     });
-    sceneTarget.depthTexture = new THREE.DepthTexture(
-      1,
-      1,
-      THREE.UnsignedIntType,
-    );
-    const skyAtmosphereSourceTarget = new THREE.WebGLRenderTarget(1, 1, {
-      type: THREE.HalfFloatType,
-      minFilter: THREE.LinearFilter,
-      magFilter: THREE.LinearFilter,
-      depthBuffer: true,
-    });
-    skyAtmosphereSourceTarget.depthTexture = new THREE.DepthTexture(
-      1,
-      1,
-      THREE.UnsignedIntType,
-    );
-    const atmosphereTarget = new THREE.WebGLRenderTarget(1, 1, {
-      type: THREE.HalfFloatType,
-      minFilter: THREE.LinearFilter,
-      magFilter: THREE.LinearFilter,
-      depthBuffer: false,
-    });
 
-    const atmosphereMaterial =
-      createAtmosphereAerialPerspectiveMaterial({
-        ...atmosphereTextures,
-        sunDirection,
-        planetCenter: new THREE.Vector3(0, -6360, 0),
-      });
-    atmosphereMaterial.uniforms.uOutputTransform.value = 0;
-    const atmosphereScene = new THREE.Scene();
-    const postCamera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
-    const atmosphereQuad = new THREE.Mesh(
-      new THREE.PlaneGeometry(2, 2),
-      atmosphereMaterial,
-    );
-    atmosphereScene.add(atmosphereQuad);
+    const sunDirection = new THREE.Vector3();
+    getSunDirectionECEF(date, sunDirection);
+    aerialPerspective.sunDirection.copy(sunDirection);
+    clouds.sunDirection.copy(sunDirection);
 
-    const clouds = new WeatherVolumeCloudEffect(
-      renderer,
-      camera,
-      cloudTextures,
+    const composer = new EffectComposer(renderer, {
+      frameBufferType: THREE.HalfFloatType,
+      multisampling: 0,
+    });
+    composer.addPass(new RenderPass(scene, camera));
+    composer.addPass(normalPass);
+    composer.addPass(new EffectPass(camera, clouds, aerialPerspective));
+    composer.addPass(
+      new EffectPass(
+        camera,
+        new LensFlareEffect(),
+        new ToneMappingEffect({ mode: ToneMappingMode.AGX }),
+        new DitheringEffect(),
+      ),
     );
-    clouds.cloudMaterial.uniforms.uSunDirection.value.copy(sunDirection);
+
+    const [
+      precomputedTextures,
+      localWeatherTexture,
+      shapeTexture,
+      shapeDetailTexture,
+      turbulenceTexture,
+      stbnTexture,
+    ] = await Promise.all([
+      loadPrecomputedAtmosphere(renderer),
+      loadLocalWeather(THREE),
+      loadShapeTexture(THREE),
+      loadShapeDetailTexture(THREE),
+      loadTurbulence(THREE),
+      loadSTBNTexture(),
+    ]);
+
+    Object.assign(aerialPerspective, precomputedTextures);
+    Object.assign(clouds, precomputedTextures);
+    clouds.localWeatherTexture = localWeatherTexture;
+    clouds.shapeTexture = shapeTexture;
+    clouds.shapeDetailTexture = shapeDetailTexture;
+    clouds.turbulenceTexture = turbulenceTexture;
+    aerialPerspective.stbnTexture = stbnTexture;
+    clouds.stbnTexture = stbnTexture;
+
+    function applyDebugMode(modeName) {
+      clouds.coverage = modeName === "atmosphere-only" ? 0 : 0.4;
+      clouds.temporalUpscale = modeName !== "native-resolution";
+      clouds.shapeDetail = modeName !== "no-detail";
+      clouds.turbulence = modeName !== "no-turbulence";
+      aerialPerspective.sky = modeName !== "clouds-only";
+      aerialPerspective.sunIrradiance = modeName !== "clouds-only";
+      aerialPerspective.skyIrradiance = modeName !== "clouds-only";
+      aerialPerspective.transmittance = modeName !== "clouds-only";
+      aerialPerspective.inscatter = modeName !== "clouds-only";
+    }
+
+    applyDebugMode("final");
 
     return {
-      resize({ bufferWidth, bufferHeight }) {
-        sceneTarget.setSize(bufferWidth, bufferHeight);
-        skyAtmosphereSourceTarget.setSize(bufferWidth, bufferHeight);
-        atmosphereTarget.setSize(bufferWidth, bufferHeight);
-        clouds.resize(bufferWidth, bufferHeight);
+      setDebugMode(modeName) {
+        applyDebugMode(modeName);
       },
-      setDebugMode(mode) {
-        clouds.setDebugMode(mode);
-      },
-      update({ elapsed }) {
-        clampCameraAboveGround();
-        clouds.update(elapsed);
+      resize({ width, height }) {
+        composer.setSize(width, height);
       },
       render() {
-        clampCameraAboveGround();
-        renderer.setRenderTarget(sceneTarget);
-        renderer.clear();
-        renderer.render(scene, camera);
-
-        // The aerial-perspective LUT pass visibly quantizes the huge,
-        // perfectly flat ground plane into curved equal-distance contours.
-        // Render the atmosphere against a cleared sky-depth buffer instead,
-        // then composite the local ground directly over that result. The
-        // original sceneTarget depth is still used below for cloud occlusion.
-        renderer.setRenderTarget(skyAtmosphereSourceTarget);
-        renderer.clear();
-
-        updateAtmosphereCamera(atmosphereMaterial, camera, {
-          sceneColor: skyAtmosphereSourceTarget.texture,
-          sceneDepth: skyAtmosphereSourceTarget.depthTexture,
-        });
-        renderer.setRenderTarget(atmosphereTarget);
-        renderer.render(atmosphereScene, postCamera);
-
-        const previousAutoClear = renderer.autoClear;
-        renderer.autoClear = false;
-        renderer.setRenderTarget(atmosphereTarget);
-        renderer.render(scene, camera);
-        renderer.autoClear = previousAutoClear;
-
-        clouds.setBackground(
-          atmosphereTarget.texture,
-          sceneTarget.depthTexture,
-        );
-        clouds.render();
+        composer.render();
       },
       metrics() {
-        return clouds.metrics();
+        const scale = clouds.temporalUpscale ? "temporal upscale" : "native";
+        return {
+          tier:
+            `${CLOUD_SHAPE_TEXTURE_SIZE}^3 shape / ` +
+            `${CLOUD_SHAPE_DETAIL_TEXTURE_SIZE}^3 detail / ${scale}`,
+        };
       },
       dispose() {
-        controls?.removeEventListener?.("change", clampCameraAboveGround);
-        ground.geometry.dispose();
-        ground.material.dispose();
-        sun.dispose();
-        sceneTarget.dispose();
-        skyAtmosphereSourceTarget.dispose();
-        atmosphereTarget.dispose();
-        atmosphereQuad.geometry.dispose();
-        atmosphereMaterial.dispose();
-        clouds.dispose();
-        disposeTextures(atmosphereTextures);
-        disposeTextures(cloudTextures);
+        composer.dispose();
+        torusKnot.geometry.dispose();
+        torusKnot.material.dispose();
+        localWeatherTexture.dispose();
+        shapeTexture.dispose();
+        shapeDetailTexture.dispose();
+        turbulenceTexture.dispose();
+        stbnTexture.dispose();
+        for (const texture of Object.values(precomputedTextures)) {
+          texture.dispose();
+        }
       },
     };
   },
 };
+
+function loadPrecomputedAtmosphere(renderer) {
+  return new Promise((resolve, reject) => {
+    new PrecomputedTexturesLoader().load(
+      "/skills/threejs-volumetric-clouds/assets/weather-volume-clouds/atmosphere",
+      resolve,
+      undefined,
+      reject,
+    );
+  });
+}
+
+function loadLocalWeather(THREE) {
+  return new Promise((resolve, reject) => {
+    new THREE.TextureLoader().load(
+      "/skills/threejs-volumetric-clouds/assets/weather-volume-clouds/local_weather.png",
+      (texture) => {
+        texture.minFilter = THREE.LinearMipMapLinearFilter;
+        texture.magFilter = THREE.LinearFilter;
+        texture.wrapS = THREE.RepeatWrapping;
+        texture.wrapT = THREE.RepeatWrapping;
+        texture.colorSpace = THREE.NoColorSpace;
+        texture.needsUpdate = true;
+        resolve(texture);
+      },
+      undefined,
+      reject,
+    );
+  });
+}
+
+function loadShapeTexture(THREE) {
+  return new Promise((resolve, reject) => {
+    const Loader = createData3DTextureLoaderClass(parseUint8Array, {
+      width: CLOUD_SHAPE_TEXTURE_SIZE,
+      height: CLOUD_SHAPE_TEXTURE_SIZE,
+      depth: CLOUD_SHAPE_TEXTURE_SIZE,
+    });
+    new Loader().load(
+      "/skills/threejs-volumetric-clouds/assets/weather-volume-clouds/shape.bin",
+      (texture) => {
+        texture.format = THREE.RedFormat;
+        texture.minFilter = THREE.LinearFilter;
+        texture.magFilter = THREE.LinearFilter;
+        texture.wrapS = THREE.RepeatWrapping;
+        texture.wrapT = THREE.RepeatWrapping;
+        texture.wrapR = THREE.RepeatWrapping;
+        texture.colorSpace = THREE.NoColorSpace;
+        texture.needsUpdate = true;
+        resolve(texture);
+      },
+      undefined,
+      reject,
+    );
+  });
+}
+
+function loadShapeDetailTexture(THREE) {
+  return new Promise((resolve, reject) => {
+    const Loader = createData3DTextureLoaderClass(parseUint8Array, {
+      width: CLOUD_SHAPE_DETAIL_TEXTURE_SIZE,
+      height: CLOUD_SHAPE_DETAIL_TEXTURE_SIZE,
+      depth: CLOUD_SHAPE_DETAIL_TEXTURE_SIZE,
+    });
+    new Loader().load(
+      "/skills/threejs-volumetric-clouds/assets/weather-volume-clouds/shape_detail.bin",
+      (texture) => {
+        texture.format = THREE.RedFormat;
+        texture.minFilter = THREE.LinearFilter;
+        texture.magFilter = THREE.LinearFilter;
+        texture.wrapS = THREE.RepeatWrapping;
+        texture.wrapT = THREE.RepeatWrapping;
+        texture.wrapR = THREE.RepeatWrapping;
+        texture.colorSpace = THREE.NoColorSpace;
+        texture.needsUpdate = true;
+        resolve(texture);
+      },
+      undefined,
+      reject,
+    );
+  });
+}
+
+function loadTurbulence(THREE) {
+  return new Promise((resolve, reject) => {
+    new THREE.TextureLoader().load(
+      "/skills/threejs-volumetric-clouds/assets/weather-volume-clouds/turbulence.png",
+      (texture) => {
+        texture.minFilter = THREE.LinearMipMapLinearFilter;
+        texture.magFilter = THREE.LinearFilter;
+        texture.wrapS = THREE.RepeatWrapping;
+        texture.wrapT = THREE.RepeatWrapping;
+        texture.colorSpace = THREE.NoColorSpace;
+        texture.needsUpdate = true;
+        resolve(texture);
+      },
+      undefined,
+      reject,
+    );
+  });
+}
+
+function loadSTBNTexture() {
+  return new Promise((resolve, reject) => {
+    new STBNLoader().load(
+      "/skills/threejs-volumetric-clouds/assets/weather-volume-clouds/stbn.bin",
+      resolve,
+      undefined,
+      reject,
+    );
+  });
+}

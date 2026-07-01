@@ -4,19 +4,110 @@
     "threejs-atmosphere-aerial-perspective/lut-aerial-perspective": [
       {
         "source": "jeantimex-geospatial",
+        "boundary": "reference-extraction",
         "files": [
           "src/atmosphere/index.ts",
-          "package.json",
-          "package-lock.json"
-        ],
-        "mechanisms": [
-          "shared precomputed transmittance scattering and irradiance textures",
-          "inverse-projection sky-ray reconstruction from one atmosphere parameter model",
-          "depth-reconstructed surface segment transmittance and inscattering",
-          "sun transmittance and sky radiance sharing the same lookup coordinates",
-          "half-float scene radiance followed by one output transform"
+          "node_modules/@takram/three-atmosphere/src/AerialPerspectiveEffect.ts",
+          "node_modules/@takram/three-atmosphere/src/AtmosphereMaterialBase.ts",
+          "node_modules/@takram/three-atmosphere/src/AtmosphereParameters.ts",
+          "node_modules/@takram/three-atmosphere/src/IrradianceMaskPass.ts",
+          "node_modules/@takram/three-atmosphere/src/PrecomputedTexturesLoader.ts",
+          "node_modules/@takram/three-atmosphere/src/SkyLightProbe.ts",
+          "node_modules/@takram/three-atmosphere/src/SkyMaterial.ts",
+          "node_modules/@takram/three-atmosphere/src/StarsGeometry.ts",
+          "node_modules/@takram/three-atmosphere/src/StarsMaterial.ts",
+          "node_modules/@takram/three-atmosphere/src/SunDirectionalLight.ts",
+          "node_modules/@takram/three-atmosphere/src/blackBodyChromaticity.ts",
+          "node_modules/@takram/three-atmosphere/src/celestialDirections.ts",
+          "node_modules/@takram/three-atmosphere/src/constants.ts",
+          "node_modules/@takram/three-atmosphere/src/getAltitudeCorrectionOffset.ts",
+          "node_modules/@takram/three-atmosphere/src/getSunLightColor.ts",
+          "node_modules/@takram/three-atmosphere/src/helpers/functions.ts",
+          "node_modules/@takram/three-atmosphere/src/helpers/sampleTexture.ts",
+          "node_modules/@takram/three-atmosphere/src/index.ts",
+          "node_modules/@takram/three-atmosphere/src/shaders/aerialPerspectiveEffect.frag",
+          "node_modules/@takram/three-atmosphere/src/shaders/aerialPerspectiveEffect.vert",
+          "node_modules/@takram/three-atmosphere/src/shaders/functions.glsl",
+          "node_modules/@takram/three-atmosphere/src/shaders/index.ts",
+          "node_modules/@takram/three-atmosphere/src/shaders/irradianceMask.frag",
+          "node_modules/@takram/three-atmosphere/src/shaders/parameters.glsl",
+          "node_modules/@takram/three-atmosphere/src/shaders/sky.frag",
+          "node_modules/@takram/three-atmosphere/src/shaders/sky.glsl",
+          "node_modules/@takram/three-atmosphere/src/shaders/sky.vert",
+          "node_modules/@takram/three-atmosphere/src/shaders/stars.frag",
+          "node_modules/@takram/three-atmosphere/src/shaders/stars.vert",
+          "node_modules/@takram/three-atmosphere/src/types.ts",
+          "node_modules/@takram/three-geospatial-effects/src/DepthEffect.ts",
+          "node_modules/@takram/three-geospatial-effects/src/DitheringEffect.ts",
+          "node_modules/@takram/three-geospatial-effects/src/DownsampleThresholdMaterial.ts",
+          "node_modules/@takram/three-geospatial-effects/src/GeometryEffect.ts",
+          "node_modules/@takram/three-geospatial-effects/src/GeometryPass.ts",
+          "node_modules/@takram/three-geospatial-effects/src/LensFlareEffect.ts",
+          "node_modules/@takram/three-geospatial-effects/src/LensFlareFeaturesMaterial.ts",
+          "node_modules/@takram/three-geospatial-effects/src/NormalEffect.ts",
+          "node_modules/@takram/three-geospatial-effects/src/createHaldLookupTexture.ts",
+          "node_modules/@takram/three-geospatial-effects/src/index.ts",
+          "node_modules/@takram/three-geospatial-effects/src/setupMaterialsForGeometryPass.ts",
+          "node_modules/@takram/three-geospatial-effects/src/shaders/depthEffect.frag",
+          "node_modules/@takram/three-geospatial-effects/src/shaders/ditheringEffect.frag",
+          "node_modules/@takram/three-geospatial-effects/src/shaders/downsampleThreshold.frag",
+          "node_modules/@takram/three-geospatial-effects/src/shaders/downsampleThreshold.vert",
+          "node_modules/@takram/three-geospatial-effects/src/shaders/geometryEffect.frag",
+          "node_modules/@takram/three-geospatial-effects/src/shaders/lensFlareEffect.frag",
+          "node_modules/@takram/three-geospatial-effects/src/shaders/lensFlareFeatures.frag",
+          "node_modules/@takram/three-geospatial-effects/src/shaders/lensFlareFeatures.vert",
+          "node_modules/@takram/three-geospatial-effects/src/shaders/normalEffect.frag",
+          "node_modules/@takram/three-geospatial/src/ArrayBufferLoader.ts",
+          "node_modules/@takram/three-geospatial/src/DataLoader.ts",
+          "node_modules/@takram/three-geospatial/src/EXR3DLoader.ts",
+          "node_modules/@takram/three-geospatial/src/Ellipsoid.ts",
+          "node_modules/@takram/three-geospatial/src/EllipsoidGeometry.ts",
+          "node_modules/@takram/three-geospatial/src/Geodetic.ts",
+          "node_modules/@takram/three-geospatial/src/PointOfView.ts",
+          "node_modules/@takram/three-geospatial/src/Rectangle.ts",
+          "node_modules/@takram/three-geospatial/src/STBNLoader.ts",
+          "node_modules/@takram/three-geospatial/src/Texture3DLoader.ts",
+          "node_modules/@takram/three-geospatial/src/TileCoordinate.ts",
+          "node_modules/@takram/three-geospatial/src/TilingScheme.ts",
+          "node_modules/@takram/three-geospatial/src/TypedArrayLoader.ts",
+          "node_modules/@takram/three-geospatial/src/assertions.ts",
+          "node_modules/@takram/three-geospatial/src/bufferGeometry.ts",
+          "node_modules/@takram/three-geospatial/src/constants.ts",
+          "node_modules/@takram/three-geospatial/src/decorators.ts",
+          "node_modules/@takram/three-geospatial/src/defineShorthand.ts",
+          "node_modules/@takram/three-geospatial/src/helpers/projectOnEllipsoidSurface.ts",
+          "node_modules/@takram/three-geospatial/src/index.ts",
+          "node_modules/@takram/three-geospatial/src/math.ts",
+          "node_modules/@takram/three-geospatial/src/resolveIncludes.ts",
+          "node_modules/@takram/three-geospatial/src/shaders/cascadedShadowMaps.glsl",
+          "node_modules/@takram/three-geospatial/src/shaders/depth.glsl",
+          "node_modules/@takram/three-geospatial/src/shaders/generators.glsl",
+          "node_modules/@takram/three-geospatial/src/shaders/index.ts",
+          "node_modules/@takram/three-geospatial/src/shaders/interleavedGradientNoise.glsl",
+          "node_modules/@takram/three-geospatial/src/shaders/math.glsl",
+          "node_modules/@takram/three-geospatial/src/shaders/packing.glsl",
+          "node_modules/@takram/three-geospatial/src/shaders/raySphereIntersection.glsl",
+          "node_modules/@takram/three-geospatial/src/shaders/transform.glsl",
+          "node_modules/@takram/three-geospatial/src/shaders/turbo.glsl",
+          "node_modules/@takram/three-geospatial/src/shaders/vogelDisk.glsl",
+          "node_modules/@takram/three-geospatial/src/typedArray.ts",
+          "node_modules/@takram/three-geospatial/src/typedArrayParsers.ts",
+          "node_modules/@takram/three-geospatial/src/types.ts",
+          "node_modules/@takram/three-geospatial/src/unrollLoops.ts"
         ],
         "assets": [
+          {
+            "sourcePath": "public/assets/atmosphere/irradiance.exr",
+            "localPath": "skills/threejs-atmosphere-aerial-perspective/assets/lut-aerial-perspective/irradiance.exr"
+          },
+          {
+            "sourcePath": "public/assets/atmosphere/scattering.exr",
+            "localPath": "skills/threejs-atmosphere-aerial-perspective/assets/lut-aerial-perspective/scattering.exr"
+          },
+          {
+            "sourcePath": "public/assets/atmosphere/transmittance.exr",
+            "localPath": "skills/threejs-atmosphere-aerial-perspective/assets/lut-aerial-perspective/transmittance.exr"
+          },
           {
             "sourcePath": "public/assets/atmosphere/irradiance.bin",
             "localPath": "skills/threejs-atmosphere-aerial-perspective/assets/lut-aerial-perspective/irradiance.bin"
@@ -30,11 +121,11 @@
             "localPath": "skills/threejs-atmosphere-aerial-perspective/assets/lut-aerial-perspective/transmittance.bin"
           }
         ],
-        "boundary": "reference-extraction",
-        "divergences": [
-          "the effect is implemented directly with Three.js render targets and GLSL3 instead of importing the reference packages",
-          "the focused scene uses a local tangent-frame ground plane rather than a full WGS84 scene graph",
-          "moon stars lens flare and cloud-shadow inputs are omitted from the atmosphere-only inspection surface"
+        "mechanisms": [
+          "precomputed atmosphere texture loading for irradiance, scattering, and transmittance LUTs",
+          "one atmosphere parameter model shared by sky, sun transmittance, sky light, and aerial perspective",
+          "ECEF/geodetic camera frame with sun and moon directions evaluated in the same frame",
+          "AerialPerspectiveEffect transmittance and inscattering composition with lens flare, AGX tone mapping, and dithering"
         ]
       }
     ],
@@ -163,22 +254,28 @@
         ]
       }
     ],
-    "threejs-procedural-architecture/authored-financial-tower": [
+    "threejs-procedural-architecture/procedural-financial-tower": [
       {
         "source": "procedural-bank",
         "files": [
           "src/kit/building/building-generator.ts",
           "src/kit/building/compile-building.ts",
+          "src/kit/building/mass-caps.ts",
           "src/grammar/building-grammar.ts",
           "src/grammar/mass-grammar.ts",
           "src/grammar/facade-grammar.ts",
           "src/grammar/footprint-edge-graph.ts",
+          "src/grammar/placement-factory.ts",
           "src/grammar/podium-grammar.ts",
           "src/grammar/shaft-grammar.ts",
           "src/grammar/crown-grammar.ts",
           "src/grammar/roof-grammar.ts",
+          "src/grammar/generator-assertions.ts",
           "src/kit/shared/mesh-writer.ts",
           "src/kit/shared/module-api.ts",
+          "src/kit/shared/transforms.ts",
+          "src/kit/kit-types.ts",
+          "src/kit/module-registry.ts",
           "src/kit/financial-core-kit.ts",
           "src/scene/csm/cached-clipmap-shadow-node.ts",
           "src/scene/csm/bounded-shadow-node.ts",
@@ -187,41 +284,37 @@
           "src/scene/daylight-sky.ts",
           "src/scene/scene-environment.ts",
           "src/app/building-canvas.tsx",
+          "src/app/generated-building-mesh.tsx",
+          "src/app/scene-lights.tsx",
           "src/app/ground-plane.tsx"
         ],
         "mechanisms": [
-          "default seed 1042 financial-tower settings and exact 3.2 metre bay and 3.35 metre floor anchors",
-          "podium shaft crown and roof intermediate plan before geometry emission",
-          "reserved central glass shaft, corner piers, bay rhythms, projected colonnade, cornices, finials, and statue roof",
-          "semantic material-slot compilation with reusable geometry and per-placement transforms",
-          "three light-space square shadow levels with per-level texel snapping and scaled normal bias",
-          "dynamic near level, cached coarse levels, one-level update budget, containment cross-fade, and unshadowed outside weight"
+          "default seed 1042 financial tower settings and exact 3.2 metre bay and 3.35 metre floor anchors",
+          "podium shaft crown bridge and roof intermediate plan before material-slot geometry emission",
+          "reserved central glass shaft corner piers bay rhythms projected colonnade cornices finials and statue roof",
+          "KitMeshWriter material-slot BufferGeometry output with vertex-color node material consumption",
+          "three light-space square WebGPU cached shadow levels with per-level texel snapping and scaled normal bias",
+          "dynamic near level cached coarse levels one-level update budget containment cross-fade and unshadowed outside weight"
         ],
         "assets": [
           {
             "sourcePath": "public/assets/financial-core/limestone-albedo.png",
-            "localPath": "skills/threejs-procedural-architecture/assets/authored-financial-tower/limestone-albedo.png"
+            "localPath": "skills/threejs-procedural-architecture/assets/procedural-financial-tower/limestone-albedo.png"
           },
           {
             "sourcePath": "public/assets/financial-core/limestone-normal.png",
-            "localPath": "skills/threejs-procedural-architecture/assets/authored-financial-tower/limestone-normal.png"
+            "localPath": "skills/threejs-procedural-architecture/assets/procedural-financial-tower/limestone-normal.png"
           },
           {
             "sourcePath": "public/assets/financial-core/ornaments-albedo.png",
-            "localPath": "skills/threejs-procedural-architecture/assets/authored-financial-tower/ornaments-albedo.png"
+            "localPath": "skills/threejs-procedural-architecture/assets/procedural-financial-tower/ornaments-albedo.png"
           },
           {
             "sourcePath": "public/assets/financial-core/ornaments-normal.png",
-            "localPath": "skills/threejs-procedural-architecture/assets/authored-financial-tower/ornaments-normal.png"
+            "localPath": "skills/threejs-procedural-architecture/assets/procedural-financial-tower/ornaments-normal.png"
           }
         ],
-        "boundary": "reference-extraction",
-        "divergences": [
-          "the focused inspection compiler implements the reviewed default board-of-trade tower modules rather than all registered kit modules",
-          "material slots compile to instanced primitive batches instead of one indexed BufferGeometry per slot",
-          "the WebGL2 inspection path manually renders and samples three ground-receiver depth maps instead of using the reviewed WebGPU TSL ShadowBaseNode",
-          "shadow receivers are limited to the plaza so clipmap stabilization and cache behavior remain isolated and inspectable"
-        ]
+        "boundary": "reference-extraction"
       }
     ],
     "threejs-procedural-geometry/sculpted-gallery-frame": [
@@ -738,22 +831,158 @@
     "threejs-volumetric-clouds/weather-volume-clouds": [
       {
         "source": "jeantimex-geospatial",
+        "boundary": "reference-extraction",
         "files": [
           "src/clouds/index.ts",
-          "src/atmosphere/index.ts",
-          "package.json",
-          "package-lock.json"
-        ],
-        "mechanisms": [
-          "separate low middle high and spare weather channels with per-layer height and density ownership",
-          "coverage remapping through height-shaped weather rather than final density multiplication",
-          "authored 128 cubed base shape followed by height-dependent 32 cubed detail topology",
-          "spherical low-to-high planetary layer selection with an explicit skipped gap",
-          "front-to-back transmittance and short optical-depth sun march",
-          "STBN-jittered reduced-resolution beauty rendering with variance-clipped persistent history",
-          "shared precomputed atmosphere composition behind and through the cloud volume"
+          "node_modules/@takram/three-atmosphere/src/AerialPerspectiveEffect.ts",
+          "node_modules/@takram/three-atmosphere/src/AtmosphereMaterialBase.ts",
+          "node_modules/@takram/three-atmosphere/src/AtmosphereParameters.ts",
+          "node_modules/@takram/three-atmosphere/src/IrradianceMaskPass.ts",
+          "node_modules/@takram/three-atmosphere/src/PrecomputedTexturesLoader.ts",
+          "node_modules/@takram/three-atmosphere/src/SkyLightProbe.ts",
+          "node_modules/@takram/three-atmosphere/src/SkyMaterial.ts",
+          "node_modules/@takram/three-atmosphere/src/StarsGeometry.ts",
+          "node_modules/@takram/three-atmosphere/src/StarsMaterial.ts",
+          "node_modules/@takram/three-atmosphere/src/SunDirectionalLight.ts",
+          "node_modules/@takram/three-atmosphere/src/blackBodyChromaticity.ts",
+          "node_modules/@takram/three-atmosphere/src/celestialDirections.ts",
+          "node_modules/@takram/three-atmosphere/src/constants.ts",
+          "node_modules/@takram/three-atmosphere/src/getAltitudeCorrectionOffset.ts",
+          "node_modules/@takram/three-atmosphere/src/getSunLightColor.ts",
+          "node_modules/@takram/three-atmosphere/src/helpers/functions.ts",
+          "node_modules/@takram/three-atmosphere/src/helpers/sampleTexture.ts",
+          "node_modules/@takram/three-atmosphere/src/index.ts",
+          "node_modules/@takram/three-atmosphere/src/shaders/aerialPerspectiveEffect.frag",
+          "node_modules/@takram/three-atmosphere/src/shaders/aerialPerspectiveEffect.vert",
+          "node_modules/@takram/three-atmosphere/src/shaders/functions.glsl",
+          "node_modules/@takram/three-atmosphere/src/shaders/index.ts",
+          "node_modules/@takram/three-atmosphere/src/shaders/irradianceMask.frag",
+          "node_modules/@takram/three-atmosphere/src/shaders/parameters.glsl",
+          "node_modules/@takram/three-atmosphere/src/shaders/sky.frag",
+          "node_modules/@takram/three-atmosphere/src/shaders/sky.glsl",
+          "node_modules/@takram/three-atmosphere/src/shaders/sky.vert",
+          "node_modules/@takram/three-atmosphere/src/shaders/stars.frag",
+          "node_modules/@takram/three-atmosphere/src/shaders/stars.vert",
+          "node_modules/@takram/three-atmosphere/src/types.ts",
+          "node_modules/@takram/three-clouds/src/CascadedShadowMaps.ts",
+          "node_modules/@takram/three-clouds/src/CloudLayer.ts",
+          "node_modules/@takram/three-clouds/src/CloudLayers.ts",
+          "node_modules/@takram/three-clouds/src/CloudShape.ts",
+          "node_modules/@takram/three-clouds/src/CloudShapeDetail.ts",
+          "node_modules/@takram/three-clouds/src/CloudsEffect.ts",
+          "node_modules/@takram/three-clouds/src/CloudsMaterial.ts",
+          "node_modules/@takram/three-clouds/src/CloudsPass.ts",
+          "node_modules/@takram/three-clouds/src/CloudsResolveMaterial.ts",
+          "node_modules/@takram/three-clouds/src/DensityProfile.ts",
+          "node_modules/@takram/three-clouds/src/LocalWeather.ts",
+          "node_modules/@takram/three-clouds/src/PassBase.ts",
+          "node_modules/@takram/three-clouds/src/Procedural3DTexture.ts",
+          "node_modules/@takram/three-clouds/src/ProceduralTexture.ts",
+          "node_modules/@takram/three-clouds/src/ShaderArrayPass.ts",
+          "node_modules/@takram/three-clouds/src/ShadowMaterial.ts",
+          "node_modules/@takram/three-clouds/src/ShadowPass.ts",
+          "node_modules/@takram/three-clouds/src/ShadowResolveMaterial.ts",
+          "node_modules/@takram/three-clouds/src/Turbulence.ts",
+          "node_modules/@takram/three-clouds/src/bayer.ts",
+          "node_modules/@takram/three-clouds/src/constants.ts",
+          "node_modules/@takram/three-clouds/src/helpers/FrustumCorners.ts",
+          "node_modules/@takram/three-clouds/src/helpers/setArrayRenderTargetLayers.ts",
+          "node_modules/@takram/three-clouds/src/helpers/splitFrustum.ts",
+          "node_modules/@takram/three-clouds/src/index.ts",
+          "node_modules/@takram/three-clouds/src/qualityPresets.ts",
+          "node_modules/@takram/three-clouds/src/shaders/catmullRomSampling.glsl",
+          "node_modules/@takram/three-clouds/src/shaders/cloudShape.frag",
+          "node_modules/@takram/three-clouds/src/shaders/cloudShapeDetail.frag",
+          "node_modules/@takram/three-clouds/src/shaders/clouds.frag",
+          "node_modules/@takram/three-clouds/src/shaders/clouds.glsl",
+          "node_modules/@takram/three-clouds/src/shaders/clouds.vert",
+          "node_modules/@takram/three-clouds/src/shaders/cloudsEffect.frag",
+          "node_modules/@takram/three-clouds/src/shaders/cloudsResolve.frag",
+          "node_modules/@takram/three-clouds/src/shaders/cloudsResolve.vert",
+          "node_modules/@takram/three-clouds/src/shaders/localWeather.frag",
+          "node_modules/@takram/three-clouds/src/shaders/parameters.glsl",
+          "node_modules/@takram/three-clouds/src/shaders/perlin.glsl",
+          "node_modules/@takram/three-clouds/src/shaders/shadow.frag",
+          "node_modules/@takram/three-clouds/src/shaders/shadow.vert",
+          "node_modules/@takram/three-clouds/src/shaders/shadowResolve.frag",
+          "node_modules/@takram/three-clouds/src/shaders/shadowResolve.vert",
+          "node_modules/@takram/three-clouds/src/shaders/structuredSampling.glsl",
+          "node_modules/@takram/three-clouds/src/shaders/tileableNoise.glsl",
+          "node_modules/@takram/three-clouds/src/shaders/turbulence.frag",
+          "node_modules/@takram/three-clouds/src/shaders/types.glsl",
+          "node_modules/@takram/three-clouds/src/shaders/varianceClipping.glsl",
+          "node_modules/@takram/three-clouds/src/uniforms.ts",
+          "node_modules/@takram/three-geospatial-effects/src/DepthEffect.ts",
+          "node_modules/@takram/three-geospatial-effects/src/DitheringEffect.ts",
+          "node_modules/@takram/three-geospatial-effects/src/DownsampleThresholdMaterial.ts",
+          "node_modules/@takram/three-geospatial-effects/src/GeometryEffect.ts",
+          "node_modules/@takram/three-geospatial-effects/src/GeometryPass.ts",
+          "node_modules/@takram/three-geospatial-effects/src/LensFlareEffect.ts",
+          "node_modules/@takram/three-geospatial-effects/src/LensFlareFeaturesMaterial.ts",
+          "node_modules/@takram/three-geospatial-effects/src/NormalEffect.ts",
+          "node_modules/@takram/three-geospatial-effects/src/createHaldLookupTexture.ts",
+          "node_modules/@takram/three-geospatial-effects/src/index.ts",
+          "node_modules/@takram/three-geospatial-effects/src/setupMaterialsForGeometryPass.ts",
+          "node_modules/@takram/three-geospatial-effects/src/shaders/depthEffect.frag",
+          "node_modules/@takram/three-geospatial-effects/src/shaders/ditheringEffect.frag",
+          "node_modules/@takram/three-geospatial-effects/src/shaders/downsampleThreshold.frag",
+          "node_modules/@takram/three-geospatial-effects/src/shaders/downsampleThreshold.vert",
+          "node_modules/@takram/three-geospatial-effects/src/shaders/geometryEffect.frag",
+          "node_modules/@takram/three-geospatial-effects/src/shaders/lensFlareEffect.frag",
+          "node_modules/@takram/three-geospatial-effects/src/shaders/lensFlareFeatures.frag",
+          "node_modules/@takram/three-geospatial-effects/src/shaders/lensFlareFeatures.vert",
+          "node_modules/@takram/three-geospatial-effects/src/shaders/normalEffect.frag",
+          "node_modules/@takram/three-geospatial/src/ArrayBufferLoader.ts",
+          "node_modules/@takram/three-geospatial/src/DataLoader.ts",
+          "node_modules/@takram/three-geospatial/src/EXR3DLoader.ts",
+          "node_modules/@takram/three-geospatial/src/Ellipsoid.ts",
+          "node_modules/@takram/three-geospatial/src/EllipsoidGeometry.ts",
+          "node_modules/@takram/three-geospatial/src/Geodetic.ts",
+          "node_modules/@takram/three-geospatial/src/PointOfView.ts",
+          "node_modules/@takram/three-geospatial/src/Rectangle.ts",
+          "node_modules/@takram/three-geospatial/src/STBNLoader.ts",
+          "node_modules/@takram/three-geospatial/src/Texture3DLoader.ts",
+          "node_modules/@takram/three-geospatial/src/TileCoordinate.ts",
+          "node_modules/@takram/three-geospatial/src/TilingScheme.ts",
+          "node_modules/@takram/three-geospatial/src/TypedArrayLoader.ts",
+          "node_modules/@takram/three-geospatial/src/assertions.ts",
+          "node_modules/@takram/three-geospatial/src/bufferGeometry.ts",
+          "node_modules/@takram/three-geospatial/src/constants.ts",
+          "node_modules/@takram/three-geospatial/src/decorators.ts",
+          "node_modules/@takram/three-geospatial/src/defineShorthand.ts",
+          "node_modules/@takram/three-geospatial/src/helpers/projectOnEllipsoidSurface.ts",
+          "node_modules/@takram/three-geospatial/src/index.ts",
+          "node_modules/@takram/three-geospatial/src/math.ts",
+          "node_modules/@takram/three-geospatial/src/resolveIncludes.ts",
+          "node_modules/@takram/three-geospatial/src/shaders/cascadedShadowMaps.glsl",
+          "node_modules/@takram/three-geospatial/src/shaders/depth.glsl",
+          "node_modules/@takram/three-geospatial/src/shaders/generators.glsl",
+          "node_modules/@takram/three-geospatial/src/shaders/index.ts",
+          "node_modules/@takram/three-geospatial/src/shaders/interleavedGradientNoise.glsl",
+          "node_modules/@takram/three-geospatial/src/shaders/math.glsl",
+          "node_modules/@takram/three-geospatial/src/shaders/packing.glsl",
+          "node_modules/@takram/three-geospatial/src/shaders/raySphereIntersection.glsl",
+          "node_modules/@takram/three-geospatial/src/shaders/transform.glsl",
+          "node_modules/@takram/three-geospatial/src/shaders/turbo.glsl",
+          "node_modules/@takram/three-geospatial/src/shaders/vogelDisk.glsl",
+          "node_modules/@takram/three-geospatial/src/typedArray.ts",
+          "node_modules/@takram/three-geospatial/src/typedArrayParsers.ts",
+          "node_modules/@takram/three-geospatial/src/types.ts",
+          "node_modules/@takram/three-geospatial/src/unrollLoops.ts"
         ],
         "assets": [
+          {
+            "sourcePath": "public/assets/atmosphere/irradiance.exr",
+            "localPath": "skills/threejs-volumetric-clouds/assets/weather-volume-clouds/atmosphere/irradiance.exr"
+          },
+          {
+            "sourcePath": "public/assets/atmosphere/scattering.exr",
+            "localPath": "skills/threejs-volumetric-clouds/assets/weather-volume-clouds/atmosphere/scattering.exr"
+          },
+          {
+            "sourcePath": "public/assets/atmosphere/transmittance.exr",
+            "localPath": "skills/threejs-volumetric-clouds/assets/weather-volume-clouds/atmosphere/transmittance.exr"
+          },
           {
             "sourcePath": "public/assets/clouds/local_weather.png",
             "localPath": "skills/threejs-volumetric-clouds/assets/weather-volume-clouds/local_weather.png"
@@ -775,12 +1004,11 @@
             "localPath": "skills/threejs-volumetric-clouds/assets/weather-volume-clouds/stbn.bin"
           }
         ],
-        "boundary": "reference-extraction",
-        "divergences": [
-          "the effect is implemented directly with Three.js GLSL3 and render targets instead of importing the reference packages",
-          "the inspection march uses 320 primary and five light samples instead of the production maximum of 500 and its full multiple-scattering octave stack",
-          "the gallery path uses 0.85-linear-resolution beauty and stationary variance-clipped history instead of Bayer reconstruction with velocity reprojection",
-          "cloud shadows are represented through the local directional optical-depth march rather than the separate structured-sampling cascaded shadow maps"
+        "mechanisms": [
+          "weather, shape, detail, turbulence, and STBN inputs drive one CloudsEffect volume",
+          "bounded cloud layers and cascaded cloud shadow maps are coupled into AerialPerspectiveEffect",
+          "NormalPass deferred lighting feeds atmosphere-aware cloud and sky composition",
+          "temporal reconstruction and native-resolution diagnostics expose the cloud reconstruction path"
         ]
       }
     ],

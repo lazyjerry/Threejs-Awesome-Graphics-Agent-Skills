@@ -7,6 +7,7 @@ import { createServer } from "node:http";
 import path from "node:path";
 import process from "node:process";
 import { fileURLToPath } from "node:url";
+import { transform } from "esbuild";
 import { discoverExamples } from "./discovery.mjs";
 
 const galleryRoot = path.dirname(fileURLToPath(import.meta.url));
@@ -28,6 +29,7 @@ const contentTypes = new Map([
   [".mjs", "text/javascript; charset=utf-8"],
   [".png", "image/png"],
   [".svg", "image/svg+xml"],
+  [".ts", "text/javascript; charset=utf-8"],
   [".wasm", "application/wasm"],
   [".webp", "image/webp"],
   [".wgsl", "text/plain; charset=utf-8"],
@@ -111,6 +113,66 @@ async function sendFile(request, response, filePath) {
   return true;
 }
 
+async function resolveServableFile(root, pathname) {
+  const target = safePath(root, pathname);
+  if (!target) return null;
+  if (await existingFile(target)) return target;
+  if (path.extname(target) !== "") return null;
+
+  for (const extension of [".ts", ".js", ".glsl", ".frag", ".vert"]) {
+    const candidate = `${target}${extension}`;
+    if (await existingFile(candidate)) return candidate;
+  }
+  return null;
+}
+
+async function sendRawModule(request, response, filePath) {
+  const source = await readFile(filePath, "utf8");
+  const payload = `export default ${JSON.stringify(source)};\n`;
+  response.writeHead(200, {
+    "content-type": "text/javascript; charset=utf-8",
+    "content-length": Buffer.byteLength(payload),
+    "cache-control": "no-store",
+    "x-content-type-options": "nosniff",
+  });
+  response.end(request.method === "HEAD" ? undefined : payload);
+  return true;
+}
+
+async function sendTypeScriptModule(request, response, filePath) {
+  const source = await readFile(filePath, "utf8");
+  const result = await transform(source, {
+    loader: "ts",
+    format: "esm",
+    target: "es2022",
+    legalComments: "none",
+    tsconfigRaw: {
+      compilerOptions: {
+        experimentalDecorators: true,
+        useDefineForClassFields: false,
+      },
+    },
+  });
+  response.writeHead(200, {
+    "content-type": "text/javascript; charset=utf-8",
+    "content-length": Buffer.byteLength(result.code),
+    "cache-control": "no-store",
+    "x-content-type-options": "nosniff",
+  });
+  response.end(request.method === "HEAD" ? undefined : result.code);
+  return true;
+}
+
+async function sendProjectModule(request, response, root, pathname, raw) {
+  const filePath = await resolveServableFile(root, pathname);
+  if (!filePath) return false;
+  if (raw) return sendRawModule(request, response, filePath);
+  if (path.extname(filePath) === ".ts") {
+    return sendTypeScriptModule(request, response, filePath);
+  }
+  return sendFile(request, response, filePath);
+}
+
 export function createExampleGalleryServer({ includeFixtures = false } = {}) {
   return createServer(async (request, response) => {
     try {
@@ -120,6 +182,7 @@ export function createExampleGalleryServer({ includeFixtures = false } = {}) {
       }
 
       const url = new URL(request.url ?? "/", "http://localhost");
+      const rawModule = url.search === "?raw" || url.searchParams.has("raw");
       if (url.pathname === "/api/examples") {
         const examples = await discoverExamples(projectRoot, { includeFixtures });
         const payload = JSON.stringify(
@@ -146,11 +209,15 @@ export function createExampleGalleryServer({ includeFixtures = false } = {}) {
       }
 
       if (url.pathname.startsWith("/gallery/")) {
-        const target = safePath(
-          publicRoot,
-          url.pathname.slice("/gallery".length),
-        );
-        if (target && await sendFile(request, response, target)) return;
+        if (
+          await sendProjectModule(
+            request,
+            response,
+            publicRoot,
+            url.pathname.slice("/gallery".length),
+            rawModule,
+          )
+        ) return;
       }
 
       const allowedProjectPrefixes = [
@@ -166,10 +233,15 @@ export function createExampleGalleryServer({ includeFixtures = false } = {}) {
           url.pathname.startsWith(prefix)
         )
       ) {
-        const projectTarget = safePath(projectRoot, url.pathname);
-        if (projectTarget && await sendFile(request, response, projectTarget)) {
-          return;
-        }
+        if (
+          await sendProjectModule(
+            request,
+            response,
+            projectRoot,
+            url.pathname,
+            rawModule,
+          )
+        ) return;
       }
 
       response.writeHead(404, { "content-type": "text/plain; charset=utf-8" });

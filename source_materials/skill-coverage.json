@@ -54,7 +54,7 @@
     "threejs-procedural-architecture": {
       "classification": "example-required",
       "evidence": [
-        "threejs-procedural-architecture/authored-financial-tower"
+        "threejs-procedural-architecture/procedural-financial-tower"
       ],
       "rationale": "Massing, exposed-edge analysis, façade grammar, semantic modules, and grouped mesh emission require implementation evidence."
     },
@@ -70,7 +70,7 @@
       "evidence": [
         "threejs-procedural-geometry/sculpted-gallery-frame",
         "threejs-procedural-vegetation/structured-ash-growth",
-        "threejs-procedural-architecture/authored-financial-tower"
+        "threejs-procedural-architecture/procedural-financial-tower"
       ],
       "rationale": "Profile sweeps, branch rings, and semantic mesh compilation cannot be reconstructed reliably from prose alone."
     },
@@ -124,7 +124,7 @@
     "threejs-shadow-systems": {
       "classification": "example-required",
       "evidence": [
-        "threejs-procedural-architecture/authored-financial-tower"
+        "threejs-procedural-architecture/procedural-financial-tower"
       ],
       "rationale": "Clipmap coverage, texel snapping, cache state, cross-fades, and invalidation need a visible inspection surface."
     },

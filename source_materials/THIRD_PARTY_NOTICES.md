@@ -78,5 +78,30 @@ in `source_materials/trace-manifest.json`.
 - Used in: `skills/threejs-precipitation-surfaces/examples/wet-puddle-rain/`
 - Includes the shader noise helpers needed by the copied rain puddle material.
 
+## @takram Three.js geospatial packages
+
+- Source: https://www.npmjs.com/package/@takram/three-atmosphere,
+  https://www.npmjs.com/package/@takram/three-clouds,
+  https://www.npmjs.com/package/@takram/three-geospatial, and
+  https://www.npmjs.com/package/@takram/three-geospatial-effects
+- License: MIT
+- Used in:
+  - `skills/threejs-atmosphere-aerial-perspective/examples/lut-aerial-perspective/`
+  - `skills/threejs-volumetric-clouds/examples/weather-volume-clouds/`
+- Includes copied readable source implementation files for sky, aerial
+  perspective, sun and sky lighting, geospatial coordinate helpers, volumetric
+  clouds, cloud shadow maps, blue-noise loading, lens flare, and dithering.
+
+## postprocessing
+
+- Source: https://www.npmjs.com/package/postprocessing
+- License: Zlib
+- Used in:
+  - `skills/threejs-atmosphere-aerial-perspective/examples/lut-aerial-perspective/`
+  - `skills/threejs-volumetric-clouds/examples/weather-volume-clouds/`
+- Referenced as a dev-gallery runtime dependency for composer,
+  render/effect/normal passes, and tone-mapping effects required by the copied
+  source examples. Its package build output is not copied into skill examples.
+
 Additional bundled asset folders may include local `THIRD_PARTY_LICENSES.md`
 files with asset-specific notices.
