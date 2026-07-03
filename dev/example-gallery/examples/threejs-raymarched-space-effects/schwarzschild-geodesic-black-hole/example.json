@@ -1,0 +1,51 @@
+{
+  "title": "Schwarzschild Geodesic Black Hole",
+  "description": "A full-screen WebGL black hole renderer with RK2 null-geodesic integration, interpolated equatorial disk crossings, relativistic disk emission, lensed procedural deep field, and HDR bloom composition.",
+  "backend": "WebGL / GLSL geodesic renderer",
+  "techniques": [
+    "RK2 midpoint null-geodesic integration",
+    "adaptive step size with horizon capture and escape termination",
+    "interpolated equatorial accretion-disk crossings",
+    "Keplerian shear, Doppler beaming, gravitational redshift, and blackbody disk color",
+    "procedural deep-field background sampled by escaped ray direction",
+    "half-float HDR target with brightpass, separable blur, ACES composite, aberration, vignette, and grain"
+  ],
+  "defaultViewport": {
+    "width": 1440,
+    "height": 900
+  },
+  "defaultDpr": 1,
+  "debugModes": [
+    {
+      "value": "final",
+      "label": "Final"
+    },
+    {
+      "value": "escape-direction",
+      "label": "Escape direction"
+    },
+    {
+      "value": "transmittance",
+      "label": "Transmittance"
+    },
+    {
+      "value": "disk-crossing",
+      "label": "Disk crossing"
+    },
+    {
+      "value": "closest-approach",
+      "label": "Closest approach"
+    },
+    {
+      "value": "step-count",
+      "label": "Step count"
+    }
+  ],
+  "controls": [
+    "pause",
+    "timeScale",
+    "dpr",
+    "debugMode",
+    "capture"
+  ]
+}

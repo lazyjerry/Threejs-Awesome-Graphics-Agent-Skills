@@ -517,7 +517,8 @@
         "src/three/scenes/08MillersPlanetScene.js": "0b8c160297d69db5b204668357bb18a2286829bd29e9f4be1ea55bf012eac0fe",
         "src/three/scenes/09MannsPlanetScene.js": "cc9b8cc6d91876f3890ef0b7ead6d38b76bea4353012174681966496df50bc5e",
         "src/three/scenes/10SpinDockingScene.js": "63d6bd03083a6caf90110adb99aa379e48faac95780ca033d58fe6eb54b6d47a",
-        "src/three/scenes/11GargantuaSlingshotScene.js": "ab7b3d76323061ac8ed7092ab4cf8492a6821b95e5217a08833d083a77973382"
+        "src/three/scenes/11GargantuaSlingshotScene.js": "ab7b3d76323061ac8ed7092ab4cf8492a6821b95e5217a08833d083a77973382",
+        "blackhole.html": "da289ff15c8ea31db03efefdcb4b8dbbe8cd3a83095a329d3835e4b52ef926bb"
       },
       "assets": {
         "public/textures/noise_deep.png": "bd5a1339eff491cc769c7832013ad29051afa43b7e64bd6ba799bd83fc33d729"

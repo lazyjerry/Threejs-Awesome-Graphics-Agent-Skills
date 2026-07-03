@@ -687,6 +687,28 @@
         ]
       }
     ],
+    "threejs-raymarched-space-effects/schwarzschild-geodesic-black-hole": [
+      {
+        "source": "interstellar-three",
+        "files": [
+          "blackhole.html"
+        ],
+        "mechanisms": [
+          "400-iteration bounded RK2 midpoint null-geodesic loop with 120, 200, and 320 step quality tiers",
+          "adaptive step length clamped from horizon distance with explicit horizon capture and far-field escape termination",
+          "equatorial-plane crossing interpolation for accretion disk hits, including repeated crossings after strong bending",
+          "Keplerian-sheared FBM disk density with radial emissivity, Doppler beaming, gravitational redshift, and blackbody color",
+          "escaped-ray procedural deep field with layered stars, nebula, and post-integration lensing lookup",
+          "half-float HDR scene target, soft-knee brightpass, half- and quarter-resolution separable bloom, ACES composite, chromatic aberration, vignette, and grain"
+        ],
+        "boundary": "reference-extraction",
+        "divergences": [
+          "the source HUD, audio drone, screenshot button, and canvas-owned adaptive resolution are gallery/runtime concerns and are not part of the reusable skill example",
+          "the final render math is preserved while neutral API preset names replace presentation labels that would leak development context",
+          "diagnostic modes expose escape direction, transmittance, disk crossings, closest approach, and step count without changing the final render branch"
+        ]
+      }
+    ],
     "threejs-spectral-ocean/hybrid-clear-water-ocean": [
       {
         "source": "ocean-threejs",

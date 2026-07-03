@@ -44,6 +44,12 @@ input.
 | [scottstts/Interstellar.three.js](https://github.com/scottstts/Interstellar.three.js) | `0c9c4635f9e0cbcb1598a2af8914c3086f8629a3` | wormhole integration, black-hole lensing/accretion and `noise_deep.png`, analytic ocean waves and normals, scene-owned lenses, pointer look, floating-origin framing, launch kinematics, staging, spin docking, spring convergence, rotating-frame debris | `$threejs-raymarched-space-effects`, `$threejs-water-optics`, `$threejs-camera-direction`, `$threejs-procedural-animation` |
 | [scottstts/mysite_React](https://github.com/scottstts/mysite_React) | `98bb4ad75561aaf7263dbc6c92e2d66268f69f43` | `ArtInLifeGallery.tsx`: sculpted frame/rail geometry, procedural metal texture, selective bloom, instanced chandelier and placeholders, shadow invalidation, adaptive DPR | `$threejs-procedural-geometry`, `$threejs-procedural-materials`, `$threejs-bloom`, `$threejs-visual-validation` |
 
+### Author-supplied local files
+
+| File | SHA-256 | Reviewed areas | Mechanisms distilled into |
+| --- | --- | --- | --- |
+| `source_materials/blackhole.html` | `da289ff15c8ea31db03efefdcb4b8dbbe8cd3a83095a329d3835e4b52ef926bb` | single-file WebGL black-hole renderer: RK2 Schwarzschild null-geodesic loop, exact equatorial disk crossing, Doppler/redshift disk shading, procedural deep field, HDR brightpass/blur/composite pipeline, camera/orbit/HUD separation | `$threejs-raymarched-space-effects` |
+
 ### Local-project findings retained
 
 - Shared procedural causes produce stronger materials than independent noise per channel.
@@ -572,7 +578,7 @@ These sources are paraphrased. Official documentation remains the authority for 
 | `$threejs-water-optics` | MyCraft and Interstellar.three.js analytic/optical comparisons; `threejs-water`, `FFTOCEAN`; GPU Gems |
 | `$threejs-atmosphere-aerial-perspective` | `jeantimex/geospatial`, Stellar, `three-geospatial`, atmosphere references |
 | `$threejs-volumetric-clouds` | `jeantimex/geospatial`, `three-geospatial` |
-| `$threejs-raymarched-space-effects` | interstellarThreeJS |
+| `$threejs-raymarched-space-effects` | interstellarThreeJS; local Schwarzschild black-hole HTML |
 | `$threejs-procedural-vfx` | Stellar, `mecs-tower-defense-example` |
 | `$threejs-temporal-surfaces` | `frozen`, conceptual only |
 | `$threejs-shadow-systems` | MyCraft, `procedural-bank` |

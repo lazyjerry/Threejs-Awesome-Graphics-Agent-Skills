@@ -110,9 +110,10 @@
     "threejs-raymarched-space-effects": {
       "classification": "example-required",
       "evidence": [
-        "threejs-raymarched-space-effects/curved-ray-accretion-volume"
+        "threejs-raymarched-space-effects/curved-ray-accretion-volume",
+        "threejs-raymarched-space-effects/schwarzschild-geodesic-black-hole"
       ],
-      "rationale": "Numerical curved-ray integration and volumetric disk accumulation require inspectable implementation."
+      "rationale": "Numerical curved-ray integration, geodesic termination, disk crossings, and volumetric disk accumulation require inspectable implementation."
     },
     "threejs-screen-space-ambient-occlusion": {
       "classification": "reference-sufficient",
