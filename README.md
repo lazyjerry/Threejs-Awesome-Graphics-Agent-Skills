@@ -73,7 +73,7 @@ npx threejs-awesome-graphics-agent-skills@latest install --agent cursor
 npx threejs-awesome-graphics-agent-skills@latest install --agent github-copilot --scope project
 
 # Any custom-built agent
-npx threejs-awesome-graphics-agent-skills@latest install --agent custom --path <designated_agent_skills_dir>
+npx threejs-awesome-graphics-agent-skills@latest install --agent custom --path designated-agent-skills-dir
 
 # Force a reinstall of the exact currently installed version
 npx threejs-awesome-graphics-agent-skills@latest install --agent gemini-cli --force
