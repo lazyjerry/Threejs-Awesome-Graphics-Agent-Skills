@@ -76,9 +76,6 @@ function lineCount(text) {
 const packageJson = JSON.parse(
   await readFile(path.join(root, "package.json"), "utf8"),
 );
-const pluginJson = JSON.parse(
-  await readFile(path.join(root, ".codex-plugin", "plugin.json"), "utf8"),
-);
 const readme = await readFile(path.join(root, "README.md"), "utf8");
 const sourceManifest = await readFile(
   path.join(root, "source_materials", "README.md"),
@@ -462,18 +459,6 @@ if (
 ) {
   errors.push("package.json: installer bin entry is missing or noncanonical");
 }
-if (pluginJson.name !== packageJson.name) {
-  errors.push("plugin.json: name must match package.json");
-}
-if (pluginJson.version !== packageJson.version) {
-  errors.push("plugin.json: version must match package.json");
-}
-if (pluginJson.skills !== "./skills/") {
-  errors.push("plugin.json: skills must point to ./skills/");
-}
-if (pluginJson.interface?.displayName !== officialDisplayName) {
-  errors.push("plugin.json: displayName must use the official skill-pack name");
-}
 if (!readme.startsWith(`# ${officialDisplayName}\n`)) {
   errors.push("README: title must use the official skill-pack name");
 }
@@ -640,7 +625,6 @@ const packagedSurfaceFiles = [
   ...allSkillFiles,
   path.join(root, "README.md"),
   path.join(root, "package.json"),
-  path.join(root, ".codex-plugin", "plugin.json"),
   path.join(root, "bin", "threejs-awesome-graphics-agent-skills.mjs"),
 ];
 const productTextFiles = packagedSurfaceFiles.filter((file) =>
@@ -730,7 +714,6 @@ const staleSkillNames = [
 ];
 const activeSurface = [
   readme,
-  JSON.stringify(pluginJson),
   routerText,
   installer,
   ...await Promise.all(

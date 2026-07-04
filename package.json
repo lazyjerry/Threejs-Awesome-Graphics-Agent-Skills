@@ -27,7 +27,6 @@
     "threejs-awesome-graphics-agent-skills": "bin/threejs-awesome-graphics-agent-skills.mjs"
   },
   "files": [
-    ".codex-plugin/",
     "bin/",
     "skills/",
     "LICENSE",
