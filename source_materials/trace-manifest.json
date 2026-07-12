@@ -611,6 +611,64 @@
         "public/decals/trash/shmpulh_4K_Opacity.jpg": "56a256f8a606b5c5f3a0a972082c7e6acfb4fa60c56f40c2b06ff6c17e7932bd",
         "public/decals/trash/shmpulh_4K_Roughness.jpg": "2a91b3a2f8b44e402acb3f7615564de317a70c456269d4f2b57267514f47d05c"
       }
+    },
+    "grass-system-threejs": {
+      "repository": "https://github.com/achrefelouafi/GrassSystemThreeJS",
+      "revision": "b236b2a38d9f35daa2ddc7b0152544b10e635d0c",
+      "license": "MIT",
+      "localDirectory": "GrassSystemThreeJS",
+      "files": {
+        "src/main.js": "1d3877890f82bc1d0b23578e32e7aa64ef8fea47710f83d84971182efe12b7e1",
+        "src/model.js": "12f9e73bf2f65f76e8ca4a9f3b50902f7a4625b0258c9fcc8b3a08ec006a3f92"
+      },
+      "assets": {
+        "public/Ground103_1K-JPG_AmbientOcclusion.jpg": "65d0133735424d6fa95c75ab609220c61a24c7e98181eaf11a2681b8fa6f1407",
+        "public/Ground103_1K-JPG_Color.jpg": "22650b378d43e7f62bf32c23aebf39a735c5e978ac27fac39827e142e6bd9ddf",
+        "public/Ground103_1K-JPG_Displacement.jpg": "fa8f9304f901311dfb2c31f79408d32a3f9162cd7f3c4c03ae832ebb832f5877",
+        "public/Ground103_1K-JPG_NormalGL.jpg": "bacada95d04b753497e2ce3d76513f6276ae65ab9e71c49cdd18c1bb2328009f",
+        "public/Ground103_1K-JPG_Roughness.jpg": "09ba24fddb8241670d053a22e62ae6f304c2d0b9c21f6d75e06cf3a26b0795fb",
+        "public/Moss002_1K-JPG_AmbientOcclusion.jpg": "bf9f86b24612ee8fbb5fb2929dd5efcf09ced40005f10837dbeef49029e30952",
+        "public/Moss002_1K-JPG_Color.jpg": "312506c2ea4cc474273dbabbf6287f1b60ec104ce0f8fbbbfa5a6e76d48d7edc",
+        "public/Moss002_1K-JPG_NormalGL.jpg": "10f00f2bfc8a96e1b3995a727fee60d485e69354c75fcea48b50537e611b87a2",
+        "public/Moss002_1K-JPG_Roughness.jpg": "39076f9a2b1ce98ca789c918bd986cfbebea9afef37be656d17cf1ba49165088",
+        "public/old_rusty_car_2.glb": "43788a212349c895aa6d197e2bb0f0de8f0241037935fd624d5ecddb837fb920"
+      }
+    },
+    "vegetation-generator-threejs": {
+      "repository": "https://github.com/achrefelouafi/VegetationGeneratorThreeJS",
+      "revision": "f6c26004c0763011248a65725a56ed28339fdf91",
+      "license": "MIT",
+      "localDirectory": "VegetationGeneratorThreeJS",
+      "files": {
+        "src/ivy.ts": "aec1d415c64e43f0be279d95d82d61257e684fe915c6a51a7350abfc28ba191a",
+        "src/flowers.ts": "9bd9588210d00b63081d0c3e91d299021d037d2c0f7c04f829cfe6780ebcbfed",
+        "src/leafTexture.ts": "efce494591d4e07cc1d73f4f4ff33599df85a9401f0d6121d88e5907551108c7",
+        "src/wind.ts": "dfd0847dfe36d255a08f64c6208e85452f08ac9d41dadd6530fcf480e6298449",
+        "src/bvh.ts": "3cbc4d8fef8efc9296c54e776071b34ca8964a22658df84c1d21f451a83ed782"
+      }
+    },
+    "rainy-window": {
+      "repository": "https://github.com/rocksdanister/rain",
+      "revision": "55d90619c2ba0cfc68c81f6b39f8d2dc64e8072b",
+      "license": "MIT by project rule (no license file observed)",
+      "localDirectory": "rain",
+      "files": {
+        "js/script.js": "ac15b78aeb3abfee2a1bf61bdca9c5885fc72f9018a9f501b597d73da8a7886c",
+        "shaders/rain.frag": "51f472c1ea4b7a35a79416baa0c50087f777f99d29705c8f8a7f84087a2f9a9d"
+      },
+      "assets": {
+        "media/image.webp": "a1ac8409341ef4c74b34edf7acfd47127e722b27d82e3c5db4815ef7553af047"
+      }
+    },
+    "threejs-silhouette-pom": {
+      "repository": "https://github.com/SkyeShark/threejs-silhouette-pom",
+      "revision": "5b5b48749aab3237e6788a93d84f324995cfeab0",
+      "license": "MIT",
+      "localDirectory": "threejs-silhouette-pom",
+      "files": {
+        "ParallaxOcclusion.js": "c446e5e256f0429725a4453fd370c61a287e079bfcf1040802e61e298322e22a",
+        "index.html": "77563f84bece835e3e89ea41222acb1799acb41f1175006d794291f5270bfa7f"
+      }
     }
   }
 }

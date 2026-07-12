@@ -1107,6 +1107,80 @@
           "complex mesh and box displacement strategies are documented by the trace but omitted from the focused runnable example"
         ]
       }
+    ],
+    "threejs-procedural-materials/hybrid-soil-moss-surface": [
+      {
+        "source": "grass-system-threejs",
+        "files": ["src/main.js", "src/model.js"],
+        "mechanisms": [
+          "five-octave simplex mound field shared by vertex displacement and finite-difference macro normals",
+          "coverage-thresholded broad mounds with fine drift and edge taper",
+          "texture-backed PBR soil albedo, AO, roughness, and normal identity with the copied displacement map disabled",
+          "world-space tone and moisture masks coupling albedo and roughness",
+          "warped two-scale Worley cracks coupling albedo, roughness, and groove normals",
+          "world-space FBM ground moss mask shared by displaced moss height and PBR moss shading",
+          "model-locked upward-facing moss accumulation with displaced thickness and shared moss identity"
+        ],
+        "assets": [
+          { "sourcePath": "public/Ground103_1K-JPG_AmbientOcclusion.jpg", "localPath": "skills/threejs-procedural-materials/assets/hybrid-soil-moss-surface/Ground103_1K-JPG_AmbientOcclusion.jpg" },
+          { "sourcePath": "public/Ground103_1K-JPG_Color.jpg", "localPath": "skills/threejs-procedural-materials/assets/hybrid-soil-moss-surface/Ground103_1K-JPG_Color.jpg" },
+          { "sourcePath": "public/Ground103_1K-JPG_Displacement.jpg", "localPath": "skills/threejs-procedural-materials/assets/hybrid-soil-moss-surface/Ground103_1K-JPG_Displacement.jpg" },
+          { "sourcePath": "public/Ground103_1K-JPG_NormalGL.jpg", "localPath": "skills/threejs-procedural-materials/assets/hybrid-soil-moss-surface/Ground103_1K-JPG_NormalGL.jpg" },
+          { "sourcePath": "public/Ground103_1K-JPG_Roughness.jpg", "localPath": "skills/threejs-procedural-materials/assets/hybrid-soil-moss-surface/Ground103_1K-JPG_Roughness.jpg" },
+          { "sourcePath": "public/Moss002_1K-JPG_AmbientOcclusion.jpg", "localPath": "skills/threejs-procedural-materials/assets/hybrid-soil-moss-surface/moss/Moss002_1K-JPG_AmbientOcclusion.jpg" },
+          { "sourcePath": "public/Moss002_1K-JPG_Color.jpg", "localPath": "skills/threejs-procedural-materials/assets/hybrid-soil-moss-surface/moss/Moss002_1K-JPG_Color.jpg" },
+          { "sourcePath": "public/Moss002_1K-JPG_NormalGL.jpg", "localPath": "skills/threejs-procedural-materials/assets/hybrid-soil-moss-surface/moss/Moss002_1K-JPG_NormalGL.jpg" },
+          { "sourcePath": "public/Moss002_1K-JPG_Roughness.jpg", "localPath": "skills/threejs-procedural-materials/assets/hybrid-soil-moss-surface/moss/Moss002_1K-JPG_Roughness.jpg" },
+          { "sourcePath": "public/old_rusty_car_2.glb", "localPath": "dev/example-gallery/examples/threejs-precipitation-surfaces/snow-accumulation/assets/old_rusty_car_2.glb" }
+        ],
+        "boundary": "reference-extraction",
+        "divergences": ["the example is named as a hybrid PBR/procedural material because soil and moss identity remain texture-backed", "grass, clouds, post-processing, and GUI are omitted", "the rusty-car GLB is reused from the existing gallery asset instead of copied again", "diagnostic branches are added without changing the final material path"]
+      }
+    ],
+    "threejs-procedural-vegetation/procedural-surface-ivy": [
+      {
+        "source": "vegetation-generator-threejs",
+        "files": ["src/ivy.ts", "src/flowers.ts", "src/leafTexture.ts", "src/wind.ts", "src/bvh.ts"],
+        "mechanisms": [
+          "seeded Catmull-Rom main stem repeatedly reprojected onto arbitrary target meshes",
+          "tangent-plane creep, alternating recursive branches, surface loss droop, and BVH first-hit acceleration",
+          "parallel-transport tube geometry with ordered draw ranges for growth",
+          "instanced leaves with procedural cutout texture and petiole-hinge wind",
+          "instanced bud-to-umbel bloom spring and deterministic growth reveal"
+        ],
+        "boundary": "reference-extraction",
+        "divergences": ["the gallery owns a deterministic pre-authored stroke instead of pointer painting UI", "tree mode, app controls, HUD, and imported-model workflow are omitted", "the original TypeScript modules are copied byte-for-byte and a thin entry module only re-exports them for the gallery transpiler"]
+      }
+    ],
+    "threejs-temporal-surfaces/refractive-window-rain": [
+      {
+        "source": "rainy-window",
+        "files": ["js/script.js", "shaders/rain.frag"],
+        "mechanisms": [
+          "static plus two travelling droplet layers with hashed cell offsets and trail droplets",
+          "finite-difference coverage normal driving background refraction",
+          "stochastic disc blur with runtime iteration budget",
+          "aspect-fill correction, cool color shift, optional lightning, vignette, and brightness"
+        ],
+        "assets": [{ "sourcePath": "media/image.webp", "localPath": "dev/example-gallery/examples/threejs-temporal-surfaces/refractive-window-rain/assets/background.webp" }],
+        "boundary": "reference-extraction",
+        "divergences": ["the original fragment shader is copied byte-for-byte", "the gallery preserves the fixed fullscreen orthographic pass and disables camera interaction", "wallpaper integration, file picker, GUI, and video background handling remain dev/runtime concerns"]
+      }
+    ],
+    "threejs-parallax-occlusion-mapping/silhouette-relief": [
+      {
+        "source": "threejs-silhouette-pom",
+        "files": ["ParallaxOcclusion.js", "index.html"],
+        "mechanisms": [
+          "adaptive tangent-space TSL height march with final-layer interpolation and gradient-safe sampling",
+          "bounded flat and curvature-aware silhouette coverage with horizon chase and trimming",
+          "inflated curved shells that keep the height-field floor on the base surface",
+          "central-difference relief normals and a second light-ray self-shadow march",
+          "maskShadowNode carving plus marched shadow depth and received-shadow positions"
+        ],
+        "boundary": "reference-extraction",
+        "divergences": ["ParallaxOcclusion.js is copied byte-for-byte", "the gallery retains the full procedural wall, deck, columns, and two-pipe composition", "GUI, inspector, and optional bloom are omitted while the camera is constrained above the deck"]
+      }
     ]
   }
 }

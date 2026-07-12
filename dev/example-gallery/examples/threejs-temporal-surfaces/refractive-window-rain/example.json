@@ -1,0 +1,20 @@
+{
+  "title": "Refractive Window Rain",
+  "description": "Layered static and travelling window droplets derive an optical normal that refracts and stochastically blurs a background image, with aspect-fill, color shift, vignette, and lightning presentation.",
+  "backend": "WebGL2 / GLSL refractive surface",
+  "techniques": [
+    "layered hashed droplet and trail field",
+    "finite-difference optical normals",
+    "background refraction and stochastic disc blur",
+    "aspect-correct background fill"
+  ],
+  "defaultViewport": { "width": 1440, "height": 900 },
+  "defaultDpr": 1,
+  "debugModes": [
+    { "value": "final", "label": "Final" },
+    { "value": "drops", "label": "Unblurred Drops" },
+    { "value": "raw", "label": "Raw Color" },
+    { "value": "no-refraction", "label": "No Refraction" }
+  ],
+  "controls": ["pause", "timeScale", "dpr", "debugMode", "capture"]
+}

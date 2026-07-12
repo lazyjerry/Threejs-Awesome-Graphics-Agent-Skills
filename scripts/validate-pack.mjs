@@ -13,6 +13,7 @@ const errors = [];
 const execFileAsync = promisify(execFile);
 const officialPackageName = "threejs-awesome-graphics-agent-skills";
 const officialDisplayName = "Three.js Awesome Graphics Agent Skills";
+const officialRepositoryIdentity = "scottstts/Threejs-Awesome-Graphics-Agent-Skills";
 const developmentSourcePatterns = [
   /procedural-bank/i,
   /\bez-tree\b/i,
@@ -634,12 +635,15 @@ const productTextFiles = packagedSurfaceFiles.filter((file) =>
 for (const productFile of productTextFiles) {
   const relative = path.relative(root, productFile);
   const text = await readFile(productFile, "utf8");
+  const identityText = relative === "README.md"
+    ? text.replaceAll(officialRepositoryIdentity, "")
+    : text;
   if (relative !== "package.json" && (developmentSourcePathPattern.test(relative) || developmentSourcePathPattern.test(text))) {
     errors.push(`${relative}: leaks development-source path or trace metadata`);
     continue;
   }
   for (const pattern of developmentSourcePatterns) {
-    if (pattern.test(relative) || pattern.test(text)) {
+    if (pattern.test(relative) || pattern.test(identityText)) {
       errors.push(`${relative}: leaks development-source identity (${pattern})`);
       break;
     }

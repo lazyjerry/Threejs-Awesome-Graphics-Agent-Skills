@@ -80,9 +80,10 @@
         "threejs-procedural-geometry/sculpted-gallery-frame",
         "threejs-procedural-planets/procedural-planet-surface",
         "threejs-water-optics/analytic-wave-optics",
-        "threejs-procedural-materials/lava-flow-surface"
+        "threejs-procedural-materials/lava-flow-surface",
+        "threejs-procedural-materials/hybrid-soil-moss-surface"
       ],
-      "rationale": "Material identity must be demonstrated under real geometry and lighting, including coupled procedural channels."
+      "rationale": "Material identity must be demonstrated under real geometry and lighting, including coupled texture-backed PBR and procedural channels."
     },
     "threejs-procedural-planets": {
       "classification": "example-required",
@@ -96,7 +97,8 @@
       "evidence": [
         "threejs-procedural-vegetation/structured-ash-growth",
         "threejs-procedural-vegetation/stylized-meadow-grass",
-        "threejs-procedural-vegetation/gpu-computed-grass"
+        "threejs-procedural-vegetation/gpu-computed-grass",
+        "threejs-procedural-vegetation/procedural-surface-ivy"
       ],
       "rationale": "Growth hierarchy, branch topology, foliage normals, and rooted wind require runnable source-matched evidence."
     },
@@ -136,6 +138,13 @@
       ],
       "rationale": "Routing metadata does not author graphics; it is verified by route reachability, ambiguity checks, and forward tests."
     },
+    "threejs-parallax-occlusion-mapping": {
+      "classification": "example-required",
+      "evidence": [
+        "threejs-parallax-occlusion-mapping/silhouette-relief"
+      ],
+      "rationale": "Adaptive height marching, silhouette coverage, curved sag, shell inflation, self-shadowing, and relief-aware shadow depth require runnable TSL implementation evidence."
+    },
     "threejs-spectral-ocean": {
       "classification": "example-required",
       "evidence": [
@@ -148,9 +157,10 @@
     "threejs-temporal-surfaces": {
       "classification": "example-required",
       "evidence": [
-        "threejs-temporal-surfaces/touch-history-frost"
+        "threejs-temporal-surfaces/touch-history-frost",
+        "threejs-temporal-surfaces/refractive-window-rain"
       ],
-      "rationale": "Ping-pong history, reduced blur, static structure, and two-scale refraction are implementation-critical."
+      "rationale": "Ping-pong history, static structure, layered procedural droplets, optical normals, blur, and refraction are implementation-critical."
     },
     "threejs-visual-validation": {
       "classification": "tooling",

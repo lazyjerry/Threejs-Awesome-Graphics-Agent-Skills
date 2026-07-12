@@ -1,0 +1,10 @@
+{
+  "title": "Silhouette Relief POM",
+  "description": "The complete relief-built bulkhead uses one procedural wall tile, a panelled deck, curved service columns, and overhead pipes with silhouette-aware TSL parallax occlusion mapping, self-shadowing, and relief-aware shadow depth.",
+  "backend": "WebGPU / TSL node materials",
+  "techniques": ["procedural packed wall floor and column height maps", "adaptive tangent-space height march", "flat and curved silhouette clipping", "inflated relief shells", "height-derived normals", "light-ray self-shadow march", "relief-aware shadow depth"],
+  "defaultViewport": { "width": 1440, "height": 900 },
+  "defaultDpr": 1,
+  "debugModes": [{ "value": "final", "label": "Final" }, { "value": "flat", "label": "Zero Relief" }, { "value": "no-shadow", "label": "No Cast Shadow" }, { "value": "grazing", "label": "Grazing View" }],
+  "controls": ["orbit", "pan", "pause", "dpr", "debugMode", "capture"]
+}

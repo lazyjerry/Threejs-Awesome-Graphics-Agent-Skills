@@ -146,6 +146,51 @@
       ]
     },
     {
+      "request": "Render procedural rain droplets on a window that refract and blur the background image.",
+      "routes": [
+        {
+          "skill": "threejs-temporal-surfaces",
+          "signals": ["wet-window rain", "droplet refraction", "view-aligned blur"]
+        }
+      ]
+    },
+    {
+      "request": "Grow deterministic ivy along a painted path over arbitrary mesh surfaces with hinged leaf wind.",
+      "routes": [
+        {
+          "skill": "threejs-procedural-vegetation",
+          "signals": ["surface-following ivy", "painted vines", "petiole-hinge wind"]
+        }
+      ]
+    },
+    {
+      "request": "Combine PBR soil textures with procedural mound displacement, moisture patches, and dry-earth cracks.",
+      "routes": [
+        {
+          "skill": "threejs-procedural-materials",
+          "signals": ["hybrid texture-backed PBR soil/moss", "moisture", "dry-earth cracks"]
+        }
+      ]
+    },
+    {
+      "request": "Grow a procedural moss coverage field over texture-backed soil and settle the same moss onto upward-facing areas of an arbitrary model.",
+      "routes": [
+        {
+          "skill": "threejs-procedural-materials",
+          "signals": ["ground and model moss accumulation", "hybrid texture-backed PBR soil/moss"]
+        }
+      ]
+    },
+    {
+      "request": "Fake deep flange geometry with TSL parallax occlusion mapping that clips curved silhouettes and self-shadows.",
+      "routes": [
+        {
+          "skill": "threejs-parallax-occlusion-mapping",
+          "signals": ["silhouette-aware POM", "curved relief shells", "relief self-shadowing"]
+        }
+      ]
+    },
+    {
       "request": "Stabilize directional shadows over a moving large-world camera using cached clipmaps.",
       "routes": [
         {
@@ -223,7 +268,11 @@
     },
     {
       "skill": "threejs-procedural-materials",
-      "mustMention": ["$threejs-procedural-fields", "$threejs-procedural-planets"]
+      "mustMention": ["$threejs-procedural-fields", "$threejs-procedural-planets", "$threejs-parallax-occlusion-mapping"]
+    },
+    {
+      "skill": "threejs-parallax-occlusion-mapping",
+      "mustMention": ["$threejs-procedural-materials", "$threejs-procedural-geometry"]
     },
     {
       "skill": "threejs-procedural-geometry",

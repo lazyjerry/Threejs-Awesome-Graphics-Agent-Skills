@@ -101,7 +101,44 @@ in `source_materials/trace-manifest.json`.
   - `skills/threejs-volumetric-clouds/examples/weather-volume-clouds/`
 - Referenced as a dev-gallery runtime dependency for composer,
   render/effect/normal passes, and tone-mapping effects required by the copied
-  source examples. Its package build output is not copied into skill examples.
+source examples. Its package build output is not copied into skill examples.
+
+## achrefelouafi/GrassSystemThreeJS
+
+- Source: https://github.com/achrefelouafi/GrassSystemThreeJS
+- License: MIT
+- Used in: `skills/threejs-procedural-materials/examples/hybrid-soil-moss-surface/`
+- Includes adapted soil mound, tone, moisture, crack, raised ground moss,
+  model moss accumulation, PBR texture, and relief-normal mechanisms.
+- Bundled assets:
+  - `skills/threejs-procedural-materials/assets/hybrid-soil-moss-surface/`
+- Reused dev-only model asset:
+  - `dev/example-gallery/examples/threejs-precipitation-surfaces/snow-accumulation/assets/old_rusty_car_2.glb`
+
+## rocksdanister/rain
+
+- Source: https://github.com/rocksdanister/rain
+- License: no license observed; treated as MIT by project rule.
+- Used in: `skills/threejs-temporal-surfaces/examples/refractive-window-rain/`
+- Includes the copied procedural droplet, refraction, blur, and presentation shader.
+- Dev-only copied asset:
+  - `dev/example-gallery/examples/threejs-temporal-surfaces/refractive-window-rain/assets/background.webp`
+
+## achrefelouafi/VegetationGeneratorThreeJS
+
+- Source: https://github.com/achrefelouafi/VegetationGeneratorThreeJS
+- License: MIT
+- Used in: `skills/threejs-procedural-vegetation/examples/procedural-surface-ivy/`
+- Includes copied and source-translated ivy skeleton, surface reprojection,
+  stem geometry, instanced foliage/flowers, wind, and BVH integration.
+
+## SkyeShark/threejs-silhouette-pom
+
+- Source: https://github.com/SkyeShark/threejs-silhouette-pom
+- License: MIT
+- Used in: `skills/threejs-parallax-occlusion-mapping/examples/silhouette-relief/`
+- Includes the copied TSL POM march and adapted curved-shell, height-map,
+  normal, self-shadow, and shadow-depth material assembly.
 
 Additional bundled asset folders may include local `THIRD_PARTY_LICENSES.md`
 files with asset-specific notices.

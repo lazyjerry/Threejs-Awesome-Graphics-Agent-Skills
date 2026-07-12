@@ -541,6 +541,100 @@ copied shader parity, the live-demo comparison, runtime captures, and explicit
 puddle-mask/ripple-normal diagnostics rather than relying on the broken local
 checkout rendering path.
 
+### `GrassSystemThreeJS`
+
+- Repository: https://github.com/achrefelouafi/GrassSystemThreeJS
+- Revision: `b236b2a38d9f35daa2ddc7b0152544b10e635d0c`
+
+Reviewed:
+
+- a PBR soil texture set with shared tiling and correct color/data spaces;
+- world-space simplex-fBm mounds with coverage, drift, and edge taper;
+- the same mound height used for vertex displacement and finite-difference normals;
+- broad tone variation and moisture masks coupling albedo and roughness;
+- warped two-scale Worley dry-earth cracks coupling color, roughness, and groove normals;
+- a raised moss carpet sharing coverage, height, color, roughness, normal, and AO causes;
+- model-locked upward-face moss accumulation on the rusty-car GLB;
+- adjacent grass, cloud, and post systems were inspected but excluded from this intake.
+
+Accepted consumption:
+
+- `$threejs-procedural-materials`
+
+The accepted example is explicitly hybrid: Ground103 and Moss002 provide the
+texture-backed PBR identities, while procedural fields drive terrain height,
+moisture, cracks, moss coverage/thickness, and model accumulation. Both texture
+sets are effect-owned and copied into the skill. The rusty-car GLB is shared
+from the existing dev-gallery inspection asset; scene lights, environment,
+camera, and controls remain gallery-owned.
+
+### `rain`
+
+- Repository: https://github.com/rocksdanister/rain
+- Revision: `55d90619c2ba0cfc68c81f6b39f8d2dc64e8072b`
+
+Reviewed:
+
+- one static and two travelling procedural droplet layers;
+- hashed cell offsets, saw-shaped lifetimes, elongated drop bodies, trails, and secondary droplets;
+- finite-difference coverage normals driving background refraction;
+- stochastic disc blur with a runtime iteration budget;
+- aspect-fill correction, cool grading, lightning, vignette, brightness, panning, and wallpaper integration.
+
+Accepted consumption:
+
+- `$threejs-temporal-surfaces`
+
+The fragment shader is copied byte-for-byte. The background image remains a
+dev-gallery inspection asset; wallpaper APIs, file/video selection, and GUI are
+not part of the skill implementation. No license file was observed, so this
+source is treated as MIT under the project rule.
+
+### `VegetationGeneratorThreeJS`
+
+- Repository: https://github.com/achrefelouafi/VegetationGeneratorThreeJS
+- Revision: `f6c26004c0763011248a65725a56ed28339fdf91`
+
+Reviewed:
+
+- deterministic Catmull-Rom ivy stems reprojected onto arbitrary mesh surfaces;
+- tangent-plane creeping branches, surface-loss droop, and BVH first-hit raycasting;
+- parallel-transport tube rings and ordered growth draw ranges;
+- instanced procedural ivy leaves with rigid petiole-hinge wind;
+- deterministic flower sites, bud-to-umbel bloom springs, and growth reveal;
+- painting UI, application modes, imported models, and the separate banyan generator.
+
+Accepted consumption:
+
+- `$threejs-procedural-vegetation`
+
+Only procedural ivy is retained. The reusable TypeScript modules are copied
+byte-for-byte and translated without minification for direct browser use. The
+gallery owns a deterministic painted-path fixture and host sphere.
+
+### `threejs-silhouette-pom`
+
+- Repository: https://github.com/SkyeShark/threejs-silhouette-pom
+- Revision: `5b5b48749aab3237e6788a93d84f324995cfeab0`
+
+Reviewed:
+
+- adaptive tangent-space TSL height marching with hit refinement;
+- bounded silhouette coverage and sample clamping;
+- curvature-aware sag, coarse horizon chase, and horizon trimming;
+- inflated curved shells with relief extending beyond the base silhouette;
+- central-difference relief normals and light-ray self-shadowing;
+- carved and full-relief shadow-map ownership through mask, depth, and received-position nodes;
+- deterministic packed procedural height/emission/tone maps.
+
+Accepted consumption:
+
+- `$threejs-parallax-occlusion-mapping`
+
+The core parallax module is copied byte-for-byte. The gallery retains the full
+bulkhead composition: procedural wall, deck, columns, and two overhead pipes.
+The inspector, GUI, and optional bloom remain dev-runtime concerns.
+
 ## Focused technical references
 
 These references support mathematical or rendering claims that are not specific to one inspected project:

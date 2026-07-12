@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { readFile } from "node:fs/promises";
 import { ashMedium } from "../skills/threejs-procedural-vegetation/examples/structured-ash-growth/ash-preset.js";
 import { compileAshTree } from "../skills/threejs-procedural-vegetation/examples/structured-ash-growth/tree-system.js";
 
@@ -63,4 +64,62 @@ function testEzTreeAshParity() {
 }
 
 testEzTreeAshParity();
+
+async function assertCopiedExactly(sourcePath, copiedPath, label) {
+  const [source, copied] = await Promise.all([
+    readFile(new URL(`../${sourcePath}`, import.meta.url)),
+    readFile(new URL(`../${copiedPath}`, import.meta.url)),
+  ]);
+  assert.deepEqual(copied, source, `${label}: copied bytes differ`);
+}
+
+await Promise.all([
+  assertCopiedExactly(
+    "source_materials/rain/shaders/rain.frag",
+    "skills/threejs-temporal-surfaces/examples/refractive-window-rain/rain-window.frag",
+    "window rain shader",
+  ),
+  assertCopiedExactly(
+    "source_materials/threejs-silhouette-pom/ParallaxOcclusion.js",
+    "skills/threejs-parallax-occlusion-mapping/examples/silhouette-relief/ParallaxOcclusion.js",
+    "silhouette POM march",
+  ),
+  ...["ivy.ts", "flowers.ts", "leafTexture.ts", "wind.ts", "bvh.ts"].map((file) =>
+    assertCopiedExactly(
+      `source_materials/VegetationGeneratorThreeJS/src/${file}`,
+      `skills/threejs-procedural-vegetation/examples/procedural-surface-ivy/source/${file}`,
+      `procedural ivy ${file}`,
+    )
+  ),
+  ...[
+    "AmbientOcclusion",
+    "Color",
+    "Displacement",
+    "NormalGL",
+    "Roughness",
+  ].map((suffix) =>
+    assertCopiedExactly(
+      `source_materials/GrassSystemThreeJS/public/Ground103_1K-JPG_${suffix}.jpg`,
+      `skills/threejs-procedural-materials/assets/hybrid-soil-moss-surface/Ground103_1K-JPG_${suffix}.jpg`,
+      `hybrid soil PBR ${suffix}`,
+    )
+  ),
+  ...[
+    "AmbientOcclusion",
+    "Color",
+    "NormalGL",
+    "Roughness",
+  ].map((suffix) =>
+    assertCopiedExactly(
+      `source_materials/GrassSystemThreeJS/public/Moss002_1K-JPG_${suffix}.jpg`,
+      `skills/threejs-procedural-materials/assets/hybrid-soil-moss-surface/moss/Moss002_1K-JPG_${suffix}.jpg`,
+      `procedural moss ${suffix}`,
+    )
+  ),
+  assertCopiedExactly(
+    "source_materials/GrassSystemThreeJS/public/old_rusty_car_2.glb",
+    "dev/example-gallery/examples/threejs-precipitation-surfaces/snow-accumulation/assets/old_rusty_car_2.glb",
+    "shared rusty car model",
+  ),
+]);
 console.log("Reference example parity checks passed.");

@@ -33,7 +33,7 @@ Since this skill pack targets awesome 3D graphics in three.js, visual inspection
 
 After you have confirmed the skills are extracted correctly, do a final audit on the skill pack in terms of skill usability, things like if there are semantic ambiguity, does router work as expected, any expressions that might confuse the agent using this skill pack -- things that are "Agent Skills" related and not necessarily three.js related. Note: this part you need to check yourself (because they are semantic checks not functional checks), it's not something you check with deterministic tests, so don't try to write test scripts for this
 
-When you finish, the entire skill pack should be publish ready (1. content correctly extracted based on the ref projects, 2. skill usability audit pass, and 3. package publishing readiness check)
+When you finish, the entire skill pack should be publish ready (publish-ready check should NOT run package version update) (1. content correctly extracted based on the ref projects, 2. skill usability audit pass, and 3. package publishing readiness check)
 
 ## Complete Dev Process
 
@@ -45,7 +45,7 @@ When you finish, the entire skill pack should be publish ready (1. content corre
 6. confirm exact implemetations/assets have been copied to the dev shim and skills (must be exact, unless told otherwise). **Important:** when i say "copy", I do NOT mean just copy paste, I mean be faithful to the original ref project implementation, but the code should still be translated into what skill examples and dev shim expects, this is your responsibility. Do NOT just copy built minified js code from ref project into the skills! Always use the source code!
 7. confirm visually that example and ref projects are the same (unnecessary objects can be omitted--an example about grass, you can omit accompanying trees in the scene; an example about ocean, you cannot omit correct lighting or ocean bed texture). NOT close, NOT approximately the same, MUST be the same. here you MUST actually compare the visual between them (run dev)
 8. confirm agent skill overall usability check passes
-9. confirm package is publish-ready
+9. confirm package is publish-ready (not including package version update)
 10. then finish. NONE of the steps above are skippable and all must pass
 
 ## Rules

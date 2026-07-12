@@ -1,0 +1,10 @@
+{
+  "title": "Hybrid PBR Soil & Moss",
+  "description": "PBR soil and moss texture sets supply albedo, AO, roughness, and normal microdetail while procedural fields drive mound displacement, moisture, cracks, moss coverage and height, and model-locked accumulation on a rusty car.",
+  "backend": "WebGL2 / MeshStandardMaterial shader injection",
+  "techniques": ["hybrid texture-backed and procedural material", "PBR soil and moss texture sets", "procedural mound and moss displacement", "coupled moisture color and roughness", "warped two-scale Worley cracks", "model-locked upward-face moss accumulation"],
+  "defaultViewport": { "width": 1440, "height": 900 },
+  "defaultDpr": 1,
+  "debugModes": [{ "value": "final", "label": "Final" }, { "value": "height", "label": "Ground Height" }, { "value": "moisture", "label": "Moisture" }, { "value": "cracks", "label": "Cracks" }, { "value": "moss", "label": "Ground Moss Mask" }, { "value": "ground-only", "label": "Ground Only" }],
+  "controls": ["orbit", "pan", "pause", "dpr", "debugMode", "capture"]
+}

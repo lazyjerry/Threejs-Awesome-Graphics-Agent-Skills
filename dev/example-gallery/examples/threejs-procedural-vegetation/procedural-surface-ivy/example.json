@@ -1,0 +1,10 @@
+{
+  "title": "Procedural Surface Ivy",
+  "description": "A deterministic ivy skeleton follows and reprojects a painted stroke onto arbitrary mesh geometry, grows tangent-plane branches, builds parallel-transport tube stems, and animates instanced hinged leaves and flower umbels.",
+  "backend": "WebGPU / procedural mesh vegetation",
+  "techniques": ["seeded spline-following ivy skeleton", "BVH-accelerated surface reprojection", "parallel-transport stem tubes", "instanced leaves with petiole-hinge wind", "distance-driven growth reveal"],
+  "defaultViewport": { "width": 1440, "height": 900 },
+  "defaultDpr": 1,
+  "debugModes": [{ "value": "final", "label": "Final" }, { "value": "ivy-only", "label": "Ivy Only" }, { "value": "still", "label": "Still Air" }, { "value": "host-only", "label": "Host Only" }],
+  "controls": ["orbit", "pan", "pause", "timeScale", "dpr", "debugMode", "capture"]
+}
