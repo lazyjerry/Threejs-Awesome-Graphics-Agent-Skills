@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { createHash } from "node:crypto";
 import { readFile } from "node:fs/promises";
 import { ashMedium } from "../skills/threejs-procedural-vegetation/examples/structured-ash-growth/ash-preset.js";
 import { compileAshTree } from "../skills/threejs-procedural-vegetation/examples/structured-ash-growth/tree-system.js";
@@ -65,31 +66,54 @@ function testEzTreeAshParity() {
 
 testEzTreeAshParity();
 
-async function assertCopiedExactly(sourcePath, copiedPath, label) {
-  const [source, copied] = await Promise.all([
-    readFile(new URL(`../${sourcePath}`, import.meta.url)),
-    readFile(new URL(`../${copiedPath}`, import.meta.url)),
-  ]);
-  assert.deepEqual(copied, source, `${label}: copied bytes differ`);
+const sourceTraceManifest = JSON.parse(
+  await readFile(
+    new URL("../source_materials/trace-manifest.json", import.meta.url),
+    "utf8",
+  ),
+);
+
+async function assertMatchesSourceHash({
+  source,
+  collection,
+  sourcePath,
+  copiedPath,
+  label,
+}) {
+  const expected = sourceTraceManifest.sources?.[source]?.[collection]?.[sourcePath];
+  assert.match(
+    expected ?? "",
+    /^[a-f0-9]{64}$/,
+    `${label}: missing source SHA-256 trace`,
+  );
+  const copied = await readFile(new URL(`../${copiedPath}`, import.meta.url));
+  const actual = createHash("sha256").update(copied).digest("hex");
+  assert.equal(actual, expected, `${label}: copied bytes differ from source trace`);
 }
 
 await Promise.all([
-  assertCopiedExactly(
-    "source_materials/rain/shaders/rain.frag",
-    "skills/threejs-temporal-surfaces/examples/refractive-window-rain/rain-window.frag",
-    "window rain shader",
-  ),
-  assertCopiedExactly(
-    "source_materials/threejs-silhouette-pom/ParallaxOcclusion.js",
-    "skills/threejs-parallax-occlusion-mapping/examples/silhouette-relief/ParallaxOcclusion.js",
-    "silhouette POM march",
-  ),
+  assertMatchesSourceHash({
+    source: "rainy-window",
+    collection: "files",
+    sourcePath: "shaders/rain.frag",
+    copiedPath: "skills/threejs-temporal-surfaces/examples/refractive-window-rain/rain-window.frag",
+    label: "window rain shader",
+  }),
+  assertMatchesSourceHash({
+    source: "threejs-silhouette-pom",
+    collection: "files",
+    sourcePath: "ParallaxOcclusion.js",
+    copiedPath: "skills/threejs-parallax-occlusion-mapping/examples/silhouette-relief/ParallaxOcclusion.js",
+    label: "silhouette POM march",
+  }),
   ...["ivy.ts", "flowers.ts", "leafTexture.ts", "wind.ts", "bvh.ts"].map((file) =>
-    assertCopiedExactly(
-      `source_materials/VegetationGeneratorThreeJS/src/${file}`,
-      `skills/threejs-procedural-vegetation/examples/procedural-surface-ivy/source/${file}`,
-      `procedural ivy ${file}`,
-    )
+    assertMatchesSourceHash({
+      source: "vegetation-generator-threejs",
+      collection: "files",
+      sourcePath: `src/${file}`,
+      copiedPath: `skills/threejs-procedural-vegetation/examples/procedural-surface-ivy/source/${file}`,
+      label: `procedural ivy ${file}`,
+    })
   ),
   ...[
     "AmbientOcclusion",
@@ -98,11 +122,13 @@ await Promise.all([
     "NormalGL",
     "Roughness",
   ].map((suffix) =>
-    assertCopiedExactly(
-      `source_materials/GrassSystemThreeJS/public/Ground103_1K-JPG_${suffix}.jpg`,
-      `skills/threejs-procedural-materials/assets/hybrid-soil-moss-surface/Ground103_1K-JPG_${suffix}.jpg`,
-      `hybrid soil PBR ${suffix}`,
-    )
+    assertMatchesSourceHash({
+      source: "grass-system-threejs",
+      collection: "assets",
+      sourcePath: `public/Ground103_1K-JPG_${suffix}.jpg`,
+      copiedPath: `skills/threejs-procedural-materials/assets/hybrid-soil-moss-surface/Ground103_1K-JPG_${suffix}.jpg`,
+      label: `hybrid soil PBR ${suffix}`,
+    })
   ),
   ...[
     "AmbientOcclusion",
@@ -110,16 +136,20 @@ await Promise.all([
     "NormalGL",
     "Roughness",
   ].map((suffix) =>
-    assertCopiedExactly(
-      `source_materials/GrassSystemThreeJS/public/Moss002_1K-JPG_${suffix}.jpg`,
-      `skills/threejs-procedural-materials/assets/hybrid-soil-moss-surface/moss/Moss002_1K-JPG_${suffix}.jpg`,
-      `procedural moss ${suffix}`,
-    )
+    assertMatchesSourceHash({
+      source: "grass-system-threejs",
+      collection: "assets",
+      sourcePath: `public/Moss002_1K-JPG_${suffix}.jpg`,
+      copiedPath: `skills/threejs-procedural-materials/assets/hybrid-soil-moss-surface/moss/Moss002_1K-JPG_${suffix}.jpg`,
+      label: `procedural moss ${suffix}`,
+    })
   ),
-  assertCopiedExactly(
-    "source_materials/GrassSystemThreeJS/public/old_rusty_car_2.glb",
-    "dev/example-gallery/examples/threejs-precipitation-surfaces/snow-accumulation/assets/old_rusty_car_2.glb",
-    "shared rusty car model",
-  ),
+  assertMatchesSourceHash({
+    source: "grass-system-threejs",
+    collection: "assets",
+    sourcePath: "public/old_rusty_car_2.glb",
+    copiedPath: "dev/example-gallery/examples/threejs-precipitation-surfaces/snow-accumulation/assets/old_rusty_car_2.glb",
+    label: "shared rusty car model",
+  }),
 ]);
 console.log("Reference example parity checks passed.");
