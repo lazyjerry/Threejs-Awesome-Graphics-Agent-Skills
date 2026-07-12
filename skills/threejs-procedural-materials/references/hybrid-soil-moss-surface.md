@@ -9,6 +9,11 @@
 - Model moss accumulation
 - PBR channel coupling
 - Diagnostics
+- Default parameter contract
+- Mound formula
+- Crack formula
+- Texture contract
+- Failure modes
 
 ## Hybrid implementation boundary
 
@@ -16,7 +21,7 @@ Treat this example as a hybrid texture-backed and procedural material. The
 soil and moss texture sets provide albedo, AO, roughness, and tangent-space
 normal microdetail. Procedural fields provide mound displacement, macro
 normals, tone and moisture variation, cracks, moss coverage and thickness, and
-model accumulation. The copied displacement texture is loaded with the PBR set
+model accumulation. The displacement texture is loaded with the PBR set
 but disabled; procedural height owns the silhouette.
 
 Do not call the soil or moss appearance fully procedural and do not imply that
@@ -50,7 +55,7 @@ albedo, AO, roughness, and normal-map blending. Read
 [the hybrid soil and moss implementation](../examples/hybrid-soil-moss-surface/hybrid-soil-moss-surface.js)
 for the exact mask, rim taper, shader stages, texture loading, and defaults.
 
-Keep the extracted moss baseline together:
+Keep the moss baseline together:
 
 ```text
 enabled             0 by default
@@ -92,8 +97,8 @@ relief scale        3.00
 
 ## PBR channel coupling
 
-Use the copied soil and moss albedo, AO, roughness, and OpenGL normal maps as
-the texture-backed PBR identity. Tile each material's channels consistently.
+Use the included soil and moss albedo, AO, roughness, and OpenGL normal maps
+as the texture-backed PBR identity. Tile each material's channels consistently.
 Keep texture displacement disabled because procedural mound and moss height
 own the silhouette; use texture normals for microstructure and finite-
 difference procedural fields for macro relief.
@@ -106,7 +111,7 @@ coverage, moisture coverage, crack enablement, and texture scale.
 
 ## Default parameter contract
 
-Keep the extracted visual baseline together:
+Keep this visual baseline together:
 
 ```text
 mound scale       0.12

@@ -8,8 +8,13 @@
 - Curved hosts and inflated shells
 - Normals and sampling
 - Self-shadow and shadow-map ownership
-- Complete bulkhead assembly
 - Diagnostics
+- Quality and step contract
+- Curvature representations
+- Shell inflation contract
+- Shadow positions
+- Complete bulkhead assembly
+- Failure modes
 
 ## Height and tangent-space convention
 
@@ -65,7 +70,7 @@ tier.
 
 ## Quality and step contract
 
-Use the extracted tiers as a coherent starting point:
+Use these tiers as a coherent starting point:
 
 ```text
 low     min 8   max 32 view layers

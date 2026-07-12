@@ -6,6 +6,11 @@
 - Surface normal and refraction
 - Blur and presentation
 - Controls and diagnostics
+- Default parameter contract
+- Layer activation contract
+- Background fit contract
+- Blur budget
+- Failure modes
 
 ## Droplet field
 
@@ -16,8 +21,8 @@ lifetime envelope, a stretched drop body, and a thin trail containing smaller
 secondary droplets. Combine the layers before deriving the optical normal.
 
 Read
-[the copied fragment shader](../examples/refractive-window-rain/rain-window.frag)
-for the complete field. Preserve its hash functions, layer frequencies,
+[the complete fragment shader](../examples/refractive-window-rain/rain-window.frag)
+for the full field. Preserve its hash functions, layer frequencies,
 intensity ramps, time scaling, and trail shaping together; changing only one
 usually makes the drops tile or slide visibly.
 
@@ -65,9 +70,8 @@ color processing true
 lightning       false
 ```
 
-The shader resets elapsed time every six hours in its host integration. Apply
-the same modulo when an application can run indefinitely so floating-point
-time does not erode cell animation.
+Reset elapsed time on a six-hour modulo when an application can run
+indefinitely so floating-point time does not erode cell animation.
 
 ## Layer activation contract
 

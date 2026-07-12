@@ -43,7 +43,7 @@ normal/color fading, translucency, and field diagnostics.
 
 Read the
 [procedural surface ivy entry](examples/procedural-surface-ivy/ivy-effect.js)
-and its original
+and its complete
 [TypeScript implementation](examples/procedural-surface-ivy/source/ivy.ts)
 for seeded spline-following stems, repeated mesh reprojection, tangent-plane
 creep and droop, parallel-transport tube rings, growth reveal, instanced leaves

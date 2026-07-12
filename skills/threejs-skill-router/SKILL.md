@@ -55,7 +55,7 @@ For a new procedural scene:
 - Do not route “make it beautiful” directly to post-processing. Find the missing authored system.
 - Prefer one strong, inspectable visual rule over several independent noise layers.
 - When adapting a supplied reference, preserve the mechanism that creates its character. Do not reduce it to a generic effect category.
-- Keep source-space, world-space, and screen-space systems separate unless the composition explicitly requires coupling.
+- Keep object-space, world-space, and screen-space systems separate unless the composition explicitly requires coupling.
 - If no retained skill matches, state that the pack lacks expert coverage for that system. Do not stretch the nearest skill to cover it.
 
 ## Acceptance gate
