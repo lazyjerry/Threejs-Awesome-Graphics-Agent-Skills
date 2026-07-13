@@ -66,7 +66,8 @@ input.
 
 ## Supplied external repositories
 
-Repositories were cloned shallowly under this directory for inspection.
+Repositories were cloned shallowly under this directory or reviewed from an
+author-supplied read-only neighboring worktree.
 
 | Source | Reviewed revision | License observed | Distribution boundary |
 | --- | --- | --- | --- |
@@ -77,6 +78,7 @@ Repositories were cloned shallowly under this directory for inspection.
 | [YasirAwan4831/holographic-shader-visualizer-three.Js](https://github.com/YasirAwan4831/holographic-shader-visualizer-three.Js) | `34810a6e09d0d640d06a2e83c5abab749baf04d5` | MIT by project rule | reviewed negative evidence; no accepted distributed example |
 | [vibe-stack/procedural-bank](https://github.com/vibe-stack/procedural-bank) | `0034e80a61f02b88dbe13a385bdab734a365b82d` | MIT | copied/adapted building, shadow, and material mechanisms plus attributed MIT stone textures |
 | [takuma-hmng8/frozen](https://github.com/takuma-hmng8/frozen) | `15a98a5104951a0bd734eb23ab21b7f79741ab09` | MIT by project rule | copied/adapted temporal-surface mechanisms where accepted |
+| [scottstts/Pearl-Sea-Park](https://github.com/scottstts/Pearl-Sea-Park) | `a40e2414e5c1de76300d105545733274dd5315ec` | MIT by project rule | copied/adapted WebGPU spectral ocean, Snell-window underside, underwater medium, caustics, god rays, particulate, sand-bed saucer, and grade mechanisms for `$threejs-spectral-ocean` |
 | [owenyuwono/poseidon](https://github.com/owenyuwono/poseidon) | `caddf773c7e2b7c9b00ad232d21cca4f364d5272` | MIT by project rule | copied/adapted spectral-ocean mechanisms where accepted |
 | [gioeledallapozza/FFTOCEAN](https://github.com/gioeledallapozza/FFTOCEAN) | `0fe3a908a86118eab9930e17b0b29df7fcc05b65` | MIT by project rule | copied/adapted stylized ocean shader mechanisms plus foam and sand assets for `$threejs-spectral-ocean` |
 | [jeantimex/threejs-water](https://github.com/jeantimex/threejs-water) | `d5c06864fe22ad31f500af7f21a46aad1c7d3e27` | MIT | copied/adapted water simulation, pool caustics, pool/water/sphere shader mechanisms, and pool tile/cubemap assets for `$threejs-water-optics` |
@@ -249,6 +251,38 @@ Consumed by:
 
 - `$threejs-temporal-surfaces`
 - `$threejs-image-pipeline`
+
+### Pearl Sea Park
+
+Reviewed:
+
+- WebGPU compute spectra with three 256² JONSWAP × TMA directional bands,
+  deterministic Gaussian packing, packed height/horizontal evolution, and a
+  workgroup inverse FFT with explicit barriers;
+- a camera-medium-controlled, double-sided ocean material whose underwater
+  path performs water-to-air refraction, exact dielectric Fresnel, total
+  internal reflection, and surface-anchored opaque-frame reprojection;
+- one shared fixed-sun HDR sky function for the visible dome and Snell window;
+- aquatic per-channel extinction and directional in-scatter over scene depth,
+  followed by pre-tonemap bloom, AgX, a generated 32³ grade, and vignette;
+- a 256² differential-area caustic grid drawn 3×3 into a 1024² wrapping tile,
+  used by received light and a 14-step full-resolution jittered god-ray march;
+- 18,000 camera-following tetrahedral particulates driven by a shared curl
+  field;
+- procedural sand ripples, caustic reception, and the far lagoon saucer that
+  rises from 680–1150 m to close the seabed/ocean horizon gap;
+- a seabed-rooted arrival structure with underwater bracing and an above-water
+  silhouette suitable for Snell-window alignment inspection.
+
+Accepted consumption:
+
+- `$threejs-spectral-ocean`
+
+The accepted example keeps the spectral field, exact underwater surface path,
+sky coupling, caustics, medium, god rays, particulates, sand material, and
+display treatment together. The gallery fixes the camera below the interface
+and owns a deliberately simplified tower plus the focused
+flat-centre/far-saucer seabed geometry.
 
 ### `poseidon`
 
@@ -668,7 +702,7 @@ These sources are paraphrased. Official documentation remains the authority for 
 | `$threejs-procedural-vegetation` | `ez-tree`, `stylized-scene` |
 | `$threejs-procedural-architecture` | `procedural-bank` |
 | `$threejs-procedural-planets` | Stellar |
-| `$threejs-spectral-ocean` | `poseidon` as primary conceptual evidence; `OceanThreejs`, `FFTOCEAN`; directional-spectrum and FFT literature |
+| `$threejs-spectral-ocean` | Pearl Sea Park, `poseidon`, `OceanThreejs`, `FFTOCEAN`; directional-spectrum and FFT literature |
 | `$threejs-water-optics` | MyCraft and Interstellar.three.js analytic/optical comparisons; `threejs-water`, `FFTOCEAN`; GPU Gems |
 | `$threejs-atmosphere-aerial-perspective` | `jeantimex/geospatial`, Stellar, `three-geospatial`, atmosphere references |
 | `$threejs-volumetric-clouds` | `jeantimex/geospatial`, `three-geospatial` |

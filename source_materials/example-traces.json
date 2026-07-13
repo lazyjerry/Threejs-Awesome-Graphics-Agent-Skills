@@ -818,6 +818,54 @@
         ]
       }
     ],
+    "threejs-spectral-ocean/submerged-snell-ocean": [
+      {
+        "source": "pearl-sea-park",
+        "files": [
+          "src/core/prng.ts",
+          "src/core/quality.ts",
+          "src/core/noise2.ts",
+          "src/render/tslNoise.ts",
+          "src/render/grade.ts",
+          "src/render/pipeline.ts",
+          "src/sea/oceanSpectrum.ts",
+          "src/sea/fftCompute.ts",
+          "src/sea/waveSim.ts",
+          "src/sea/oceanSurfaceMaterial.ts",
+          "src/sea/oceanSkirtGeometry.ts",
+          "src/sea/caustics.ts",
+          "src/sea/current.ts",
+          "src/sea/medium.ts",
+          "src/sea/seaSystem.ts",
+          "src/sky/sun.ts",
+          "src/sky/skyRadiance.ts",
+          "src/sky/skySystem.ts",
+          "src/world/terrain.ts",
+          "src/world/terrainHeight.ts",
+          "src/world/arrival.ts",
+          "dev_docs/systems/sea-and-sky.md",
+          "dev_docs/systems/undersea-medium.md",
+          "dev_docs/systems/render-pipeline.md"
+        ],
+        "mechanisms": [
+          "three deterministic 256 squared JONSWAP and TMA cascades transformed as packed height and horizontal-displacement fields in WebGPU workgroups",
+          "fold-aware double-sided ocean shading controlled by one camera-medium state",
+          "water-to-air Snell refraction reprojected from the displaced interface with depth-side and ray-alignment rejection",
+          "exact dielectric Fresnel with total internal reflection and a shared HDR sky function",
+          "per-channel aquatic extinction and directional in-scatter composited over scene depth before bloom",
+          "differential-area caustics shared by lit underwater surfaces and a full-resolution jittered god-ray march",
+          "camera-following drifting particulates plus AgX output and a generated 32-cube display grade",
+          "procedural sand-bed ripples, a horizon-closing far saucer, and a simplified seabed-rooted water-crossing inspection tower"
+        ],
+        "boundary": "reference-extraction",
+        "divergences": [
+          "the camera-medium state is fixed submerged because this inspection example intentionally prevents waterline crossing",
+          "the tower keeps the seabed-rooted piles, underwater bracing, deck, canopy, and headframe silhouette but is simplified as explicitly requested",
+          "the focused render graph omits GTAO, adaptive exposure readback, dynamic-resolution control, and cached shadow clipmaps because they are not part of the underwater optical effect",
+          "the focused seabed keeps a perfectly flat central plateau and the exact 680-to-1150-metre noisy saucer rise while omitting gameplay-specific basins, trenches, and dunes"
+        ]
+      }
+    ],
     "threejs-temporal-surfaces/touch-history-frost": [
       {
         "source": "frozen",

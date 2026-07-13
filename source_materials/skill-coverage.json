@@ -150,9 +150,10 @@
       "evidence": [
         "threejs-spectral-ocean/spectral-cascade-ocean",
         "threejs-spectral-ocean/hybrid-clear-water-ocean",
-        "threejs-spectral-ocean/stylized-above-below-ocean"
+        "threejs-spectral-ocean/stylized-above-below-ocean",
+        "threejs-spectral-ocean/submerged-snell-ocean"
       ],
-      "rationale": "Spectral synthesis, staged FFTs, derivatives, persistent foam, hybrid refraction, and above/below underwater optics are implementation-critical."
+      "rationale": "Spectral synthesis, staged FFTs, derivatives, persistent foam, hybrid refraction, surface-anchored Snell reprojection, and full underwater-medium optics are implementation-critical."
     },
     "threejs-temporal-surfaces": {
       "classification": "example-required",

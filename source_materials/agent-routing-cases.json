@@ -101,6 +101,15 @@
       ]
     },
     {
+      "request": "Keep the camera underwater beneath a spectral ocean and show an above-water tower through Snell's window with total internal reflection, caustic god rays, and aquatic fog.",
+      "routes": [
+        {
+          "skill": "threejs-spectral-ocean",
+          "signals": ["submerged snell windows", "total internal reflection", "caustic god rays"]
+        }
+      ]
+    },
+    {
       "request": "Build a bounded Gerstner-wave water surface with shared normals, Fresnel, refraction, and Beer-Lambert absorption.",
       "routes": [
         {

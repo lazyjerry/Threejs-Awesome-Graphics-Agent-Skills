@@ -330,6 +330,38 @@
         "src/Frozen/materials/noise/HighlightNoise.ts": "b028f9d12c07fd19c33ea1c78915df216461f78c7e8964a5d9731f1d959c6397"
       }
     },
+    "pearl-sea-park": {
+      "repository": "https://github.com/scottstts/Pearl-Sea-Park",
+      "revision": "a40e2414e5c1de76300d105545733274dd5315ec",
+      "license": "MIT by project rule",
+      "localDirectory": "../../SeaPark",
+      "files": {
+        "src/core/prng.ts": "9d50888890f2869c2891f3d290959737460e3cdc3a78b1cd598dd76d0a4a85db",
+        "src/core/quality.ts": "6eb5e2a1bdaa898d95aea83fc48633fb62ec2fe80ec3b863d5489217c721e361",
+        "src/core/noise2.ts": "2ca88c087849683f46e20d917b81191ac6185562a379c42042bfe0998fb25f21",
+        "src/render/tslNoise.ts": "0fd80f2ba36aa494aa49b1f547dc43c2bb896ec910662cadd5022ffbfd63442b",
+        "src/render/grade.ts": "372f4fd93760ee754746f46a9a28ae8f4831520d61f21d92300ae70f5909c892",
+        "src/render/pipeline.ts": "6a1ad5ad1d1889bcbc3e3549a4207c1b62c440df4915030ac82b181cef36d3c2",
+        "src/sea/oceanSpectrum.ts": "805b3d8a4979f908693939e84932e6aead05bd7a05bd354b84089ca0ce552dfa",
+        "src/sea/fftCompute.ts": "985909e52e1223d3487d028e3d9489040c1b0d0d609e1a84d65d4eb735bc71cd",
+        "src/sea/waveSim.ts": "561ebf628b26653275053e2d78f765816753d40415cd12a3883d166901f62ac5",
+        "src/sea/oceanSurfaceMaterial.ts": "684a4e48ca5c5dc395cbd5f6e45c88076388c6b0a13d0a44b96642ed7a2171a6",
+        "src/sea/oceanSkirtGeometry.ts": "bafe287fea5af08d11a7dc7234c8ee0268765cf89112fc784ef293c93d0c245f",
+        "src/sea/caustics.ts": "990670a1bc6f3160aac3ef9510c4d57f068977965c31bcab54a8a8fbeaf4a258",
+        "src/sea/current.ts": "fe489434a3efc819862e3628c583443bb8c45a99b9ed42a8e06cdb762b689608",
+        "src/sea/medium.ts": "7625c05e31a1ebcc0645b04857d39539903c043603bb7469392b08e575bf9818",
+        "src/sea/seaSystem.ts": "da333ab90a14910b9ef4699a41bb6698cc38d25e7a7c1243ee2b288fcd6dfc42",
+        "src/sky/sun.ts": "549ba47443b47d03a2fa4e3101b72d36c3db161b396f7b3a2db636ff6b1fac8c",
+        "src/sky/skyRadiance.ts": "d0b6a8b81c459e3ed065954eda58c086cd220abc454cc829ca3f5c615468a2b4",
+        "src/sky/skySystem.ts": "ffb9574d8ba6c56264dd8bb981fe4f29b97161bbc828b927c6865cb25c4c0584",
+        "src/world/terrain.ts": "c3d8d59698aca51853c79b2e51cf9f2f55503322eea195e9eb048bac46a39f7b",
+        "src/world/terrainHeight.ts": "acba3587d61c5b74c84a482bd4561f0f53092ba1b826dd6d317e4d9ecaa8527f",
+        "src/world/arrival.ts": "33ad530171105001d945291e119c5398ee335e7a3cd191444402533503fe3e58",
+        "dev_docs/systems/sea-and-sky.md": "5e502ba743f445e0ed5f3b4be102df1aa1ff0da70c260af15755da7d6c47e638",
+        "dev_docs/systems/undersea-medium.md": "3cba59447de691d6ff2fe9183f01c5808901f1e1a33857c5d1323669d7c133a2",
+        "dev_docs/systems/render-pipeline.md": "8321acc9bc59c68b094993176dd4715900bc221e49308a5ddbd4f2c048ad277e"
+      }
+    },
     "poseidon": {
       "repository": "https://github.com/owenyuwono/poseidon",
       "revision": "caddf773c7e2b7c9b00ad232d21cca4f364d5272",

@@ -1,0 +1,392 @@
+import * as THREE from "three/webgpu";
+import {
+  applyCaustics,
+  CausticsPass,
+  createSeabedMaterial,
+  createSkyDome,
+  Rng,
+  runFftSelfTest,
+  SubmergedOcean,
+  SUN_LIGHT_INTENSITY,
+  sunColor,
+  sunDirection,
+  UnderwaterMediumPipeline,
+} from "/skills/threejs-spectral-ocean/examples/submerged-snell-ocean/underwater-snell-ocean.ts";
+
+const SEABED_Y = -26;
+const CAMERA_MIN_Y = SEABED_Y + 1.25;
+const CAMERA_MAX_Y = -3.5;
+const SAUCER_EXTENT = 2800;
+const SAUCER_SEGMENTS = 224;
+const SAUCER_RISE_START = 680;
+const SAUCER_RISE_END = 1150;
+
+function hash2(x, y, seed) {
+  let value =
+    Math.imul(x | 0, 374761393) +
+    Math.imul(y | 0, 668265263) +
+    Math.imul(seed | 0, 2246822519);
+  value = Math.imul(value ^ (value >>> 13), 1274126177);
+  return ((value ^ (value >>> 16)) >>> 0) / 4294967296;
+}
+
+function smoothCurve(value) {
+  return value * value * (3 - 2 * value);
+}
+
+function valueNoise2(x, y, seed = 0) {
+  const xi = Math.floor(x);
+  const yi = Math.floor(y);
+  const xf = x - xi;
+  const yf = y - yi;
+  const a = hash2(xi, yi, seed);
+  const b = hash2(xi + 1, yi, seed);
+  const c = hash2(xi, yi + 1, seed);
+  const d = hash2(xi + 1, yi + 1, seed);
+  const u = smoothCurve(xf);
+  const v = smoothCurve(yf);
+  return a + (b - a) * u + (c - a) * v + (a - b - c + d) * u * v;
+}
+
+function fbm2(x, y, octaves = 5, seed = 0) {
+  let value = 0;
+  let amplitude = 0.5;
+  let fx = x;
+  let fy = y;
+  for (let index = 0; index < octaves; index += 1) {
+    value += valueNoise2(fx, fy, seed + index * 101) * amplitude;
+    const rotatedX = fx * 0.8 - fy * 0.6;
+    const rotatedY = fx * 0.6 + fy * 0.8;
+    fx = rotatedX * 2.03;
+    fy = rotatedY * 2.03;
+    amplitude *= 0.5;
+  }
+  return value;
+}
+
+function smoothstepNumber(edge0, edge1, value) {
+  const t = THREE.MathUtils.clamp((value - edge0) / (edge1 - edge0), 0, 1);
+  return t * t * (3 - 2 * t);
+}
+
+function saucerHeight(x, z) {
+  const blend = smoothstepNumber(
+    SAUCER_RISE_START,
+    SAUCER_RISE_END,
+    Math.hypot(x, z),
+  );
+  const rimTop = -3.6 + (fbm2(x * 0.006, z * 0.006, 3, 131) - 0.5) * 2.2;
+  return THREE.MathUtils.lerp(SEABED_Y, rimTop, blend);
+}
+
+function createSaucerSeabedGeometry() {
+  const geometry = new THREE.PlaneGeometry(
+    SAUCER_EXTENT,
+    SAUCER_EXTENT,
+    SAUCER_SEGMENTS,
+    SAUCER_SEGMENTS,
+  );
+  geometry.rotateX(-Math.PI / 2);
+  const positions = geometry.getAttribute("position");
+  for (let index = 0; index < positions.count; index += 1) {
+    positions.setY(
+      index,
+      saucerHeight(positions.getX(index), positions.getZ(index)),
+    );
+  }
+  positions.needsUpdate = true;
+  geometry.computeVertexNormals();
+  geometry.computeBoundingBox();
+  geometry.computeBoundingSphere();
+  return geometry;
+}
+
+function createMaterial(color, roughness, metalness, caustics = null) {
+  const material = new THREE.MeshStandardNodeMaterial();
+  material.color.set(color);
+  material.roughness = roughness;
+  material.metalness = metalness;
+  if (caustics) applyCaustics(material, caustics.textureNode, 1.2);
+  return material;
+}
+
+function createStrut(material, start, end, radius, radialSegments = 12) {
+  const direction = new THREE.Vector3().subVectors(end, start);
+  const length = direction.length();
+  const geometry = new THREE.CylinderGeometry(
+    radius,
+    radius,
+    length,
+    radialSegments,
+  );
+  const mesh = new THREE.Mesh(geometry, material);
+  mesh.position.copy(start).add(end).multiplyScalar(0.5);
+  mesh.quaternion.setFromUnitVectors(
+    new THREE.Vector3(0, 1, 0),
+    direction.normalize(),
+  );
+  mesh.castShadow = true;
+  mesh.receiveShadow = true;
+  return mesh;
+}
+
+function createWaterlineTower(caustics) {
+  const group = new THREE.Group();
+  const underwaterBronze = createMaterial(0x376f70, 0.54, 0.72, caustics);
+  const bronze = createMaterial(0x7b5b2d, 0.36, 0.82);
+  const iron = createMaterial(0x283640, 0.48, 0.72);
+  const timber = createMaterial(0x6e4a2a, 0.78, 0.04);
+  const canvas = createMaterial(0x86b0aa, 0.9, 0);
+  canvas.side = THREE.DoubleSide;
+  const materials = [underwaterBronze, bronze, iron, timber, canvas];
+
+  const pileRadius = 5.5;
+  const pileCount = 6;
+  const pilePoints = [];
+  for (let index = 0; index < pileCount; index += 1) {
+    const angle = (index / pileCount) * Math.PI * 2 + Math.PI / 6;
+    const x = Math.sin(angle) * pileRadius;
+    const z = Math.cos(angle) * pileRadius;
+    pilePoints.push(new THREE.Vector3(x, 0, z));
+
+    const underwaterHeight = -SEABED_Y;
+    const underwaterPile = new THREE.Mesh(
+      new THREE.CylinderGeometry(0.3, 0.42, underwaterHeight, 18),
+      underwaterBronze,
+    );
+    underwaterPile.position.set(x, SEABED_Y + underwaterHeight * 0.5, z);
+    underwaterPile.castShadow = true;
+    underwaterPile.receiveShadow = true;
+    group.add(underwaterPile);
+
+    const upperPile = new THREE.Mesh(
+      new THREE.CylinderGeometry(0.28, 0.3, 2.45, 18),
+      bronze,
+    );
+    upperPile.position.set(x, 1.225, z);
+    upperPile.castShadow = true;
+    upperPile.receiveShadow = true;
+    group.add(upperPile);
+  }
+
+  for (let index = 0; index < pileCount; index += 1) {
+    const next = (index + 1) % pileCount;
+    const a = pilePoints[index];
+    const b = pilePoints[next];
+    for (const [top, bottom] of [[-2, -14], [-14, -25]]) {
+      group.add(
+        createStrut(
+          underwaterBronze,
+          new THREE.Vector3(a.x, top, a.z),
+          new THREE.Vector3(b.x, bottom, b.z),
+          0.075,
+        ),
+      );
+      group.add(
+        createStrut(
+          underwaterBronze,
+          new THREE.Vector3(b.x, top, b.z),
+          new THREE.Vector3(a.x, bottom, a.z),
+          0.075,
+        ),
+      );
+    }
+  }
+
+  const deck = new THREE.Mesh(
+    new THREE.CylinderGeometry(6.5, 6.5, 0.48, 72),
+    timber,
+  );
+  deck.position.y = 2.62;
+  deck.castShadow = true;
+  deck.receiveShadow = true;
+  group.add(deck);
+
+  const deckTrim = new THREE.Mesh(
+    new THREE.TorusGeometry(6.52, 0.1, 10, 72),
+    bronze,
+  );
+  deckTrim.rotation.x = Math.PI / 2;
+  deckTrim.position.y = 2.82;
+  group.add(deckTrim);
+
+  const legAngles = [Math.PI / 4, 3 * Math.PI / 4, 5 * Math.PI / 4, 7 * Math.PI / 4];
+  for (const angle of legAngles) {
+    group.add(
+      createStrut(
+        iron,
+        new THREE.Vector3(Math.sin(angle) * 3.6, 2.85, Math.cos(angle) * 3.6),
+        new THREE.Vector3(Math.sin(angle) * 0.65, 13.2, Math.cos(angle) * 0.65),
+        0.15,
+        16,
+      ),
+    );
+  }
+
+  const canopy = new THREE.Mesh(
+    new THREE.CylinderGeometry(2.1, 6.15, 1.2, 72, 1, true),
+    canvas,
+  );
+  canopy.position.y = 6.05;
+  canopy.castShadow = true;
+  group.add(canopy);
+
+  const crown = new THREE.Mesh(
+    new THREE.TorusGeometry(0.72, 0.1, 12, 40),
+    bronze,
+  );
+  crown.rotation.x = Math.PI / 2;
+  crown.position.y = 13.35;
+  group.add(crown);
+
+  const beacon = new THREE.Mesh(
+    new THREE.CylinderGeometry(0.38, 0.62, 2.6, 24),
+    bronze,
+  );
+  beacon.position.y = 14.65;
+  beacon.castShadow = true;
+  group.add(beacon);
+
+  return { group, materials };
+}
+
+function clampCamera(camera, controls) {
+  camera.position.y = THREE.MathUtils.clamp(
+    camera.position.y,
+    CAMERA_MIN_Y,
+    CAMERA_MAX_Y,
+  );
+  camera.position.x = THREE.MathUtils.clamp(camera.position.x, -220, 220);
+  camera.position.z = THREE.MathUtils.clamp(camera.position.z, -220, 220);
+  if (controls?.target) {
+    controls.target.x = THREE.MathUtils.clamp(controls.target.x, -180, 180);
+    controls.target.y = THREE.MathUtils.clamp(controls.target.y, SEABED_Y + 0.5, 16);
+    controls.target.z = THREE.MathUtils.clamp(controls.target.z, -180, 180);
+    controls.update();
+  }
+}
+
+export default {
+  backend: "webgpu",
+  initialTime: 28,
+  renderer: {
+    options: { antialias: false },
+    toneMapping: THREE.NoToneMapping,
+    exposure: 1,
+    clearColor: 0x061b2d,
+  },
+  camera: {
+    fov: 50,
+    near: 0.1,
+    far: 5000,
+    position: [0, -24.25, 10],
+  },
+  controls: {
+    target: [0, 13.1, 0],
+    minDistance: 8,
+    maxDistance: 180,
+    minPolarAngle: 0.05,
+    maxPolarAngle: Math.PI - 0.05,
+    enablePan: true,
+  },
+  async setup({ renderer, scene, camera, controls }) {
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+
+    const fftValidation = await runFftSelfTest(renderer);
+    if (
+      fftValidation.maxErrorConstant >= 1e-3 ||
+      fftValidation.maxErrorWave >= 1e-3
+    ) {
+      throw new Error(
+        `IFFT validation failed: constant=${fftValidation.maxErrorConstant}, ` +
+        `wave=${fftValidation.maxErrorWave}`,
+      );
+    }
+
+    const sky = createSkyDome();
+    scene.add(sky);
+
+    const sun = new THREE.DirectionalLight(sunColor, SUN_LIGHT_INTENSITY);
+    sun.position.copy(sunDirection).multiplyScalar(700);
+    sun.target.position.set(0, 0, 0);
+    sun.castShadow = true;
+    sun.shadow.mapSize.set(2048, 2048);
+    sun.shadow.camera.left = -80;
+    sun.shadow.camera.right = 80;
+    sun.shadow.camera.top = 80;
+    sun.shadow.camera.bottom = -80;
+    sun.shadow.camera.near = 1;
+    sun.shadow.camera.far = 900;
+    sun.shadow.bias = -0.0004;
+    sun.shadow.normalBias = 0.02;
+    scene.add(sun, sun.target);
+
+    const ocean = new SubmergedOcean(scene, new Rng(19051906), {
+      segments: 384,
+    });
+    const caustics = new CausticsPass(ocean.simulation, 1024);
+    const seabedMaterial = createSeabedMaterial(caustics);
+    const seabed = new THREE.Mesh(
+      createSaucerSeabedGeometry(),
+      seabedMaterial,
+    );
+    seabed.receiveShadow = true;
+    scene.add(seabed);
+
+    const tower = createWaterlineTower(caustics);
+    scene.add(tower.group);
+
+    const medium = new UnderwaterMediumPipeline(
+      renderer,
+      scene,
+      camera,
+      caustics,
+      { godraySteps: 14, particulateCount: 18_000 },
+    );
+
+    clampCamera(camera, controls);
+    return {
+      setDebugMode(mode) {
+        medium.setDebugMode(mode);
+      },
+      update({ elapsed, delta }) {
+        clampCamera(camera, controls);
+        ocean.update(renderer, camera.position, elapsed, Math.max(delta, 1 / 120));
+        caustics.update(renderer);
+        medium.update(elapsed);
+        sky.position.copy(camera.position);
+      },
+      render() {
+        medium.render();
+      },
+      metrics() {
+        return {
+          spectrum: "256² × 3",
+          caustics: "1024²",
+          raySteps: "14",
+          fftTest: `pass ${Math.max(
+            fftValidation.maxErrorConstant,
+            fftValidation.maxErrorWave,
+          ).toExponential(1)}`,
+        };
+      },
+      dispose() {
+        medium.dispose();
+        caustics.dispose();
+        ocean.dispose(scene);
+        scene.remove(seabed, sky, tower.group, sun, sun.target);
+        seabed.geometry.dispose();
+        seabedMaterial.dispose();
+        sky.geometry.dispose();
+        sky.material.dispose();
+        const geometries = new Set();
+        tower.group.traverse((object) => {
+          if (object.isMesh) geometries.add(object.geometry);
+        });
+        for (const geometry of geometries) geometry.dispose();
+        for (const material of tower.materials) material.dispose();
+      },
+    };
+  },
+};

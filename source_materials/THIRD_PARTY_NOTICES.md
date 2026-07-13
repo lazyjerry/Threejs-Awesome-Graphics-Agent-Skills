@@ -4,6 +4,17 @@ This package includes or adapts MIT Three.js reference material and
 assets used by distributed skills. Source revisions and file hashes are recorded
 in `source_materials/trace-manifest.json`.
 
+## scottstts/Pearl-Sea-Park
+
+- Source: https://github.com/scottstts/Pearl-Sea-Park
+- License: MIT by project rule
+- Used in: `skills/threejs-spectral-ocean/examples/submerged-snell-ocean/`
+  and its corresponding `dev/example-gallery/` scene
+- Includes adapted WebGPU spectral simulation, underwater ocean surface,
+  shared HDR sky, differential-area caustics, aquatic medium, god rays,
+  particulates, procedural sand and far-saucer geometry, and
+  display-grade mechanisms.
+
 ## jeantimex/threejs-water
 
 - Source: https://github.com/jeantimex/threejs-water
