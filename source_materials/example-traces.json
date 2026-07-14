@@ -1,6 +1,28 @@
 {
   "schemaVersion": 1,
   "examples": {
+    "threejs-procedural-geometry/porcelain-brass-submarine": [
+      {
+        "source": "author-local-submarine",
+        "files": ["submarine.html"],
+        "mechanisms": [
+          "240-sample tilted-collar hull plan compiled to 56 rings by 128 radial segments with accumulated-distance UVs",
+          "shared grid loft, Z-axis lathe, parallel-transport tube sweep, and lens-section fin loft emitters",
+          "one hull-UV outline coupling alpha-tested window apertures, double swept brass frames, and nine-row bulged glazing",
+          "complete semantic assembly of hull fittings, armillary dome, furnished cabin, shrouded eight-blade propeller, fins, and lamp pods",
+          "generated 2048 by 1024 hull detail atlas, 512 by 512 quilt normal texture, and TSL porcelain brass glass leather wood and lamp materials",
+          "per-part unique-geometry triangle evidence with shared propeller-blade geometry and instanced collar rivets"
+        ],
+        "boundary": "reference-extraction",
+        "divergences": [
+          "renderer creation, studio environment, directional lights, ground, camera, and orbit controls live in the gallery adapter",
+          "the gallery uses exposure 0.76, environment intensity 0.36, reduced three-point light intensities, a neutral gray backdrop, and tighter key shadows to preserve close-inspection detail",
+          "presentation title, loading veil, authored view buttons, keyboard turntable toggle, and error overlay are omitted",
+          "the gallery adds topology, isolated hull-loft, and no-glass diagnostic modes without changing the final model branch",
+          "the gallery uses the package-installed Three.js revision while retaining the supplied geometry, material, and motion contracts"
+        ]
+      }
+    ],
     "threejs-atmosphere-aerial-perspective/lut-aerial-perspective": [
       {
         "source": "jeantimex-geospatial",

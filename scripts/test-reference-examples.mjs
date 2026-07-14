@@ -3,6 +3,15 @@ import { createHash } from "node:crypto";
 import { readFile } from "node:fs/promises";
 import { ashMedium } from "../skills/threejs-procedural-vegetation/examples/structured-ash-growth/ash-preset.js";
 import { compileAshTree } from "../skills/threejs-procedural-vegetation/examples/structured-ash-growth/tree-system.js";
+import { SUBMARINE_DIMENSIONS } from "../skills/threejs-procedural-geometry/examples/porcelain-brass-submarine/source/design-contract.js";
+import {
+  createSubmarineHullPlan,
+  sampleSubmarineHullRing,
+} from "../skills/threejs-procedural-geometry/examples/porcelain-brass-submarine/source/submarine-model.js";
+import {
+  gridGeometry,
+  ringPoints,
+} from "../skills/threejs-procedural-geometry/examples/porcelain-brass-submarine/source/mesh-kit.js";
 
 function assertVector(actual, expected, label, epsilon = 1e-5) {
   assert.equal(actual.length, expected.length, `${label}: dimension mismatch`);
@@ -12,6 +21,62 @@ function assertVector(actual, expected, label, epsilon = 1e-5) {
       `${label}[${index}]: expected ${expected[index]}, received ${actual[index]}`,
     );
   }
+}
+
+function testPorcelainBrassSubmarineHullParity() {
+  const plan = createSubmarineHullPlan();
+  assert.equal(plan.n, 240, "submarine hull plan sample count");
+  assertVector(
+    [plan.r[0], plan.cy[0], plan.z[0], plan.tiltA[0], plan.v[0]],
+    [0.995, -0.03694313003061203, 0.792103635930036, 0.4188790204786391, 0],
+    "submarine hull plan first sample",
+  );
+  assertVector(
+    [plan.r[120], plan.cy[120], plan.z[120], plan.tiltA[120], plan.v[120]],
+    [0.8316283989299039, -0.011954225941197664, -0.25832496788420806, 0, 0.4786890204598546],
+    "submarine hull plan middle sample",
+  );
+  assertVector(
+    [plan.r[239], plan.cy[239], plan.z[239], plan.tiltA[239], plan.v[239]],
+    [0.3, 0.075, -1.3, 0, 1],
+    "submarine hull plan final sample",
+  );
+
+  const rows = [];
+  const vRow = [];
+  for (let index = 0; index < SUBMARINE_DIMENSIONS.hull.rings; index += 1) {
+    const ring = sampleSubmarineHullRing(
+      plan,
+      index / (SUBMARINE_DIMENSIONS.hull.rings - 1),
+    );
+    rows.push(ringPoints(
+      ring.c,
+      ring.axU,
+      ring.axV,
+      ring.r,
+      SUBMARINE_DIMENSIONS.hull.segs,
+    ));
+    vRow.push(ring.v);
+  }
+  const geometry = gridGeometry(rows, { closeU: true, flip: true, vRow });
+  geometry.computeBoundingBox();
+  assert.equal(
+    geometry.getAttribute("position").count,
+    7224,
+    "submarine hull vertex count",
+  );
+  assert.equal(geometry.getIndex().count / 3, 14080, "submarine hull triangle count");
+  assertVector(
+    geometry.boundingBox.min.toArray(),
+    [-1.0162882804870605, -0.9790741801261902, -1.2999999523162842],
+    "submarine hull bounds minimum",
+  );
+  assertVector(
+    geometry.boundingBox.max.toArray(),
+    [1.0162882804870605, 1.005637764930725, 1.19680655002594],
+    "submarine hull bounds maximum",
+  );
+  geometry.dispose();
 }
 
 function testEzTreeAshParity() {
@@ -64,6 +129,7 @@ function testEzTreeAshParity() {
   );
 }
 
+testPorcelainBrassSubmarineHullParity();
 testEzTreeAshParity();
 
 const sourceTraceManifest = JSON.parse(

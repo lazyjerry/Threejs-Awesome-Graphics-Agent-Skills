@@ -1,6 +1,14 @@
 {
   "schemaVersion": 1,
   "sources": {
+    "author-local-submarine": {
+      "repository": "https://github.com/scottstts/Threejs-Awesome-Graphics-Agent-Skills",
+      "revision": "2d0972a23995a0b302aceb0050fb0ceeeadff891",
+      "license": "MIT by project rule",
+      "files": {
+        "submarine.html": "6f80f233fd24e38ece393aea67a11e271782335f455d1e320cc69d18babc5f49"
+      }
+    },
     "ez-tree": {
       "repository": "https://github.com/dgreenheck/ez-tree",
       "revision": "48dc193515135cff2b33515c47f0a8703b977e63",

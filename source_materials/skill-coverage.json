@@ -68,11 +68,12 @@
     "threejs-procedural-geometry": {
       "classification": "example-required",
       "evidence": [
+        "threejs-procedural-geometry/porcelain-brass-submarine",
         "threejs-procedural-geometry/sculpted-gallery-frame",
         "threejs-procedural-vegetation/structured-ash-growth",
         "threejs-procedural-architecture/procedural-financial-tower"
       ],
-      "rationale": "Profile sweeps, branch rings, and semantic mesh compilation cannot be reconstructed reliably from prose alone."
+      "rationale": "Complete hard-surface assemblies, shell and fin lofts, profile sweeps, branch rings, and semantic mesh compilation cannot be reconstructed reliably from prose alone."
     },
     "threejs-procedural-materials": {
       "classification": "example-required",

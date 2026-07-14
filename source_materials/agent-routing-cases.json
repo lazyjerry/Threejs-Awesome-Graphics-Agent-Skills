@@ -47,6 +47,15 @@
       ]
     },
     {
+      "request": "Build a complete procedural submarine with a dimensioned shell loft, hull-owned apertures, swept fittings, a furnished cabin, propeller blades, and fin lofts.",
+      "routes": [
+        {
+          "skill": "threejs-procedural-geometry",
+          "signals": ["complete hard-surface object assemblies", "tilted shell lofts", "UV-owned apertures", "fin lofts"]
+        }
+      ]
+    },
+    {
       "request": "Generate a deterministic deciduous tree species with branch hierarchy, foliage normals, and wind.",
       "routes": [
         {
@@ -285,7 +294,7 @@
     },
     {
       "skill": "threejs-procedural-geometry",
-      "mustMention": ["$threejs-procedural-architecture", "$threejs-procedural-vegetation"]
+      "mustMention": ["$threejs-procedural-materials", "$threejs-procedural-architecture", "$threejs-procedural-vegetation"]
     },
     {
       "skill": "threejs-procedural-planets",

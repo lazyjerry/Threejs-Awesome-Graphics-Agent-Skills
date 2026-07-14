@@ -1,0 +1,46 @@
+{
+  "title": "Porcelain & Brass Submarine",
+  "description": "A complete procedural hard-surface submarine assembled from a tilted-collar hull loft, UV-space apertures and ornament, parallel-transport sweeps, revolved fittings, lens-section fin lofts, a furnished glass cabin, a shrouded eight-blade propeller, generated material textures, and explicit per-part topology evidence.",
+  "backend": "WebGPU / TSL node materials",
+  "techniques": [
+    "tilted-collar sampled hull loft",
+    "arc-length UVs and UV-space aperture ownership",
+    "parallel-transport tube sweeps",
+    "lens-section fin and propeller lofts",
+    "procedural hull ornament and quilt normal textures",
+    "semantic complete-model assembly",
+    "per-part triangle diagnostics"
+  ],
+  "defaultViewport": {
+    "width": 1440,
+    "height": 900
+  },
+  "defaultDpr": 1,
+  "debugModes": [
+    {
+      "value": "final",
+      "label": "Final"
+    },
+    {
+      "value": "topology",
+      "label": "Assembly topology"
+    },
+    {
+      "value": "hull-loft",
+      "label": "Hull loft"
+    },
+    {
+      "value": "no-glass",
+      "label": "No glass"
+    }
+  ],
+  "controls": [
+    "orbit",
+    "pan",
+    "pause",
+    "timeScale",
+    "dpr",
+    "debugMode",
+    "capture"
+  ]
+}

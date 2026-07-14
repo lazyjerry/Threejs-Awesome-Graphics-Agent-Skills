@@ -46,9 +46,14 @@ input.
 
 ### Author-supplied local files
 
+The local-file review context is
+[scottstts/Threejs-Awesome-Graphics-Agent-Skills](https://github.com/scottstts/Threejs-Awesome-Graphics-Agent-Skills)
+at `2d0972a23995a0b302aceb0050fb0ceeeadff891`.
+
 | File | SHA-256 | Reviewed areas | Mechanisms distilled into |
 | --- | --- | --- | --- |
 | `source_materials/blackhole.html` | `da289ff15c8ea31db03efefdcb4b8dbbe8cd3a83095a329d3835e4b52ef926bb` | single-file WebGL black-hole renderer: RK2 Schwarzschild null-geodesic loop, exact equatorial disk crossing, Doppler/redshift disk shading, procedural deep field, HDR brightpass/blur/composite pipeline, camera/orbit/HUD separation | `$threejs-raymarched-space-effects` |
+| `source_materials/submarine.html` | `6f80f233fd24e38ece393aea67a11e271782335f455d1e320cc69d18babc5f49` | single-file WebGPU procedural submarine: tilted-collar hull planning, reusable grid/lathe/sweep/fin emitters, UV-owned apertures and ornament, complete cabin/stern/fin assembly, generated TSL material inputs, deterministic topology evidence | `$threejs-procedural-geometry` |
 
 ### Local-project findings retained
 
