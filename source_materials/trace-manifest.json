@@ -362,6 +362,15 @@
         "dev_docs/systems/render-pipeline.md": "8321acc9bc59c68b094993176dd4715900bc221e49308a5ddbd4f2c048ad277e"
       }
     },
+    "pearl-sea-park-sand-normal-fix": {
+      "repository": "https://github.com/scottstts/Pearl-Sea-Park",
+      "revision": "a1040a74874cf86e132bb97ae1997b0cc370fce1",
+      "license": "MIT by project rule",
+      "localDirectory": "../../SeaPark",
+      "files": {
+        "src/world/terrain.ts": "60e396ddf3cfa0bd70e914c1784a7ea9ad8765c01a7d374ed99818bc49234ee0"
+      }
+    },
     "poseidon": {
       "repository": "https://github.com/owenyuwono/poseidon",
       "revision": "caddf773c7e2b7c9b00ad232d21cca4f364d5272",

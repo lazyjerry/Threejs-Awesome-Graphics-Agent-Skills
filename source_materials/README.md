@@ -271,6 +271,9 @@ Reviewed:
   field;
 - procedural sand ripples, caustic reception, and the far lagoon saucer that
   rises from 680–1150 m to close the seabed/ocean horizon gap;
+- terrain-local procedural ripple normals transformed exactly once into view
+  space before assignment to the node-material normal hook (maintenance
+  revision `a1040a74874cf86e132bb97ae1997b0cc370fce1`);
 - a seabed-rooted arrival structure with underwater bracing and an above-water
   silhouette suitable for Snell-window alignment inspection.
 

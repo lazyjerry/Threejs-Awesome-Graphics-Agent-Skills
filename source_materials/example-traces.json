@@ -864,6 +864,19 @@
           "the focused render graph omits GTAO, adaptive exposure readback, dynamic-resolution control, and cached shadow clipmaps because they are not part of the underwater optical effect",
           "the focused seabed keeps a perfectly flat central plateau and the exact 680-to-1150-metre noisy saucer rise while omitting gameplay-specific basins, trenches, and dunes"
         ]
+      },
+      {
+        "source": "pearl-sea-park-sand-normal-fix",
+        "files": [
+          "src/world/terrain.ts"
+        ],
+        "mechanisms": [
+          "procedural sand-ripple slopes accumulated onto the geometry normal in terrain-local space",
+          "the resolved terrain-local normal transformed exactly once through transformNormalToView",
+          "the resulting view-space vector returned to the node-material normal hook so camera rotation does not rotate the apparent lighting"
+        ],
+        "boundary": "reference-extraction",
+        "divergences": []
       }
     ],
     "threejs-temporal-surfaces/touch-history-frost": [
