@@ -1,0 +1,9 @@
+skills_files=418
+markdown_files=61
+symlinks=0
+executables=0
+large_files=35
+pattern_hits=56
+urls=216
+unicode_hits=0
+binary_hashes=54

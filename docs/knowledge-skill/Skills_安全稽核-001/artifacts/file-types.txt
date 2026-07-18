@@ -1,0 +1,418 @@
+skills/threejs-atmosphere-aerial-perspective/SKILL.md: ASCII text
+skills/threejs-atmosphere-aerial-perspective/agents/openai.yaml: ASCII text
+skills/threejs-atmosphere-aerial-perspective/assets/lut-aerial-perspective/THIRD_PARTY_LICENSES.md: ASCII text
+skills/threejs-atmosphere-aerial-perspective/assets/lut-aerial-perspective/irradiance.bin: data
+skills/threejs-atmosphere-aerial-perspective/assets/lut-aerial-perspective/irradiance.exr: OpenEXR image data, version 2, storage: scanline, compression: zip, dataWindow: (0 0)-(63 15), displayWindow: (0 0)-(63 15), lineOrder: increasing y
+skills/threejs-atmosphere-aerial-perspective/assets/lut-aerial-perspective/scattering.bin: data
+skills/threejs-atmosphere-aerial-perspective/assets/lut-aerial-perspective/scattering.exr: OpenEXR image data, version 2, storage: scanline, compression: zip, dataWindow: (0 0)-(255 4095), displayWindow: (0 0)-(255 4095), lineOrder: increasing y
+skills/threejs-atmosphere-aerial-perspective/assets/lut-aerial-perspective/transmittance.bin: data
+skills/threejs-atmosphere-aerial-perspective/assets/lut-aerial-perspective/transmittance.exr: OpenEXR image data, version 2, storage: scanline, compression: zip, dataWindow: (0 0)-(255 63), displayWindow: (0 0)-(255 63), lineOrder: increasing y
+skills/threejs-atmosphere-aerial-perspective/examples/lut-aerial-perspective/atmosphere-effect.js: ASCII text
+skills/threejs-atmosphere-aerial-perspective/examples/lut-aerial-perspective/source/atmosphere/AerialPerspectiveEffect.ts: Unicode text, UTF-8 text
+skills/threejs-atmosphere-aerial-perspective/examples/lut-aerial-perspective/source/atmosphere/AtmosphereMaterialBase.ts: ASCII text
+skills/threejs-atmosphere-aerial-perspective/examples/lut-aerial-perspective/source/atmosphere/AtmosphereParameters.ts: ASCII text
+skills/threejs-atmosphere-aerial-perspective/examples/lut-aerial-perspective/source/atmosphere/IrradianceMaskPass.ts: ASCII text
+skills/threejs-atmosphere-aerial-perspective/examples/lut-aerial-perspective/source/atmosphere/PrecomputedTexturesLoader.ts: ASCII text
+skills/threejs-atmosphere-aerial-perspective/examples/lut-aerial-perspective/source/atmosphere/SkyLightProbe.ts: Unicode text, UTF-8 text
+skills/threejs-atmosphere-aerial-perspective/examples/lut-aerial-perspective/source/atmosphere/SkyMaterial.ts: Unicode text, UTF-8 text
+skills/threejs-atmosphere-aerial-perspective/examples/lut-aerial-perspective/source/atmosphere/StarsGeometry.ts: ASCII text
+skills/threejs-atmosphere-aerial-perspective/examples/lut-aerial-perspective/source/atmosphere/StarsMaterial.ts: ASCII text
+skills/threejs-atmosphere-aerial-perspective/examples/lut-aerial-perspective/source/atmosphere/SunDirectionalLight.ts: ASCII text
+skills/threejs-atmosphere-aerial-perspective/examples/lut-aerial-perspective/source/atmosphere/blackBodyChromaticity.ts: ASCII text
+skills/threejs-atmosphere-aerial-perspective/examples/lut-aerial-perspective/source/atmosphere/celestialDirections.ts: ASCII text
+skills/threejs-atmosphere-aerial-perspective/examples/lut-aerial-perspective/source/atmosphere/constants.ts: ASCII text
+skills/threejs-atmosphere-aerial-perspective/examples/lut-aerial-perspective/source/atmosphere/getAltitudeCorrectionOffset.ts: ASCII text
+skills/threejs-atmosphere-aerial-perspective/examples/lut-aerial-perspective/source/atmosphere/getSunLightColor.ts: ASCII text
+skills/threejs-atmosphere-aerial-perspective/examples/lut-aerial-perspective/source/atmosphere/helpers/functions.ts: ASCII text
+skills/threejs-atmosphere-aerial-perspective/examples/lut-aerial-perspective/source/atmosphere/helpers/sampleTexture.ts: ASCII text
+skills/threejs-atmosphere-aerial-perspective/examples/lut-aerial-perspective/source/atmosphere/index.ts: ASCII text
+skills/threejs-atmosphere-aerial-perspective/examples/lut-aerial-perspective/source/atmosphere/shaders/aerialPerspectiveEffect.frag: c program text, ASCII text
+skills/threejs-atmosphere-aerial-perspective/examples/lut-aerial-perspective/source/atmosphere/shaders/aerialPerspectiveEffect.vert: ASCII text
+skills/threejs-atmosphere-aerial-perspective/examples/lut-aerial-perspective/source/atmosphere/shaders/functions.glsl: Unicode text, UTF-8 text
+skills/threejs-atmosphere-aerial-perspective/examples/lut-aerial-perspective/source/atmosphere/shaders/index.ts: ASCII text
+skills/threejs-atmosphere-aerial-perspective/examples/lut-aerial-perspective/source/atmosphere/shaders/irradianceMask.frag: c program text, ASCII text
+skills/threejs-atmosphere-aerial-perspective/examples/lut-aerial-perspective/source/atmosphere/shaders/parameters.glsl: ASCII text
+skills/threejs-atmosphere-aerial-perspective/examples/lut-aerial-perspective/source/atmosphere/shaders/sky.frag: c program text, ASCII text
+skills/threejs-atmosphere-aerial-perspective/examples/lut-aerial-perspective/source/atmosphere/shaders/sky.glsl: ASCII text
+skills/threejs-atmosphere-aerial-perspective/examples/lut-aerial-perspective/source/atmosphere/shaders/sky.vert: c program text, ASCII text
+skills/threejs-atmosphere-aerial-perspective/examples/lut-aerial-perspective/source/atmosphere/shaders/stars.frag: c program text, ASCII text
+skills/threejs-atmosphere-aerial-perspective/examples/lut-aerial-perspective/source/atmosphere/shaders/stars.vert: c program text, ASCII text
+skills/threejs-atmosphere-aerial-perspective/examples/lut-aerial-perspective/source/atmosphere/types.ts: ASCII text
+skills/threejs-atmosphere-aerial-perspective/examples/lut-aerial-perspective/source/effects/DepthEffect.ts: ASCII text
+skills/threejs-atmosphere-aerial-perspective/examples/lut-aerial-perspective/source/effects/DitheringEffect.ts: ASCII text
+skills/threejs-atmosphere-aerial-perspective/examples/lut-aerial-perspective/source/effects/DownsampleThresholdMaterial.ts: ASCII text
+skills/threejs-atmosphere-aerial-perspective/examples/lut-aerial-perspective/source/effects/GeometryEffect.ts: ASCII text
+skills/threejs-atmosphere-aerial-perspective/examples/lut-aerial-perspective/source/effects/GeometryPass.ts: ASCII text
+skills/threejs-atmosphere-aerial-perspective/examples/lut-aerial-perspective/source/effects/LensFlareEffect.ts: ASCII text
+skills/threejs-atmosphere-aerial-perspective/examples/lut-aerial-perspective/source/effects/LensFlareFeaturesMaterial.ts: ASCII text
+skills/threejs-atmosphere-aerial-perspective/examples/lut-aerial-perspective/source/effects/NormalEffect.ts: ASCII text
+skills/threejs-atmosphere-aerial-perspective/examples/lut-aerial-perspective/source/effects/createHaldLookupTexture.ts: ASCII text
+skills/threejs-atmosphere-aerial-perspective/examples/lut-aerial-perspective/source/effects/index.ts: ASCII text
+skills/threejs-atmosphere-aerial-perspective/examples/lut-aerial-perspective/source/effects/setupMaterialsForGeometryPass.ts: ASCII text
+skills/threejs-atmosphere-aerial-perspective/examples/lut-aerial-perspective/source/effects/shaders/depthEffect.frag: c program text, ASCII text
+skills/threejs-atmosphere-aerial-perspective/examples/lut-aerial-perspective/source/effects/shaders/ditheringEffect.frag: c program text, ASCII text
+skills/threejs-atmosphere-aerial-perspective/examples/lut-aerial-perspective/source/effects/shaders/downsampleThreshold.frag: c program text, ASCII text
+skills/threejs-atmosphere-aerial-perspective/examples/lut-aerial-perspective/source/effects/shaders/downsampleThreshold.vert: c program text, ASCII text
+skills/threejs-atmosphere-aerial-perspective/examples/lut-aerial-perspective/source/effects/shaders/geometryEffect.frag: c program text, ASCII text
+skills/threejs-atmosphere-aerial-perspective/examples/lut-aerial-perspective/source/effects/shaders/lensFlareEffect.frag: ASCII text
+skills/threejs-atmosphere-aerial-perspective/examples/lut-aerial-perspective/source/effects/shaders/lensFlareFeatures.frag: c program text, ASCII text
+skills/threejs-atmosphere-aerial-perspective/examples/lut-aerial-perspective/source/effects/shaders/lensFlareFeatures.vert: c program text, ASCII text
+skills/threejs-atmosphere-aerial-perspective/examples/lut-aerial-perspective/source/effects/shaders/normalEffect.frag: c program text, ASCII text
+skills/threejs-atmosphere-aerial-perspective/examples/lut-aerial-perspective/source/geospatial/ArrayBufferLoader.ts: ASCII text
+skills/threejs-atmosphere-aerial-perspective/examples/lut-aerial-perspective/source/geospatial/DataLoader.ts: ASCII text
+skills/threejs-atmosphere-aerial-perspective/examples/lut-aerial-perspective/source/geospatial/EXR3DLoader.ts: ASCII text
+skills/threejs-atmosphere-aerial-perspective/examples/lut-aerial-perspective/source/geospatial/Ellipsoid.ts: ASCII text
+skills/threejs-atmosphere-aerial-perspective/examples/lut-aerial-perspective/source/geospatial/EllipsoidGeometry.ts: ASCII text
+skills/threejs-atmosphere-aerial-perspective/examples/lut-aerial-perspective/source/geospatial/Geodetic.ts: ASCII text
+skills/threejs-atmosphere-aerial-perspective/examples/lut-aerial-perspective/source/geospatial/PointOfView.ts: ASCII text
+skills/threejs-atmosphere-aerial-perspective/examples/lut-aerial-perspective/source/geospatial/Rectangle.ts: ASCII text
+skills/threejs-atmosphere-aerial-perspective/examples/lut-aerial-perspective/source/geospatial/STBNLoader.ts: ASCII text
+skills/threejs-atmosphere-aerial-perspective/examples/lut-aerial-perspective/source/geospatial/Texture3DLoader.ts: ASCII text
+skills/threejs-atmosphere-aerial-perspective/examples/lut-aerial-perspective/source/geospatial/TileCoordinate.ts: ASCII text
+skills/threejs-atmosphere-aerial-perspective/examples/lut-aerial-perspective/source/geospatial/TilingScheme.ts: ASCII text
+skills/threejs-atmosphere-aerial-perspective/examples/lut-aerial-perspective/source/geospatial/TypedArrayLoader.ts: ASCII text
+skills/threejs-atmosphere-aerial-perspective/examples/lut-aerial-perspective/source/geospatial/assertions.ts: ASCII text
+skills/threejs-atmosphere-aerial-perspective/examples/lut-aerial-perspective/source/geospatial/bufferGeometry.ts: ASCII text
+skills/threejs-atmosphere-aerial-perspective/examples/lut-aerial-perspective/source/geospatial/constants.ts: ASCII text
+skills/threejs-atmosphere-aerial-perspective/examples/lut-aerial-perspective/source/geospatial/decorators.ts: ASCII text
+skills/threejs-atmosphere-aerial-perspective/examples/lut-aerial-perspective/source/geospatial/defineShorthand.ts: ASCII text
+skills/threejs-atmosphere-aerial-perspective/examples/lut-aerial-perspective/source/geospatial/helpers/projectOnEllipsoidSurface.ts: ASCII text
+skills/threejs-atmosphere-aerial-perspective/examples/lut-aerial-perspective/source/geospatial/index.ts: ASCII text
+skills/threejs-atmosphere-aerial-perspective/examples/lut-aerial-perspective/source/geospatial/math.ts: ASCII text
+skills/threejs-atmosphere-aerial-perspective/examples/lut-aerial-perspective/source/geospatial/resolveIncludes.ts: ASCII text
+skills/threejs-atmosphere-aerial-perspective/examples/lut-aerial-perspective/source/geospatial/shaders/cascadedShadowMaps.glsl: ASCII text
+skills/threejs-atmosphere-aerial-perspective/examples/lut-aerial-perspective/source/geospatial/shaders/depth.glsl: ASCII text
+skills/threejs-atmosphere-aerial-perspective/examples/lut-aerial-perspective/source/geospatial/shaders/generators.glsl: ASCII text
+skills/threejs-atmosphere-aerial-perspective/examples/lut-aerial-perspective/source/geospatial/shaders/index.ts: ASCII text
+skills/threejs-atmosphere-aerial-perspective/examples/lut-aerial-perspective/source/geospatial/shaders/interleavedGradientNoise.glsl: ASCII text
+skills/threejs-atmosphere-aerial-perspective/examples/lut-aerial-perspective/source/geospatial/shaders/math.glsl: ASCII text
+skills/threejs-atmosphere-aerial-perspective/examples/lut-aerial-perspective/source/geospatial/shaders/packing.glsl: ASCII text
+skills/threejs-atmosphere-aerial-perspective/examples/lut-aerial-perspective/source/geospatial/shaders/raySphereIntersection.glsl: ASCII text
+skills/threejs-atmosphere-aerial-perspective/examples/lut-aerial-perspective/source/geospatial/shaders/transform.glsl: ASCII text
+skills/threejs-atmosphere-aerial-perspective/examples/lut-aerial-perspective/source/geospatial/shaders/turbo.glsl: ASCII text
+skills/threejs-atmosphere-aerial-perspective/examples/lut-aerial-perspective/source/geospatial/shaders/vogelDisk.glsl: ASCII text
+skills/threejs-atmosphere-aerial-perspective/examples/lut-aerial-perspective/source/geospatial/typedArray.ts: ASCII text
+skills/threejs-atmosphere-aerial-perspective/examples/lut-aerial-perspective/source/geospatial/typedArrayParsers.ts: ASCII text
+skills/threejs-atmosphere-aerial-perspective/examples/lut-aerial-perspective/source/geospatial/types.ts: ASCII text
+skills/threejs-atmosphere-aerial-perspective/examples/lut-aerial-perspective/source/geospatial/unrollLoops.ts: ASCII text
+skills/threejs-atmosphere-aerial-perspective/examples/lut-aerial-perspective/source/vendor/tiny-invariant.ts: ASCII text
+skills/threejs-atmosphere-aerial-perspective/examples/lut-aerial-perspective/source/vendor/url-join.ts: ASCII text
+skills/threejs-atmosphere-aerial-perspective/references/atmosphere-system-contract.md: Unicode text, UTF-8 text
+skills/threejs-bloom/SKILL.md: ASCII text
+skills/threejs-bloom/agents/openai.yaml: ASCII text
+skills/threejs-bloom/references/hdr-bloom-system.md: Python script text executable, Unicode text, UTF-8 text
+skills/threejs-camera-direction/SKILL.md: ASCII text, with very long lines (312)
+skills/threejs-camera-direction/agents/openai.yaml: ASCII text
+skills/threejs-camera-direction/references/camera-rig-and-cinematic-systems.md: Unicode text, UTF-8 text
+skills/threejs-exposure-color-grading/SKILL.md: Unicode text, UTF-8 text
+skills/threejs-exposure-color-grading/agents/openai.yaml: ASCII text
+skills/threejs-exposure-color-grading/references/scene-referred-color-pipeline.md: ASCII text
+skills/threejs-image-pipeline/SKILL.md: Unicode text, UTF-8 text
+skills/threejs-image-pipeline/agents/openai.yaml: ASCII text
+skills/threejs-image-pipeline/references/production-image-pipeline.md: Unicode text, UTF-8 text
+skills/threejs-parallax-occlusion-mapping/SKILL.md: ASCII text
+skills/threejs-parallax-occlusion-mapping/agents/openai.yaml: ASCII text
+skills/threejs-parallax-occlusion-mapping/examples/silhouette-relief/ParallaxOcclusion.js: Java source, ASCII text
+skills/threejs-parallax-occlusion-mapping/examples/silhouette-relief/bulkhead-height-maps.js: Java source, ASCII text
+skills/threejs-parallax-occlusion-mapping/examples/silhouette-relief/silhouette-relief-system.js: Java source, ASCII text
+skills/threejs-parallax-occlusion-mapping/references/silhouette-relief-contract.md: Unicode text, UTF-8 text
+skills/threejs-precipitation-surfaces/SKILL.md: ASCII text
+skills/threejs-precipitation-surfaces/agents/openai.yaml: ASCII text
+skills/threejs-precipitation-surfaces/assets/wet-puddle-rain/Splash.png: PNG image data, 2048 x 1440, 8-bit/color RGBA, non-interlaced
+skills/threejs-precipitation-surfaces/assets/wet-puddle-rain/THIRD_PARTY_LICENSES.md: ASCII text
+skills/threejs-precipitation-surfaces/assets/wet-puddle-rain/road/aerial_asphalt_01_ao_2k.jpg: JPEG image data, JFIF standard 1.01, resolution (DPCM), density 28x28, segment length 16, baseline, precision 8, 2048x2048, components 1
+skills/threejs-precipitation-surfaces/assets/wet-puddle-rain/road/aerial_asphalt_01_diff_2k.jpg: JPEG image data, JFIF standard 1.01, resolution (DPCM), density 28x28, segment length 16, baseline, precision 8, 2048x2048, components 3
+skills/threejs-precipitation-surfaces/assets/wet-puddle-rain/road/aerial_asphalt_01_nor_gl_2k.jpg: JPEG image data, JFIF standard 1.01, resolution (DPCM), density 28x28, segment length 16, baseline, precision 8, 2048x2048, components 3
+skills/threejs-precipitation-surfaces/assets/wet-puddle-rain/road/aerial_asphalt_01_rough_2k.jpg: JPEG image data, JFIF standard 1.01, resolution (DPCM), density 28x28, segment length 16, baseline, precision 8, 2048x2048, components 1
+skills/threejs-precipitation-surfaces/examples/snow-accumulation/snow-system.js: c program text, ASCII text
+skills/threejs-precipitation-surfaces/examples/wet-puddle-rain/rain-puddle-system.js: Java source, ASCII text, with very long lines (704)
+skills/threejs-precipitation-surfaces/references/precipitation-surface-systems.md: ASCII text
+skills/threejs-procedural-animation/SKILL.md: ASCII text, with very long lines (305)
+skills/threejs-procedural-animation/agents/openai.yaml: ASCII text
+skills/threejs-procedural-animation/references/procedural-motion-and-docking-systems.md: Unicode text, UTF-8 text
+skills/threejs-procedural-architecture/SKILL.md: Unicode text, UTF-8 text
+skills/threejs-procedural-architecture/agents/openai.yaml: ASCII text
+skills/threejs-procedural-architecture/assets/procedural-financial-tower/THIRD_PARTY_LICENSES.md: ASCII text
+skills/threejs-procedural-architecture/assets/procedural-financial-tower/limestone-albedo.png: PNG image data, 1536 x 1024, 8-bit/color RGB, non-interlaced
+skills/threejs-procedural-architecture/assets/procedural-financial-tower/limestone-normal.png: PNG image data, 1536 x 1024, 8-bit/color RGB, non-interlaced
+skills/threejs-procedural-architecture/assets/procedural-financial-tower/ornaments-albedo.png: PNG image data, 1254 x 1254, 8-bit/color RGB, non-interlaced
+skills/threejs-procedural-architecture/assets/procedural-financial-tower/ornaments-normal.png: PNG image data, 1254 x 1254, 8-bit/color RGB, non-interlaced
+skills/threejs-procedural-architecture/examples/procedural-financial-tower/building-system.js: Java source, ASCII text
+skills/threejs-procedural-architecture/examples/procedural-financial-tower/shadow-clipmaps.js: Java source, ASCII text
+skills/threejs-procedural-architecture/references/grammar-and-mesh-compiler.md: Unicode text, UTF-8 text
+skills/threejs-procedural-fields/SKILL.md: Unicode text, UTF-8 text
+skills/threejs-procedural-fields/agents/openai.yaml: ASCII text
+skills/threejs-procedural-fields/references/field-stack-recipes.md: Unicode text, UTF-8 text
+skills/threejs-procedural-geometry/SKILL.md: ASCII text, with very long lines (366)
+skills/threejs-procedural-geometry/agents/openai.yaml: ASCII text
+skills/threejs-procedural-geometry/assets/sculpted-gallery-frame/aged-walnut-frame.webp: RIFF (little-endian) data, Web/P image, VP8 encoding, 1024x1024, Scaling: [none]x[none], YUV color, decoders should clamp
+skills/threejs-procedural-geometry/assets/sculpted-gallery-frame/antique-gold-frame.webp: RIFF (little-endian) data, Web/P image, VP8 encoding, 1024x1024, Scaling: [none]x[none], YUV color, decoders should clamp
+skills/threejs-procedural-geometry/assets/sculpted-gallery-frame/dark-ebony-frame.webp: RIFF (little-endian) data, Web/P image, VP8 encoding, 1024x1024, Scaling: [none]x[none], YUV color, decoders should clamp
+skills/threejs-procedural-geometry/assets/sculpted-gallery-frame/gallery-mat-board.webp: RIFF (little-endian) data, Web/P image, VP8 encoding, 768x768, Scaling: [none]x[none], YUV color, decoders should clamp
+skills/threejs-procedural-geometry/examples/porcelain-brass-submarine/source/design-contract.js: Java source, ASCII text
+skills/threejs-procedural-geometry/examples/porcelain-brass-submarine/source/mesh-kit.js: Java source, ASCII text
+skills/threejs-procedural-geometry/examples/porcelain-brass-submarine/source/submarine-materials.js: Java source, ASCII text
+skills/threejs-procedural-geometry/examples/porcelain-brass-submarine/source/submarine-model.js: Java source, Unicode text, UTF-8 text
+skills/threejs-procedural-geometry/examples/porcelain-brass-submarine/submarine-model.js: ASCII text
+skills/threejs-procedural-geometry/examples/sculpted-gallery-frame/frame-geometry.js: Java source, ASCII text
+skills/threejs-procedural-geometry/references/complete-submarine-assembly.md: ASCII text
+skills/threejs-procedural-geometry/references/profile-sweeps-and-mesh-writers.md: Unicode text, UTF-8 text
+skills/threejs-procedural-materials/SKILL.md: Unicode text, UTF-8 text, with very long lines (398)
+skills/threejs-procedural-materials/agents/openai.yaml: ASCII text
+skills/threejs-procedural-materials/assets/hybrid-soil-moss-surface/Ground103_1K-JPG_AmbientOcclusion.jpg: JPEG image data, JFIF standard 1.01, resolution (DPI), density 28x28, segment length 16, baseline, precision 8, 1024x1024, components 1
+skills/threejs-procedural-materials/assets/hybrid-soil-moss-surface/Ground103_1K-JPG_Color.jpg: JPEG image data, JFIF standard 1.01, resolution (DPI), density 28x28, segment length 16, baseline, precision 8, 1024x1024, components 3
+skills/threejs-procedural-materials/assets/hybrid-soil-moss-surface/Ground103_1K-JPG_Displacement.jpg: JPEG image data, JFIF standard 1.01, resolution (DPI), density 28x28, segment length 16, baseline, precision 8, 1024x1024, components 1
+skills/threejs-procedural-materials/assets/hybrid-soil-moss-surface/Ground103_1K-JPG_NormalGL.jpg: JPEG image data, JFIF standard 1.01, resolution (DPI), density 28x28, segment length 16, baseline, precision 8, 1024x1024, components 3
+skills/threejs-procedural-materials/assets/hybrid-soil-moss-surface/Ground103_1K-JPG_Roughness.jpg: JPEG image data, JFIF standard 1.01, resolution (DPI), density 28x28, segment length 16, baseline, precision 8, 1024x1024, components 1
+skills/threejs-procedural-materials/assets/hybrid-soil-moss-surface/moss/Moss002_1K-JPG_AmbientOcclusion.jpg: JPEG image data, JFIF standard 1.01, resolution (DPCM), density 28x28, segment length 16, baseline, precision 8, 1024x1024, components 1
+skills/threejs-procedural-materials/assets/hybrid-soil-moss-surface/moss/Moss002_1K-JPG_Color.jpg: JPEG image data, JFIF standard 1.01, resolution (DPCM), density 28x28, segment length 16, baseline, precision 8, 1024x1024, components 3
+skills/threejs-procedural-materials/assets/hybrid-soil-moss-surface/moss/Moss002_1K-JPG_NormalGL.jpg: JPEG image data, JFIF standard 1.01, resolution (DPCM), density 28x28, segment length 16, baseline, precision 8, 1024x1024, components 3
+skills/threejs-procedural-materials/assets/hybrid-soil-moss-surface/moss/Moss002_1K-JPG_Roughness.jpg: JPEG image data, JFIF standard 1.01, resolution (DPCM), density 28x28, segment length 16, baseline, precision 8, 1024x1024, components 1
+skills/threejs-procedural-materials/examples/hybrid-soil-moss-surface/hybrid-soil-moss-surface.js: Java source, ASCII text
+skills/threejs-procedural-materials/examples/hybrid-soil-moss-surface/model-moss-accumulation.js: Java source, Unicode text, UTF-8 text
+skills/threejs-procedural-materials/examples/lava-flow-surface/lava-surface.js: c program text, ASCII text
+skills/threejs-procedural-materials/references/hybrid-soil-moss-surface.md: ASCII text
+skills/threejs-procedural-materials/references/procedural-pbr-system.md: Unicode text, UTF-8 text
+skills/threejs-procedural-planets/SKILL.md: Unicode text, UTF-8 text
+skills/threejs-procedural-planets/agents/openai.yaml: ASCII text
+skills/threejs-procedural-planets/examples/procedural-planet-surface/planet-system.js: c program text, ASCII text
+skills/threejs-procedural-planets/examples/procedural-planet-surface/terrain-field.js: ASCII text
+skills/threejs-procedural-planets/references/planet-field-and-atmosphere-systems.md: Unicode text, UTF-8 text
+skills/threejs-procedural-vegetation/SKILL.md: ASCII text
+skills/threejs-procedural-vegetation/agents/openai.yaml: ASCII text
+skills/threejs-procedural-vegetation/assets/structured-ash-growth/THIRD_PARTY_LICENSES.md: ASCII text
+skills/threejs-procedural-vegetation/assets/structured-ash-growth/ash.png: PNG image data, 1024 x 1024, 8-bit colormap, non-interlaced
+skills/threejs-procedural-vegetation/assets/structured-ash-growth/bark-color.jpg: JPEG image data, JFIF standard 1.01, resolution (DPCM), density 118x118, segment length 16, baseline, precision 8, 512x1024, components 3
+skills/threejs-procedural-vegetation/assets/structured-ash-growth/bark-normal.jpg: JPEG image data, JFIF standard 1.01, resolution (DPCM), density 118x118, segment length 16, baseline, precision 8, 512x1024, components 3
+skills/threejs-procedural-vegetation/assets/structured-ash-growth/bark-roughness.jpg: JPEG image data, JFIF standard 1.01, resolution (DPCM), density 118x118, segment length 16, baseline, precision 8, 512x1024, components 1
+skills/threejs-procedural-vegetation/assets/stylized-meadow-grass/grass-blades-up.glb: glTF binary model, version 2, length 4524 bytes
+skills/threejs-procedural-vegetation/assets/stylized-meadow-grass/path.webp: RIFF (little-endian) data, Web/P image
+skills/threejs-procedural-vegetation/assets/stylized-meadow-grass/perlin.webp: RIFF (little-endian) data, Web/P image
+skills/threejs-procedural-vegetation/examples/gpu-computed-grass/gpu-grass-system.js: Java source, ASCII text
+skills/threejs-procedural-vegetation/examples/procedural-surface-ivy/ivy-effect.js: ASCII text
+skills/threejs-procedural-vegetation/examples/procedural-surface-ivy/source/bvh.ts: Java source, Unicode text, UTF-8 text
+skills/threejs-procedural-vegetation/examples/procedural-surface-ivy/source/flowers.ts: Java source, Unicode text, UTF-8 text
+skills/threejs-procedural-vegetation/examples/procedural-surface-ivy/source/ivy.ts: Java source, Unicode text, UTF-8 text
+skills/threejs-procedural-vegetation/examples/procedural-surface-ivy/source/leafTexture.ts: Java source, Unicode text, UTF-8 text
+skills/threejs-procedural-vegetation/examples/procedural-surface-ivy/source/wind.ts: Unicode text, UTF-8 text
+skills/threejs-procedural-vegetation/examples/structured-ash-growth/ash-preset.js: ASCII text
+skills/threejs-procedural-vegetation/examples/structured-ash-growth/tree-system.js: C++ source text, ASCII text
+skills/threejs-procedural-vegetation/examples/stylized-meadow-grass/grass-system.js: C++ source text, ASCII text
+skills/threejs-procedural-vegetation/references/structured-ash-growth-system.md: Unicode text, UTF-8 text
+skills/threejs-procedural-vfx/SKILL.md: Unicode text, UTF-8 text
+skills/threejs-procedural-vfx/agents/openai.yaml: ASCII text
+skills/threejs-procedural-vfx/examples/reentry-plasma/reentry-plasma.js: c program text, ASCII text
+skills/threejs-procedural-vfx/references/procedural-vfx-system.md: Unicode text, UTF-8 text
+skills/threejs-raymarched-space-effects/SKILL.md: Unicode text, UTF-8 text
+skills/threejs-raymarched-space-effects/agents/openai.yaml: ASCII text
+skills/threejs-raymarched-space-effects/assets/curved-ray-accretion-volume/noise_deep.png: PNG image data, 1024 x 1024, 8-bit/color RGB, non-interlaced
+skills/threejs-raymarched-space-effects/examples/curved-ray-accretion-volume/curved-ray-effect.js: c program text, ASCII text
+skills/threejs-raymarched-space-effects/examples/schwarzschild-geodesic-black-hole/geodesic-black-hole-effect.js: c program text, ASCII text
+skills/threejs-raymarched-space-effects/references/curved-ray-integrators.md: Unicode text, UTF-8 text, with very long lines (387)
+skills/threejs-screen-space-ambient-occlusion/SKILL.md: ASCII text
+skills/threejs-screen-space-ambient-occlusion/agents/openai.yaml: ASCII text
+skills/threejs-screen-space-ambient-occlusion/references/gtao-bent-normal-pipeline.md: Unicode text, UTF-8 text
+skills/threejs-shadow-systems/SKILL.md: ASCII text
+skills/threejs-shadow-systems/agents/openai.yaml: ASCII text
+skills/threejs-shadow-systems/references/cached-clipmap-shadows.md: Unicode text, UTF-8 text
+skills/threejs-skill-router/SKILL.md: Unicode text, UTF-8 text
+skills/threejs-skill-router/agents/openai.yaml: ASCII text
+skills/threejs-spectral-ocean/SKILL.md: ASCII text, with very long lines (499)
+skills/threejs-spectral-ocean/agents/openai.yaml: ASCII text, with very long lines (341)
+skills/threejs-spectral-ocean/assets/stylized-above-below-ocean/foam.webp: RIFF (little-endian) data, Web/P image, VP8 encoding, 1024x1024, Scaling: [none]x[none], YUV color, decoders should clamp
+skills/threejs-spectral-ocean/assets/stylized-above-below-ocean/sand.webp: RIFF (little-endian) data, Web/P image, VP8 encoding, 1024x1024, Scaling: [none]x[none], YUV color, decoders should clamp
+skills/threejs-spectral-ocean/examples/hybrid-clear-water-ocean/hybrid-ocean-material.js: c program text, ASCII text
+skills/threejs-spectral-ocean/examples/spectral-cascade-ocean/detail-texture.js: Java source, ASCII text
+skills/threejs-spectral-ocean/examples/spectral-cascade-ocean/fft-pipeline.js: c program text, ASCII text
+skills/threejs-spectral-ocean/examples/spectral-cascade-ocean/ocean-material.js: c program text, ASCII text
+skills/threejs-spectral-ocean/examples/spectral-cascade-ocean/ocean-system.js: c program text, ASCII text
+skills/threejs-spectral-ocean/examples/spectral-cascade-ocean/spectrum.js: Algol 68 source text, ASCII text
+skills/threejs-spectral-ocean/examples/stylized-above-below-ocean/stylized-ocean-material.js: c program text, ASCII text
+skills/threejs-spectral-ocean/examples/submerged-snell-ocean/source/caustics.ts: ASCII text
+skills/threejs-spectral-ocean/examples/submerged-snell-ocean/source/current.ts: ASCII text
+skills/threejs-spectral-ocean/examples/submerged-snell-ocean/source/fft-compute.ts: ASCII text
+skills/threejs-spectral-ocean/examples/submerged-snell-ocean/source/grade.ts: ASCII text
+skills/threejs-spectral-ocean/examples/submerged-snell-ocean/source/noise.ts: ASCII text
+skills/threejs-spectral-ocean/examples/submerged-snell-ocean/source/ocean-material.ts: Unicode text, UTF-8 text
+skills/threejs-spectral-ocean/examples/submerged-snell-ocean/source/ocean-spectrum.ts: Unicode text, UTF-8 text
+skills/threejs-spectral-ocean/examples/submerged-snell-ocean/source/ocean-system.ts: ASCII text
+skills/threejs-spectral-ocean/examples/submerged-snell-ocean/source/random.ts: ASCII text
+skills/threejs-spectral-ocean/examples/submerged-snell-ocean/source/sky.ts: ASCII text
+skills/threejs-spectral-ocean/examples/submerged-snell-ocean/source/underwater-medium.ts: ASCII text
+skills/threejs-spectral-ocean/examples/submerged-snell-ocean/source/wave-sim.ts: ASCII text
+skills/threejs-spectral-ocean/examples/submerged-snell-ocean/underwater-snell-ocean.ts: ASCII text
+skills/threejs-spectral-ocean/references/spectral-cascade-ocean-system.md: Unicode text, UTF-8 text
+skills/threejs-temporal-surfaces/SKILL.md: ASCII text
+skills/threejs-temporal-surfaces/agents/openai.yaml: ASCII text
+skills/threejs-temporal-surfaces/assets/touch-history-frost/main-normal.webp: RIFF (little-endian) data, Web/P image, VP8 encoding, 256x256, Scaling: [none]x[none], YUV color, decoders should clamp
+skills/threejs-temporal-surfaces/assets/touch-history-frost/noise.webp: RIFF (little-endian) data, Web/P image, VP8 encoding, 128x128, Scaling: [none]x[none], YUV color, decoders should clamp
+skills/threejs-temporal-surfaces/assets/touch-history-frost/sub-normal.webp: RIFF (little-endian) data, Web/P image, VP8 encoding, 256x256, Scaling: [none]x[none], YUV color, decoders should clamp
+skills/threejs-temporal-surfaces/examples/refractive-window-rain/rain-window.frag: c program text, ASCII text
+skills/threejs-temporal-surfaces/examples/refractive-window-rain/window-rain-effect.js: c program text, ASCII text
+skills/threejs-temporal-surfaces/examples/touch-history-frost/frost-surface-effect.js: c program text, ASCII text
+skills/threejs-temporal-surfaces/references/ping-pong-accumulation.md: ASCII text
+skills/threejs-temporal-surfaces/references/refractive-window-rain.md: ASCII text
+skills/threejs-visual-validation/SKILL.md: ASCII text, with very long lines (308)
+skills/threejs-visual-validation/agents/openai.yaml: ASCII text
+skills/threejs-visual-validation/references/graphics-validation-protocol.md: Unicode text, UTF-8 text
+skills/threejs-volumetric-clouds/SKILL.md: Unicode text, UTF-8 text
+skills/threejs-volumetric-clouds/agents/openai.yaml: ASCII text
+skills/threejs-volumetric-clouds/assets/weather-volume-clouds/THIRD_PARTY_LICENSES.md: ASCII text
+skills/threejs-volumetric-clouds/assets/weather-volume-clouds/atmosphere/irradiance.exr: OpenEXR image data, version 2, storage: scanline, compression: zip, dataWindow: (0 0)-(63 15), displayWindow: (0 0)-(63 15), lineOrder: increasing y
+skills/threejs-volumetric-clouds/assets/weather-volume-clouds/atmosphere/scattering.exr: OpenEXR image data, version 2, storage: scanline, compression: zip, dataWindow: (0 0)-(255 4095), displayWindow: (0 0)-(255 4095), lineOrder: increasing y
+skills/threejs-volumetric-clouds/assets/weather-volume-clouds/atmosphere/transmittance.exr: OpenEXR image data, version 2, storage: scanline, compression: zip, dataWindow: (0 0)-(255 63), displayWindow: (0 0)-(255 63), lineOrder: increasing y
+skills/threejs-volumetric-clouds/assets/weather-volume-clouds/local_weather.png: PNG image data, 512 x 512, 8-bit/color RGBA, non-interlaced
+skills/threejs-volumetric-clouds/assets/weather-volume-clouds/shape.bin: OpenPGP Public Key
+skills/threejs-volumetric-clouds/assets/weather-volume-clouds/shape_detail.bin: data
+skills/threejs-volumetric-clouds/assets/weather-volume-clouds/stbn.bin: data
+skills/threejs-volumetric-clouds/assets/weather-volume-clouds/turbulence.png: PNG image data, 128 x 128, 8-bit/color RGBA, non-interlaced
+skills/threejs-volumetric-clouds/examples/weather-volume-clouds/cloud-effect.js: ASCII text
+skills/threejs-volumetric-clouds/examples/weather-volume-clouds/source/atmosphere/AerialPerspectiveEffect.ts: Unicode text, UTF-8 text
+skills/threejs-volumetric-clouds/examples/weather-volume-clouds/source/atmosphere/AtmosphereMaterialBase.ts: ASCII text
+skills/threejs-volumetric-clouds/examples/weather-volume-clouds/source/atmosphere/AtmosphereParameters.ts: ASCII text
+skills/threejs-volumetric-clouds/examples/weather-volume-clouds/source/atmosphere/IrradianceMaskPass.ts: ASCII text
+skills/threejs-volumetric-clouds/examples/weather-volume-clouds/source/atmosphere/PrecomputedTexturesLoader.ts: ASCII text
+skills/threejs-volumetric-clouds/examples/weather-volume-clouds/source/atmosphere/SkyLightProbe.ts: Unicode text, UTF-8 text
+skills/threejs-volumetric-clouds/examples/weather-volume-clouds/source/atmosphere/SkyMaterial.ts: Unicode text, UTF-8 text
+skills/threejs-volumetric-clouds/examples/weather-volume-clouds/source/atmosphere/StarsGeometry.ts: ASCII text
+skills/threejs-volumetric-clouds/examples/weather-volume-clouds/source/atmosphere/StarsMaterial.ts: ASCII text
+skills/threejs-volumetric-clouds/examples/weather-volume-clouds/source/atmosphere/SunDirectionalLight.ts: ASCII text
+skills/threejs-volumetric-clouds/examples/weather-volume-clouds/source/atmosphere/blackBodyChromaticity.ts: ASCII text
+skills/threejs-volumetric-clouds/examples/weather-volume-clouds/source/atmosphere/celestialDirections.ts: ASCII text
+skills/threejs-volumetric-clouds/examples/weather-volume-clouds/source/atmosphere/constants.ts: ASCII text
+skills/threejs-volumetric-clouds/examples/weather-volume-clouds/source/atmosphere/getAltitudeCorrectionOffset.ts: ASCII text
+skills/threejs-volumetric-clouds/examples/weather-volume-clouds/source/atmosphere/getSunLightColor.ts: ASCII text
+skills/threejs-volumetric-clouds/examples/weather-volume-clouds/source/atmosphere/helpers/functions.ts: ASCII text
+skills/threejs-volumetric-clouds/examples/weather-volume-clouds/source/atmosphere/helpers/sampleTexture.ts: ASCII text
+skills/threejs-volumetric-clouds/examples/weather-volume-clouds/source/atmosphere/index.ts: ASCII text
+skills/threejs-volumetric-clouds/examples/weather-volume-clouds/source/atmosphere/shaders/aerialPerspectiveEffect.frag: c program text, ASCII text
+skills/threejs-volumetric-clouds/examples/weather-volume-clouds/source/atmosphere/shaders/aerialPerspectiveEffect.vert: ASCII text
+skills/threejs-volumetric-clouds/examples/weather-volume-clouds/source/atmosphere/shaders/functions.glsl: Unicode text, UTF-8 text
+skills/threejs-volumetric-clouds/examples/weather-volume-clouds/source/atmosphere/shaders/index.ts: ASCII text
+skills/threejs-volumetric-clouds/examples/weather-volume-clouds/source/atmosphere/shaders/irradianceMask.frag: c program text, ASCII text
+skills/threejs-volumetric-clouds/examples/weather-volume-clouds/source/atmosphere/shaders/parameters.glsl: ASCII text
+skills/threejs-volumetric-clouds/examples/weather-volume-clouds/source/atmosphere/shaders/sky.frag: c program text, ASCII text
+skills/threejs-volumetric-clouds/examples/weather-volume-clouds/source/atmosphere/shaders/sky.glsl: ASCII text
+skills/threejs-volumetric-clouds/examples/weather-volume-clouds/source/atmosphere/shaders/sky.vert: c program text, ASCII text
+skills/threejs-volumetric-clouds/examples/weather-volume-clouds/source/atmosphere/shaders/stars.frag: c program text, ASCII text
+skills/threejs-volumetric-clouds/examples/weather-volume-clouds/source/atmosphere/shaders/stars.vert: c program text, ASCII text
+skills/threejs-volumetric-clouds/examples/weather-volume-clouds/source/atmosphere/types.ts: ASCII text
+skills/threejs-volumetric-clouds/examples/weather-volume-clouds/source/clouds/CascadedShadowMaps.ts: ASCII text
+skills/threejs-volumetric-clouds/examples/weather-volume-clouds/source/clouds/CloudLayer.ts: ASCII text
+skills/threejs-volumetric-clouds/examples/weather-volume-clouds/source/clouds/CloudLayers.ts: ASCII text
+skills/threejs-volumetric-clouds/examples/weather-volume-clouds/source/clouds/CloudShape.ts: ASCII text
+skills/threejs-volumetric-clouds/examples/weather-volume-clouds/source/clouds/CloudShapeDetail.ts: ASCII text
+skills/threejs-volumetric-clouds/examples/weather-volume-clouds/source/clouds/CloudsEffect.ts: Nim source code, ASCII text
+skills/threejs-volumetric-clouds/examples/weather-volume-clouds/source/clouds/CloudsMaterial.ts: ASCII text
+skills/threejs-volumetric-clouds/examples/weather-volume-clouds/source/clouds/CloudsPass.ts: ASCII text
+skills/threejs-volumetric-clouds/examples/weather-volume-clouds/source/clouds/CloudsResolveMaterial.ts: ASCII text
+skills/threejs-volumetric-clouds/examples/weather-volume-clouds/source/clouds/DensityProfile.ts: ASCII text
+skills/threejs-volumetric-clouds/examples/weather-volume-clouds/source/clouds/LocalWeather.ts: ASCII text
+skills/threejs-volumetric-clouds/examples/weather-volume-clouds/source/clouds/PassBase.ts: ASCII text
+skills/threejs-volumetric-clouds/examples/weather-volume-clouds/source/clouds/Procedural3DTexture.ts: c program text, ASCII text
+skills/threejs-volumetric-clouds/examples/weather-volume-clouds/source/clouds/ProceduralTexture.ts: c program text, ASCII text
+skills/threejs-volumetric-clouds/examples/weather-volume-clouds/source/clouds/ShaderArrayPass.ts: ASCII text
+skills/threejs-volumetric-clouds/examples/weather-volume-clouds/source/clouds/ShadowMaterial.ts: ASCII text
+skills/threejs-volumetric-clouds/examples/weather-volume-clouds/source/clouds/ShadowPass.ts: ASCII text
+skills/threejs-volumetric-clouds/examples/weather-volume-clouds/source/clouds/ShadowResolveMaterial.ts: ASCII text
+skills/threejs-volumetric-clouds/examples/weather-volume-clouds/source/clouds/Turbulence.ts: ASCII text
+skills/threejs-volumetric-clouds/examples/weather-volume-clouds/source/clouds/bayer.ts: ASCII text
+skills/threejs-volumetric-clouds/examples/weather-volume-clouds/source/clouds/constants.ts: ASCII text
+skills/threejs-volumetric-clouds/examples/weather-volume-clouds/source/clouds/helpers/FrustumCorners.ts: ASCII text
+skills/threejs-volumetric-clouds/examples/weather-volume-clouds/source/clouds/helpers/setArrayRenderTargetLayers.ts: ASCII text
+skills/threejs-volumetric-clouds/examples/weather-volume-clouds/source/clouds/helpers/splitFrustum.ts: ASCII text
+skills/threejs-volumetric-clouds/examples/weather-volume-clouds/source/clouds/index.ts: ASCII text
+skills/threejs-volumetric-clouds/examples/weather-volume-clouds/source/clouds/qualityPresets.ts: ASCII text
+skills/threejs-volumetric-clouds/examples/weather-volume-clouds/source/clouds/shaders/catmullRomSampling.glsl: ASCII text
+skills/threejs-volumetric-clouds/examples/weather-volume-clouds/source/clouds/shaders/cloudShape.frag: c program text, Unicode text, UTF-8 text
+skills/threejs-volumetric-clouds/examples/weather-volume-clouds/source/clouds/shaders/cloudShapeDetail.frag: c program text, Unicode text, UTF-8 text
+skills/threejs-volumetric-clouds/examples/weather-volume-clouds/source/clouds/shaders/clouds.frag: c program text, ASCII text
+skills/threejs-volumetric-clouds/examples/weather-volume-clouds/source/clouds/shaders/clouds.glsl: c program text, ASCII text
+skills/threejs-volumetric-clouds/examples/weather-volume-clouds/source/clouds/shaders/clouds.vert: c program text, ASCII text
+skills/threejs-volumetric-clouds/examples/weather-volume-clouds/source/clouds/shaders/cloudsEffect.frag: ASCII text
+skills/threejs-volumetric-clouds/examples/weather-volume-clouds/source/clouds/shaders/cloudsResolve.frag: c program text, ASCII text
+skills/threejs-volumetric-clouds/examples/weather-volume-clouds/source/clouds/shaders/cloudsResolve.vert: c program text, ASCII text
+skills/threejs-volumetric-clouds/examples/weather-volume-clouds/source/clouds/shaders/localWeather.frag: c program text, ASCII text
+skills/threejs-volumetric-clouds/examples/weather-volume-clouds/source/clouds/shaders/parameters.glsl: ASCII text
+skills/threejs-volumetric-clouds/examples/weather-volume-clouds/source/clouds/shaders/perlin.glsl: ASCII text
+skills/threejs-volumetric-clouds/examples/weather-volume-clouds/source/clouds/shaders/shadow.frag: c program text, ASCII text
+skills/threejs-volumetric-clouds/examples/weather-volume-clouds/source/clouds/shaders/shadow.vert: c program text, ASCII text
+skills/threejs-volumetric-clouds/examples/weather-volume-clouds/source/clouds/shaders/shadowResolve.frag: c program text, ASCII text
+skills/threejs-volumetric-clouds/examples/weather-volume-clouds/source/clouds/shaders/shadowResolve.vert: c program text, ASCII text
+skills/threejs-volumetric-clouds/examples/weather-volume-clouds/source/clouds/shaders/structuredSampling.glsl: ASCII text
+skills/threejs-volumetric-clouds/examples/weather-volume-clouds/source/clouds/shaders/tileableNoise.glsl: Unicode text, UTF-8 text
+skills/threejs-volumetric-clouds/examples/weather-volume-clouds/source/clouds/shaders/turbulence.frag: c program text, ASCII text
+skills/threejs-volumetric-clouds/examples/weather-volume-clouds/source/clouds/shaders/types.glsl: c program text, ASCII text
+skills/threejs-volumetric-clouds/examples/weather-volume-clouds/source/clouds/shaders/varianceClipping.glsl: c program text, ASCII text
+skills/threejs-volumetric-clouds/examples/weather-volume-clouds/source/clouds/uniforms.ts: ASCII text
+skills/threejs-volumetric-clouds/examples/weather-volume-clouds/source/effects/DepthEffect.ts: ASCII text
+skills/threejs-volumetric-clouds/examples/weather-volume-clouds/source/effects/DitheringEffect.ts: ASCII text
+skills/threejs-volumetric-clouds/examples/weather-volume-clouds/source/effects/DownsampleThresholdMaterial.ts: ASCII text
+skills/threejs-volumetric-clouds/examples/weather-volume-clouds/source/effects/GeometryEffect.ts: ASCII text
+skills/threejs-volumetric-clouds/examples/weather-volume-clouds/source/effects/GeometryPass.ts: ASCII text
+skills/threejs-volumetric-clouds/examples/weather-volume-clouds/source/effects/LensFlareEffect.ts: ASCII text
+skills/threejs-volumetric-clouds/examples/weather-volume-clouds/source/effects/LensFlareFeaturesMaterial.ts: ASCII text
+skills/threejs-volumetric-clouds/examples/weather-volume-clouds/source/effects/NormalEffect.ts: ASCII text
+skills/threejs-volumetric-clouds/examples/weather-volume-clouds/source/effects/createHaldLookupTexture.ts: ASCII text
+skills/threejs-volumetric-clouds/examples/weather-volume-clouds/source/effects/index.ts: ASCII text
+skills/threejs-volumetric-clouds/examples/weather-volume-clouds/source/effects/setupMaterialsForGeometryPass.ts: ASCII text
+skills/threejs-volumetric-clouds/examples/weather-volume-clouds/source/effects/shaders/depthEffect.frag: c program text, ASCII text
+skills/threejs-volumetric-clouds/examples/weather-volume-clouds/source/effects/shaders/ditheringEffect.frag: c program text, ASCII text
+skills/threejs-volumetric-clouds/examples/weather-volume-clouds/source/effects/shaders/downsampleThreshold.frag: c program text, ASCII text
+skills/threejs-volumetric-clouds/examples/weather-volume-clouds/source/effects/shaders/downsampleThreshold.vert: c program text, ASCII text
+skills/threejs-volumetric-clouds/examples/weather-volume-clouds/source/effects/shaders/geometryEffect.frag: c program text, ASCII text
+skills/threejs-volumetric-clouds/examples/weather-volume-clouds/source/effects/shaders/lensFlareEffect.frag: ASCII text
+skills/threejs-volumetric-clouds/examples/weather-volume-clouds/source/effects/shaders/lensFlareFeatures.frag: c program text, ASCII text
+skills/threejs-volumetric-clouds/examples/weather-volume-clouds/source/effects/shaders/lensFlareFeatures.vert: c program text, ASCII text
+skills/threejs-volumetric-clouds/examples/weather-volume-clouds/source/effects/shaders/normalEffect.frag: c program text, ASCII text
+skills/threejs-volumetric-clouds/examples/weather-volume-clouds/source/geospatial/ArrayBufferLoader.ts: ASCII text
+skills/threejs-volumetric-clouds/examples/weather-volume-clouds/source/geospatial/DataLoader.ts: ASCII text
+skills/threejs-volumetric-clouds/examples/weather-volume-clouds/source/geospatial/EXR3DLoader.ts: ASCII text
+skills/threejs-volumetric-clouds/examples/weather-volume-clouds/source/geospatial/Ellipsoid.ts: ASCII text
+skills/threejs-volumetric-clouds/examples/weather-volume-clouds/source/geospatial/EllipsoidGeometry.ts: ASCII text
+skills/threejs-volumetric-clouds/examples/weather-volume-clouds/source/geospatial/Geodetic.ts: ASCII text
+skills/threejs-volumetric-clouds/examples/weather-volume-clouds/source/geospatial/PointOfView.ts: ASCII text
+skills/threejs-volumetric-clouds/examples/weather-volume-clouds/source/geospatial/Rectangle.ts: ASCII text
+skills/threejs-volumetric-clouds/examples/weather-volume-clouds/source/geospatial/STBNLoader.ts: ASCII text
+skills/threejs-volumetric-clouds/examples/weather-volume-clouds/source/geospatial/Texture3DLoader.ts: ASCII text
+skills/threejs-volumetric-clouds/examples/weather-volume-clouds/source/geospatial/TileCoordinate.ts: ASCII text
+skills/threejs-volumetric-clouds/examples/weather-volume-clouds/source/geospatial/TilingScheme.ts: ASCII text
+skills/threejs-volumetric-clouds/examples/weather-volume-clouds/source/geospatial/TypedArrayLoader.ts: ASCII text
+skills/threejs-volumetric-clouds/examples/weather-volume-clouds/source/geospatial/assertions.ts: ASCII text
+skills/threejs-volumetric-clouds/examples/weather-volume-clouds/source/geospatial/bufferGeometry.ts: ASCII text
+skills/threejs-volumetric-clouds/examples/weather-volume-clouds/source/geospatial/constants.ts: ASCII text
+skills/threejs-volumetric-clouds/examples/weather-volume-clouds/source/geospatial/decorators.ts: ASCII text
+skills/threejs-volumetric-clouds/examples/weather-volume-clouds/source/geospatial/defineShorthand.ts: ASCII text
+skills/threejs-volumetric-clouds/examples/weather-volume-clouds/source/geospatial/helpers/projectOnEllipsoidSurface.ts: ASCII text
+skills/threejs-volumetric-clouds/examples/weather-volume-clouds/source/geospatial/index.ts: ASCII text
+skills/threejs-volumetric-clouds/examples/weather-volume-clouds/source/geospatial/math.ts: ASCII text
+skills/threejs-volumetric-clouds/examples/weather-volume-clouds/source/geospatial/resolveIncludes.ts: ASCII text
+skills/threejs-volumetric-clouds/examples/weather-volume-clouds/source/geospatial/shaders/cascadedShadowMaps.glsl: ASCII text
+skills/threejs-volumetric-clouds/examples/weather-volume-clouds/source/geospatial/shaders/depth.glsl: ASCII text
+skills/threejs-volumetric-clouds/examples/weather-volume-clouds/source/geospatial/shaders/generators.glsl: ASCII text
+skills/threejs-volumetric-clouds/examples/weather-volume-clouds/source/geospatial/shaders/index.ts: ASCII text
+skills/threejs-volumetric-clouds/examples/weather-volume-clouds/source/geospatial/shaders/interleavedGradientNoise.glsl: ASCII text
+skills/threejs-volumetric-clouds/examples/weather-volume-clouds/source/geospatial/shaders/math.glsl: ASCII text
+skills/threejs-volumetric-clouds/examples/weather-volume-clouds/source/geospatial/shaders/packing.glsl: ASCII text
+skills/threejs-volumetric-clouds/examples/weather-volume-clouds/source/geospatial/shaders/raySphereIntersection.glsl: ASCII text
+skills/threejs-volumetric-clouds/examples/weather-volume-clouds/source/geospatial/shaders/transform.glsl: ASCII text
+skills/threejs-volumetric-clouds/examples/weather-volume-clouds/source/geospatial/shaders/turbo.glsl: ASCII text
+skills/threejs-volumetric-clouds/examples/weather-volume-clouds/source/geospatial/shaders/vogelDisk.glsl: ASCII text
+skills/threejs-volumetric-clouds/examples/weather-volume-clouds/source/geospatial/typedArray.ts: ASCII text
+skills/threejs-volumetric-clouds/examples/weather-volume-clouds/source/geospatial/typedArrayParsers.ts: ASCII text
+skills/threejs-volumetric-clouds/examples/weather-volume-clouds/source/geospatial/types.ts: ASCII text
+skills/threejs-volumetric-clouds/examples/weather-volume-clouds/source/geospatial/unrollLoops.ts: ASCII text
+skills/threejs-volumetric-clouds/examples/weather-volume-clouds/source/vendor/tiny-invariant.ts: ASCII text
+skills/threejs-volumetric-clouds/examples/weather-volume-clouds/source/vendor/url-join.ts: ASCII text
+skills/threejs-volumetric-clouds/references/weather-volume-and-reconstruction.md: Unicode text, UTF-8 text
+skills/threejs-water-optics/SKILL.md: ASCII text, with very long lines (420)
+skills/threejs-water-optics/agents/openai.yaml: ASCII text
+skills/threejs-water-optics/assets/interactive-pool-volume/tiles.jpg: JPEG image data, JFIF standard 1.01, resolution (DPI), density 72x72, segment length 16, Exif Standard: [TIFF image data, big-endian, direntries=5, orientation=upper-left, xresolution=74, yresolution=82, resolutionunit=2], baseline, precision 8, 512x512, components 3
+skills/threejs-water-optics/assets/interactive-pool-volume/xneg.jpg: JPEG image data, JFIF standard 1.01, resolution (DPI), density 72x72, segment length 16, Exif Standard: [TIFF image data, big-endian, direntries=5, orientation=upper-left, xresolution=74, yresolution=82, resolutionunit=2], baseline, precision 8, 256x256, components 3
+skills/threejs-water-optics/assets/interactive-pool-volume/xpos.jpg: JPEG image data, JFIF standard 1.01, resolution (DPI), density 72x72, segment length 16, Exif Standard: [TIFF image data, big-endian, direntries=5, orientation=upper-left, xresolution=74, yresolution=82, resolutionunit=2], baseline, precision 8, 256x256, components 3
+skills/threejs-water-optics/assets/interactive-pool-volume/ypos.jpg: JPEG image data, JFIF standard 1.01, resolution (DPI), density 72x72, segment length 16, Exif Standard: [TIFF image data, big-endian, direntries=5, orientation=upper-left, xresolution=74, yresolution=82, resolutionunit=2], baseline, precision 8, 256x256, components 3
+skills/threejs-water-optics/assets/interactive-pool-volume/zneg.jpg: JPEG image data, JFIF standard 1.01, resolution (DPI), density 72x72, segment length 16, Exif Standard: [TIFF image data, big-endian, direntries=5, orientation=upper-left, xresolution=74, yresolution=82, resolutionunit=2], baseline, precision 8, 256x256, components 3
+skills/threejs-water-optics/assets/interactive-pool-volume/zpos.jpg: JPEG image data, JFIF standard 1.01, resolution (DPI), density 72x72, segment length 16, Exif Standard: [TIFF image data, big-endian, direntries=5, orientation=upper-left, xresolution=74, yresolution=82, resolutionunit=2], baseline, precision 8, 256x256, components 3
+skills/threejs-water-optics/examples/analytic-wave-optics/water-system.js: c program text, ASCII text
+skills/threejs-water-optics/examples/interactive-pool-volume/water-volume-system.js: c program text, ASCII text
+skills/threejs-water-optics/references/water-surface-system.md: Unicode text, UTF-8 text, with very long lines (349)

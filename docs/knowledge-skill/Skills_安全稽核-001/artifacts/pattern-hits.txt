@@ -1,0 +1,56 @@
+./scripts/test-example-asset-origins.mjs:75:  const response = await fetch(new URL("/source_materials/README.md", url));
+./scripts/test-installer.mjs:4:import { execFile } from "node:child_process";
+./skills/threejs-procedural-vegetation/examples/gpu-computed-grass/gpu-grass-system.js:502:  vec4 bladeParams = texelFetch(uTextureBladeParams, texelCoord, 0);
+./skills/threejs-procedural-vegetation/examples/gpu-computed-grass/gpu-grass-system.js:503:  vec4 clumpData = texelFetch(uTextureClumpData, texelCoord, 0);
+./skills/threejs-procedural-vegetation/examples/gpu-computed-grass/gpu-grass-system.js:504:  vec4 motionSeeds = texelFetch(uTextureMotionSeeds, texelCoord, 0);
+./scripts/check-three-freshness.mjs:25:const registryResponse = await fetch("https://registry.npmjs.org/three/latest");
+./scripts/check-three-freshness.mjs:35:  const response = await fetch(url);
+./scripts/security-audit.sh:46:  -e 'you are now|act as DAN|jailbreak|developer mode|no limitations' \
+./scripts/security-audit.sh:47:  -e 'secretly|without (the )?user knowing|使用者不知情' \
+./scripts/security-audit.sh:48:  -e 'eval\s*\(|new Function\s*\(|child_process|exec(File|Sync)?\s*\(' \
+./scripts/security-audit.sh:49:  -e 'subprocess|os\.system|shell\s*:\s*true' \
+./scripts/security-audit.sh:50:  -e 'curl\b|wget\b|fetch\s*\(|XMLHttpRequest|WebSocket' \
+./scripts/security-audit.sh:51:  -e 'sudo\b|chmod\s+777|rm\s+-rf|\.zshrc|\.bashrc|settings\.json' \
+./scripts/security-audit.sh:52:  -e '\.ssh|\.aws/credentials|\.env(\.|$)|id_rsa|keychain|\.pem\b|\.key\b' \
+./scripts/security-audit.sh:53:  -e 'telemetry|analytics|tracking|installation_id|device_id|randomUUID|uuidgen' \
+./scripts/security-audit.sh:54:  -e 'git remote get-url|git rev-parse|printenv|whoami|hostname' \
+./scripts/security-audit.sh:55:  -e 'withCredentials|credentials\s*:' \
+./skills/threejs-spectral-ocean/examples/spectral-cascade-ocean/fft-pipeline.js:88:          return texelFetch(inputTexture, coordinate, 0);
+./skills/threejs-spectral-ocean/examples/spectral-cascade-ocean/ocean-system.js:73:          vec4 initial = texelFetch(h0Texture, cell, 0);
+./skills/threejs-spectral-ocean/examples/spectral-cascade-ocean/ocean-system.js:105:          vec4 initial = texelFetch(h0Texture, cell, 0);
+./skills/threejs-spectral-ocean/examples/spectral-cascade-ocean/ocean-system.js:137:          return texelFetch(heightTexture, cell, 0).r;
+./skills/threejs-spectral-ocean/examples/spectral-cascade-ocean/ocean-system.js:140:          return texelFetch(horizontalTexture, cell, 0).rg;
+./skills/threejs-spectral-ocean/examples/spectral-cascade-ocean/ocean-system.js:164:          float previous = texelFetch(previousDisplacement, cell, 0).a;
+./skills/threejs-spectral-ocean/examples/spectral-cascade-ocean/ocean-system.js:197:          return texelFetch(heightTexture, cell, 0).r;
+./skills/threejs-spectral-ocean/examples/spectral-cascade-ocean/ocean-system.js:200:          return texelFetch(horizontalTexture, cell, 0).rg;
+./skills/threejs-atmosphere-aerial-perspective/examples/lut-aerial-perspective/source/geospatial/Texture3DLoader.ts:19:    loader.setWithCredentials(this.withCredentials)
+./skills/threejs-atmosphere-aerial-perspective/examples/lut-aerial-perspective/source/geospatial/TypedArrayLoader.ts:20:    loader.setWithCredentials(this.withCredentials)
+./skills/threejs-atmosphere-aerial-perspective/examples/lut-aerial-perspective/source/geospatial/EXR3DLoader.ts:21:    loader.setWithCredentials(this.withCredentials)
+./skills/threejs-atmosphere-aerial-perspective/examples/lut-aerial-perspective/source/geospatial/ArrayBufferLoader.ts:15:    loader.setWithCredentials(this.withCredentials)
+./skills/threejs-atmosphere-aerial-perspective/examples/lut-aerial-perspective/source/geospatial/DataLoader.ts:90:    loader.setWithCredentials(this.withCredentials)
+./skills/threejs-spectral-ocean/examples/submerged-snell-ocean/source/current.ts:4:/** Gentle shared curl field used to drift suspended particulates. */
+./skills/threejs-procedural-geometry/examples/porcelain-brass-submarine/source/submarine-materials.js:35:  function curl(x, y, angle, length, curvature, width, growth = 1.1) {
+./skills/threejs-procedural-geometry/examples/porcelain-brass-submarine/source/submarine-materials.js:73:    const spine = curl(
+./skills/threejs-procedural-geometry/examples/porcelain-brass-submarine/source/submarine-materials.js:87:      curl(
+./skills/threejs-procedural-geometry/examples/porcelain-brass-submarine/source/submarine-materials.js:100:    curl(x, y, angle, length, direction * 0.075, width, 1.16);
+./skills/threejs-procedural-geometry/examples/porcelain-brass-submarine/source/submarine-materials.js:101:    curl(
+./skills/threejs-atmosphere-aerial-perspective/examples/lut-aerial-perspective/source/atmosphere/PrecomputedTexturesLoader.ts:67:      loader.setWithCredentials(this.withCredentials)
+./scripts/validate-pack.mjs:1:import { execFile } from "node:child_process";
+./source_materials/README.md:275:- 18,000 camera-following tetrahedral particulates driven by a shared curl
+./skills/threejs-procedural-materials/examples/lava-flow-surface/lava-surface.js:128:        vec2 curl = vec2(
+./skills/threejs-procedural-materials/examples/lava-flow-surface/lava-surface.js:132:        return p + curl;
+./skills/threejs-volumetric-clouds/examples/weather-volume-clouds/source/geospatial/Texture3DLoader.ts:19:    loader.setWithCredentials(this.withCredentials)
+./skills/threejs-volumetric-clouds/examples/weather-volume-clouds/source/geospatial/EXR3DLoader.ts:21:    loader.setWithCredentials(this.withCredentials)
+./skills/threejs-volumetric-clouds/examples/weather-volume-clouds/source/geospatial/TypedArrayLoader.ts:20:    loader.setWithCredentials(this.withCredentials)
+./skills/threejs-volumetric-clouds/examples/weather-volume-clouds/source/geospatial/ArrayBufferLoader.ts:15:    loader.setWithCredentials(this.withCredentials)
+./skills/threejs-volumetric-clouds/examples/weather-volume-clouds/source/geospatial/DataLoader.ts:90:    loader.setWithCredentials(this.withCredentials)
+./skills/threejs-volumetric-clouds/examples/weather-volume-clouds/source/clouds/shaders/cloudsResolve.frag:91:    outputColor = texelFetch(colorBuffer, lowResCoord, 0);
+./skills/threejs-volumetric-clouds/examples/weather-volume-clouds/source/clouds/shaders/cloudsResolve.frag:93:    outputShadowLength = texelFetch(shadowLengthBuffer, lowResCoord, 0).r;
+./skills/threejs-volumetric-clouds/examples/weather-volume-clouds/source/clouds/shaders/cloudsResolve.frag:146:  vec4 currentColor = texelFetch(colorBuffer, coord, 0);
+./skills/threejs-volumetric-clouds/examples/weather-volume-clouds/source/clouds/shaders/cloudsResolve.frag:148:  vec4 currentShadowLength = vec4(texelFetch(shadowLengthBuffer, coord, 0).rgb, 1.0);
+./skills/threejs-volumetric-clouds/examples/weather-volume-clouds/source/clouds/shaders/turbulence.frag:26:vec3 curl(vec3 point) {
+./skills/threejs-volumetric-clouds/examples/weather-volume-clouds/source/clouds/shaders/turbulence.frag:49:  outputColor.rgb = 0.5 * curl(point) + 0.5;
+./skills/threejs-volumetric-clouds/examples/weather-volume-clouds/source/clouds/shaders/shadowResolve.frag:53:  vec4 current = texelFetch(inputBuffer, coord, 0);
+./skills/threejs-volumetric-clouds/examples/weather-volume-clouds/source/atmosphere/PrecomputedTexturesLoader.ts:67:      loader.setWithCredentials(this.withCredentials)
+./skills/threejs-shadow-systems/references/cached-clipmap-shadows.md:385:Do not add caching before stable selection and committed-state tracking work.
+./skills/threejs-volumetric-clouds/references/weather-volume-and-reconstruction.md:150:The 2D turbulence texture stores a normalized curl field derived from three
